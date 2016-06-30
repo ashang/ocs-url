@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=xdgurl
+Exec=xdgurl %u
+Type=Application
+Terminal=false
+NoDisplay=true
+Categories=Application;Network;FileTransfer;
+MimeType=x-scheme-handler/xdg;x-scheme-handler/xdgs;
