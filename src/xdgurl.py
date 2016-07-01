@@ -146,10 +146,10 @@ class XdgUrl:
             meta['type'] = urllib.unquote(query['type'][0])
 
         if 'filename' in query and query['filename'][0]:
-            meta['filename'] = urllib.unquote(query['filename'][0])
+            meta['filename'] = urllib.unquote(query['filename'][0]).split('?')[0]
 
         if meta['url'] and not meta['filename']:
-            meta['filename'] = os.path.basename(meta['url'])
+            meta['filename'] = os.path.basename(meta['url']).split('?')[0]
 
         return meta
 
