@@ -2,7 +2,6 @@
 
 An install helper program for desktop stuff.
 
-----
 
 ## How to install
 
@@ -15,7 +14,6 @@ And you can use "uninstall.sh" to uninstall the program.
 
     $ sh uninstall.sh
 
-----
 
 ## How to use
 
@@ -36,7 +34,6 @@ Execute xdgurl program with XDG-URL as argument.
 
     $ xdgurl "XDG-URL"
 
-----
 
 ## XDG-URL
 
