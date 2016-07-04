@@ -310,7 +310,7 @@ class XdgUrlApp(Tkinter.Frame):
         sys.exit()
 '''
 
-if __name__ == '__main__':
+def main():
     if len(sys.argv) > 1:
         """
         window = Tkinter.Tk()
@@ -345,3 +345,6 @@ if __name__ == '__main__':
     else:
         print('xdgurl "XDG-URL"')
         sys.exit()
+
+if __name__ == '__main__':
+    main()
