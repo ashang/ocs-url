@@ -58,6 +58,7 @@ class XdgUrl:
             'gnome_shell_extensions': os.path.join(self.data_dir, 'gnome-shell', 'extensions'),
             'cinnamon_applets': os.path.join(self.data_dir, 'cinnamon', 'applets'),
             'cinnamon_desklets': os.path.join(self.data_dir, 'cinnamon', 'desklets'),
+            'cinnamon_extensions': os.path.join(self.data_dir, 'cinnamon', 'extensions'),
             'nautilus_scripts': os.path.join(self.data_dir, 'nautilus', 'scripts'),
             'amarok_scripts': os.path.join(self.kde_data_dir, 'apps', 'amarok', 'scripts'),
             'yakuake_skins': os.path.join(self.kde_data_dir, 'apps', 'yakuake', 'skins'),

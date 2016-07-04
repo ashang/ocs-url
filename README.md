@@ -110,6 +110,7 @@ color_schemes | ~/.local/share/color-schemes
 gnome_shell_extensions | ~/.local/share/gnome-shell/extensions
 cinnamon_applets | ~/.local/share/cinnamon/applets
 cinnamon_desklets | ~/.local/share/cinnamon/desklets
+cinnamon_extensions | ~/.local/share/cinnamon/extensions
 nautilus_scripts | ~/.local/share/nautilus/scripts
 amarok_scripts | ~/.kde/share/apps/amarok/scripts
 yakuake_skins | ~/.kde/share/apps/yakuake/skins
