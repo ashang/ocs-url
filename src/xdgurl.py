@@ -56,6 +56,7 @@ class XdgUrl:
             'qtcurve': os.path.join(self.data_dir, 'QtCurve'),
             'color_schemes': os.path.join(self.data_dir, 'color-schemes'),
             'gnome_shell_extensions': os.path.join(self.data_dir, 'gnome-shell', 'extensions'),
+            'cinnamon_applets': os.path.join(self.data_dir, 'cinnamon', 'applets'),
             'cinnamon_desklets': os.path.join(self.data_dir, 'cinnamon', 'desklets'),
             'nautilus_scripts': os.path.join(self.data_dir, 'nautilus', 'scripts'),
             'amarok_scripts': os.path.join(self.kde_data_dir, 'apps', 'amarok', 'scripts'),

@@ -77,10 +77,11 @@ Beryl/Emerald Themes | emerald_themes / beryl_themes
 
 Category | Install-type
 ---------|-------------
-GNOME Icon Themes | icons
 Cinnamon Themes | themes / cinnamon_themes
 GTK3 Themes | themes / gtk3_themes
 MDM Themes | -
+GNOME Icon Themes | icons
+Cinnamon Applets | cinnamon_applets
 
 
 ## https://www.trinity-look.org/
