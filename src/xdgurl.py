@@ -260,21 +260,16 @@ class XdgUrl:
         print('Done')
 
     def execute(self):
-        try:
-            if (self.meta['command'] in ['download', 'install']
-            and self.meta['url']
-            and self.meta['type'] in self.destinations
-            and self.meta['filename']):
-                if self.meta['command'] == 'download':
-                    self.download()
-                elif self.meta['command'] == 'install':
-                    self.install()
-                return True
-            print('Incorrect XDG-URL ' + self.xdg_url)
-            return False
-        except:
-            print('Execution error')
-            return False
+        if (self.meta['command'] in ['download', 'install']
+        and self.meta['url']
+        and self.meta['type'] in self.destinations
+        and self.meta['filename']):
+            if self.meta['command'] == 'download':
+                self.download()
+            elif self.meta['command'] == 'install':
+                self.install()
+        else:
+            raise Exception('Incorrect XDG-URL ' + self.xdg_url)
 
 '''
 class XdgUrlApp(Tkinter.Frame):
@@ -333,10 +328,17 @@ if __name__ == '__main__':
         window.withdraw()
 
         if tkMessageBox.askyesno('xdgurl', info_text + '\n\nDo you want to continue?'):
-            if core.execute():
-                tkMessageBox.showinfo('xdgurl', info_text + '\n\n' + execute_text + ' finished')
+            try:
+                core.execute();
+            except Exception as e:
+                message = ''
+                if e.message:
+                    message = e.message
+                else:
+                    message = str(e)
+                tkMessageBox.showerror('xdgurl', info_text + '\n\n' + execute_text + ' failed\n' + message)
             else:
-                tkMessageBox.showerror('xdgurl', info_text + '\n\n' + execute_text + ' failed')
+                tkMessageBox.showinfo('xdgurl', info_text + '\n\n' + execute_text + ' finished')
         sys.exit()
     else:
         print('xdgurl "XDG-URL"')
