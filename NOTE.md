@@ -148,24 +148,26 @@ XFCE/XFWM Themes | themes / xfwm4_themes
 
 Category | Install-type
 ---------|-------------
-Wallpapers | wallpapers
-SDDM Themes | -
+Plasma Look'n'Feel | plasma_look_and_feel / plasma5_look_and_feel
 Plasma 5 Themes | plasma_desktopthemes / plasma5_desktopthemes
-Plasma 5 Widgets | plasma_plasmoids / plasma5_plasmoids
-Mouse Themes | cursors
-Emoticons | emoticons
-Plasma Splash Screens | -
-Plasma Color Schemes | color_schemes / plasma_color_schemes
+Plasma Widget Styles | -
 Aurorae Themes | aurorae_themes
 deKorator Themes | dekorator_themes
 Kvantum Styles | themes / kvantum_themes
+QtCurve Styles | qtcurve
+Bespin Themes | -
+Plasma Splash Screens | -
+SDDM Themes | -
+Plasma 5 Widgets | plasma_plasmoids / plasma5_plasmoids
+Plasma Color Schemes | color_schemes / plasma_color_schemes
+Mouse Cursors | cursors
+Emoticons | emoticons
+Conky Screenlets | -
 Kwin Scripts | kwin_scripts
 Kwin Switching Layouts | kwin_tabbox
-Plasma Icon Themes | icons
-Plasma Look'n'Feel | plasma_look_and_feel / plasma5_look_and_feel
-Plasma Widget Styles | -
-QtCurve Styles | qtcurve
-Plasma Comics | -
-Plasma Improvements | -
+Dolphin Service Menus | -
 Amarok 2.x Scripts | amarok_scripts
+Plasma Improvements | -
+Plasma Comics | -
 Yakuake Skins | yakuake_skins
+Wallpapers | wallpapers
