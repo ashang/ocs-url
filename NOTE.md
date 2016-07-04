@@ -82,6 +82,7 @@ GTK3 Themes | themes / gtk3_themes
 MDM Themes | -
 GNOME Icon Themes | icons
 Cinnamon Applets | cinnamon_applets
+Cinnamon Desklets | cinnamon_desklets
 Cinnamon Extensions | cinnamon_extensions
 
 
