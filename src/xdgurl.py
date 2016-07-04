@@ -9,6 +9,7 @@ import tempfile
 import mimetypes
 import subprocess
 
+import argparse
 import Tkinter
 import tkMessageBox
 
@@ -311,39 +312,54 @@ class XdgUrlApp(Tkinter.Frame):
 '''
 
 def main():
-    if len(sys.argv) > 1:
+    program = 'xdgurl'
+    version = '0.0.0'
+
+    parser = argparse.ArgumentParser(
+        prog=program,
+        description='An install helper program for desktop stuff',
+        epilog='Check more information on https://github.com/xdgurl/xdgurl'
+    )
+    parser.add_argument(
+        '-v', '--version',
+        action='version',
+        version='%(prog)s ' + version
+    )
+    parser.add_argument('xdg_url', help='XDG-URL')
+    args = parser.parse_args()
+
+    if args.xdg_url:
         """
+        core = XdgUrl(args.xdg_url)
         window = Tkinter.Tk()
-        core = XdgUrl(sys.argv[1])
         app = XdgUrlApp(window, core)
         app.mainloop()
         """
 
-        core = XdgUrl(sys.argv[1])
+        core = XdgUrl(args.xdg_url)
+        window = Tkinter.Tk()
+        window.withdraw()
 
         execute_text = 'Download'
         if core.meta['command'] == 'install':
             execute_text = 'Install'
         info_text = execute_text + ': ' + core.meta['filename'] + '\nFrom: ' + core.meta['url']
 
-        window = Tkinter.Tk()
-        window.withdraw()
-
-        if tkMessageBox.askyesno('xdgurl', info_text + '\n\nDo you want to continue?'):
+        print(info_text)
+        if tkMessageBox.askyesno(program, info_text + '\n\nDo you want to continue?'):
             try:
                 core.execute();
             except Exception as e:
-                message = ''
+                error_message = str(e)
                 if e.message:
-                    message = e.message
-                else:
-                    message = str(e)
-                tkMessageBox.showerror('xdgurl', info_text + '\n\n' + execute_text + ' failed\n' + message)
+                    error_message = e.message
+                message = execute_text + ' failed\n' + error_message
+                print(message)
+                tkMessageBox.showerror(program, info_text + '\n\n' + message)
             else:
-                tkMessageBox.showinfo('xdgurl', info_text + '\n\n' + execute_text + ' finished')
-        sys.exit()
-    else:
-        print('xdgurl "XDG-URL"')
+                message = execute_text + ' finished'
+                print(message)
+                tkMessageBox.showinfo(program, info_text + '\n\n' + message)
         sys.exit()
 
 if __name__ == '__main__':
