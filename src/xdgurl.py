@@ -8,6 +8,7 @@ import urlparse
 import tempfile
 import mimetypes
 import subprocess
+
 import Tkinter
 import tkMessageBox
 
@@ -112,7 +113,7 @@ class XdgUrl:
         path = os.path.join(self.config_dir, name + '.json')
         data = {}
         if os.path.isfile(path):
-            f = open(path)
+            f = open(path, 'r')
             data = json.load(f)
             f.close()
         return data
