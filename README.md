@@ -25,19 +25,19 @@ In firefox,
 you can get a program selection window when first time to open XDG-URL,
 and you can choose "xdgurl" as custom URL handler.
 
-If you can not get program selection window,
+If you can not get a program selection window,
 you need set the xdgurl program as custom URL handler for xdg:// scheme in browser's settings.
 
 #### From command-line terminal
 
-Execute xdgurl program with XDG-URL as argument.
+Execute xdgurl program with argument XDG-URL.
 
     $ xdgurl "XDG-URL"
 
 
 ## XDG-URL
 
-XDG-URL is a custom URL that represent the install method for desktop stuff.
+XDG-URL is a custom URL that represent the installation method for desktop stuff.
 
     [scheme]://[command]?[query string]
 
@@ -49,8 +49,8 @@ XDG-URL is a custom URL that represent the install method for desktop stuff.
 * xdg
 * xdgs
 
-For now, "xdgs" scheme is the same of the xdg scheme,
-it's reserved name for secure method in the future.
+"xdgs" scheme is the same of the xdg scheme for now,
+it's a reserved name for secure protocol in the future.
 
 #### Command
 
@@ -59,7 +59,7 @@ it's reserved name for secure method in the future.
 
 Command "download" will download the file from specified URL to local destination of specified install-type.
 
-Command "install" will make file download and trigger install process.
+Command "install" will make file downloading and trigger installation process.
 
 #### Query string
 
