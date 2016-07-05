@@ -4,5 +4,5 @@ Exec=xdgurl %u
 Type=Application
 Terminal=false
 NoDisplay=true
-Categories=Application;Network;FileTransfer;
+Categories=Network;Utility;
 MimeType=x-scheme-handler/xdg;x-scheme-handler/xdgs;
