@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+"""xdgurl
+Copyright: 2016, Akira Ohgaki
+License: GPL-3+
+"""
+
 import sys
 import os
 import json
