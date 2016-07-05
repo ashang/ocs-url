@@ -1,0 +1,11 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	install -D -m 755 ../../src/xdgurl.py usr/bin/xdgurl
+	install -D -m 644 ../../src/xdgurl.desktop usr/share/applications/xdgurl.desktop
+
+override_dh_shlibdeps:
+	# ignore

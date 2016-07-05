@@ -1,0 +1,12 @@
+Source: xdgurl
+Section: web
+Priority: optional
+Maintainer: Akira Ohgaki <akiraohgaki@gmail.com>
+Build-Depends: build-essential (>= 11), devscripts (>= 2.14), debhelper (>= 9), fakeroot (>= 1.20)
+Standards-Version: 3.9.4
+
+Package: xdgurl
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= 2.7.0), python-tk (>= 2.7.0)
+Description: xdgurl
+ An install helper program for desktop stuff.
