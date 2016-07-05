@@ -2,6 +2,8 @@
 
 An install helper program for desktop stuff.
 
+License: GPL-3+
+
 
 ## How to install
 
