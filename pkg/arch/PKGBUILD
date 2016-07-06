@@ -7,7 +7,7 @@ pkgdesc="An install helper program for desktop stuff."
 arch=('i686' 'x86_64')
 url="https://github.com/xdgurl/xdgurl"
 license=('GPL3')
-depends=('python>=3.2.0' 'tk')
+depends=('tk')
 #source=("$pkgname-$pkgver.tar.gz")
 source=("$pkgname.tar.gz")
 md5sums=() #autofill using updpkgsums
