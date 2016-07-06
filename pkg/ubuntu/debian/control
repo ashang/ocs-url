@@ -7,6 +7,6 @@ Standards-Version: 3.9.4
 
 Package: xdgurl
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python (>= 2.7.0), python-tk (>= 2.7.0)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-tk (>= 2.7.0), python3-tk (>= 3.2.0)
 Description: xdgurl
  An install helper program for desktop stuff.
