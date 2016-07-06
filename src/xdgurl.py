@@ -12,15 +12,19 @@ https://github.com/xdgurl/xdgurl
 import sys
 import os
 import json
-import urllib
 import tempfile
 import mimetypes
 import subprocess
 import argparse
 
 if sys.version_info.major >= 3:
+    import urllib.request
+    import urllib.error
+    import urllib.parse
     import tkinter
+    import tkinter.messagebox
 else:
+    import urllib
     import urlparse
     import Tkinter
     import tkMessageBox
