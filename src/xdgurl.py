@@ -11,6 +11,7 @@ https://github.com/xdgurl/xdgurl
 
 import sys
 import os
+import shutil
 import json
 import tempfile
 import mimetypes
@@ -240,7 +241,7 @@ class XdgUrl:
             os.makedirs(destination)
 
         print('Saving a file to ' + path)
-        os.rename(temp_path, path)
+        shutil.move(temp_path, path)
 
         print('Done')
 
@@ -293,7 +294,7 @@ class XdgUrl:
             os.remove(temp_path)
         else:
             print('Saving a file to ' + path)
-            os.rename(temp_path, path)
+            shutil.move(temp_path, path)
 
         print('Done')
 
