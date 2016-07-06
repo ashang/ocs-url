@@ -349,7 +349,7 @@ class XdgUrlApp(Tkinter.Frame):
 
 def main():
     program = 'xdgurl'
-    version = '1.0.0-beta'
+    version = '1.0.0'
 
     parser = argparse.ArgumentParser(
         prog=program,
