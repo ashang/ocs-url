@@ -344,7 +344,7 @@ class XdgUrlApp(Tkinter.Frame):
 
 def main():
     program = 'xdgurl'
-    version = '0.0.0'
+    version = '1.0.0-beta'
 
     parser = argparse.ArgumentParser(
         prog=program,
