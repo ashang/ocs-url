@@ -393,10 +393,7 @@ def main():
             try:
                 core.execute();
             except Exception as e:
-                error_message = str(e)
-                if e.message:
-                    error_message = e.message
-                message = execute_text + ' failed\n' + error_message
+                message = execute_text + ' failed\n' + str(e)
                 print(message)
                 if sys.version_info.major >= 3:
                     tkinter.messagebox.showerror(program, info_text + '\n\n' + message)
