@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 
 """xdgurl
+An install helper program for desktop stuff.
+
 Copyright: 2016, Akira Ohgaki
 License: GPL-3+
+
+https://github.com/xdgurl/xdgurl
 """
 
 import sys
