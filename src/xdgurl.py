@@ -9,14 +9,17 @@ import sys
 import os
 import json
 import urllib
-import urlparse
 import tempfile
 import mimetypes
 import subprocess
-
 import argparse
-import Tkinter
-import tkMessageBox
+
+if sys.version_info.major >= 3:
+    import tkinter
+else:
+    import urlparse
+    import Tkinter
+    import tkMessageBox
 
 class XdgUrl:
     """Core class of xdgurl"""
@@ -142,20 +145,33 @@ class XdgUrl:
             'filename': ''
         }
 
-        parse_result = urlparse.urlparse(self.xdg_url)
-        query = urlparse.parse_qs(parse_result.query)
+        if sys.version_info.major >= 3:
+            parse_result = urllib.parse.urlparse(self.xdg_url)
+            query = urllib.parse.parse_qs(parse_result.query)
+        else:
+            parse_result = urlparse.urlparse(self.xdg_url)
+            query = urlparse.parse_qs(parse_result.query)
 
         if parse_result.netloc:
             meta['command'] = parse_result.netloc
 
         if 'url' in query and query['url'][0]:
-            meta['url'] = urllib.unquote(query['url'][0])
+            if sys.version_info.major >= 3:
+                meta['url'] = urllib.parse.unquote(query['url'][0])
+            else:
+                meta['url'] = urllib.unquote(query['url'][0])
 
         if 'type' in query and query['type'][0]:
-            meta['type'] = urllib.unquote(query['type'][0])
+            if sys.version_info.major >= 3:
+                meta['type'] = urllib.parse.unquote(query['type'][0])
+            else:
+                meta['type'] = urllib.unquote(query['type'][0])
 
         if 'filename' in query and query['filename'][0]:
-            meta['filename'] = urllib.unquote(query['filename'][0]).split('?')[0]
+            if sys.version_info.major >= 3:
+                meta['filename'] = urllib.parse.unquote(query['filename'][0]).split('?')[0]
+            else:
+                meta['filename'] = urllib.unquote(query['filename'][0]).split('?')[0]
 
         if meta['url'] and not meta['filename']:
             meta['filename'] = os.path.basename(meta['url']).split('?')[0]
@@ -206,7 +222,10 @@ class XdgUrl:
         path = os.path.join(destination, filename)
 
         print('Retrieving a file from ' + url)
-        urllib.urlretrieve(url, temp_path)
+        if sys.version_info.major >= 3:
+            urllib.request.urlretrieve(url, temp_path)
+        else:
+            urllib.urlretrieve(url, temp_path)
 
         print('Creating a directory ' + destination)
         if not os.path.isdir(destination):
@@ -227,7 +246,10 @@ class XdgUrl:
         path = os.path.join(destination, filename)
 
         print('Retrieving a file from ' + url)
-        urllib.urlretrieve(url, temp_path)
+        if sys.version_info.major >= 3:
+            urllib.request.urlretrieve(url, temp_path)
+        else:
+            urllib.urlretrieve(url, temp_path)
 
         print('Creating a directory ' + destination)
         if not os.path.isdir(destination):
@@ -342,7 +364,10 @@ def main():
         """
 
         core = XdgUrl(args.xdg_url)
-        window = Tkinter.Tk()
+        if sys.version_info.major >= 3:
+            window = tkinter.Tk()
+        else:
+            window = Tkinter.Tk()
         window.withdraw()
 
         execute_text = 'Download'
@@ -351,7 +376,12 @@ def main():
         info_text = execute_text + ': ' + core.meta['filename'] + '\nFrom: ' + core.meta['url']
 
         print(info_text)
-        if tkMessageBox.askyesno(program, info_text + '\n\nDo you want to continue?'):
+        if sys.version_info.major >= 3:
+            confirm = tkinter.messagebox.askyesno(program, info_text + '\n\nDo you want to continue?')
+        else:
+            confirm = tkMessageBox.askyesno(program, info_text + '\n\nDo you want to continue?')
+
+        if confirm:
             try:
                 core.execute();
             except Exception as e:
@@ -360,11 +390,17 @@ def main():
                     error_message = e.message
                 message = execute_text + ' failed\n' + error_message
                 print(message)
-                tkMessageBox.showerror(program, info_text + '\n\n' + message)
+                if sys.version_info.major >= 3:
+                    tkinter.messagebox.showerror(program, info_text + '\n\n' + message)
+                else:
+                    tkMessageBox.showerror(program, info_text + '\n\n' + message)
             else:
                 message = execute_text + ' finished'
                 print(message)
-                tkMessageBox.showinfo(program, info_text + '\n\n' + message)
+                if sys.version_info.major >= 3:
+                    tkinter.messagebox.showinfo(program, info_text + '\n\n' + message)
+                else:
+                    tkMessageBox.showinfo(program, info_text + '\n\n' + message)
         sys.exit()
 
 if __name__ == '__main__':
