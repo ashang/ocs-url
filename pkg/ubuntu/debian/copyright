@@ -1,0 +1,10 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: xdgurl
+Upstream-Contact: Akira Ohgaki <akiraohgaki@gmail.com>
+Source: https://github.com/xdgurl/xdgurl
+
+Files: *
+Copyright: 2016, Akira Ohgaki
+License: GPL-3+
+ On Debian systems, the full text of the GNU General Public License version 3
+ can be found in the `/usr/share/common-licenses/GPL-3' file.
