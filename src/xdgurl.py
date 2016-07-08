@@ -379,34 +379,41 @@ def main():
             window = Tkinter.Tk()
         window.withdraw()
 
-        execute_text = 'Download'
+        info_text = 'Download: ' + core.meta['filename'] + '\nFrom: ' + core.meta['url']
         if core.meta['command'] == 'install':
-            execute_text = 'Install'
-        info_text = execute_text + ': ' + core.meta['filename'] + '\nFrom: ' + core.meta['url']
+            info_text = 'Install: ' + core.meta['filename'] + '\nFrom: ' + core.meta['url']
+
+        message = 'Do you want to continue?'
 
         print(info_text)
         if sys.version_info.major >= 3:
-            confirm = tkinter.messagebox.askyesno(program, info_text + '\n\nDo you want to continue?')
+            confirm = tkinter.messagebox.askyesno(program, info_text + '\n\n' + message)
         else:
-            confirm = tkMessageBox.askyesno(program, info_text + '\n\nDo you want to continue?')
+            confirm = tkMessageBox.askyesno(program, info_text + '\n\n' + message)
 
         if confirm:
             try:
                 core.execute();
             except Exception as e:
-                message = execute_text + ' failed\n' + str(e)
+                message = 'Download failed'
+                if core.meta['command'] == 'install':
+                    message = 'Installation failed'
+
                 print(message)
                 if sys.version_info.major >= 3:
-                    tkinter.messagebox.showerror(program, info_text + '\n\n' + message)
+                    tkinter.messagebox.showerror(program, info_text + '\n\n' + message + '\n' + str(e))
                 else:
-                    tkMessageBox.showerror(program, info_text + '\n\n' + message)
+                    tkMessageBox.showerror(program, info_text + '\n\n' + message + '\n' + str(e))
             else:
-                message = execute_text + ' finished'
+                message = 'Download successfull'
+                if core.meta['command'] == 'install':
+                    message = 'Installation successfull'
+
                 print(message)
                 if sys.version_info.major >= 3:
-                    tkinter.messagebox.showinfo(program, info_text + '\n\n' + message)
+                    tkinter.messagebox.showinfo(program, message)
                 else:
-                    tkMessageBox.showinfo(program, info_text + '\n\n' + message)
+                    tkMessageBox.showinfo(program, message)
         sys.exit()
 
 if __name__ == '__main__':
