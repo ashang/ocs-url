@@ -12,6 +12,6 @@ Download packages for linux:
 
 https://www.linux-apps.com/p/1136805/
 
-And please check Wiki page for more information.
+And please check the xdgurl wiki for more information.
 
 https://github.com/xdgurl/xdgurl/wiki
