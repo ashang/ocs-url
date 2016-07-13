@@ -8,7 +8,7 @@ License: GPL-3+
 
 ----
 
-Download packages for linux:
+Download Linux packages:
 
 https://www.linux-apps.com/p/1136805/
 
