@@ -6,9 +6,7 @@ Copyright: 2016, Akira Ohgaki
 
 License: GPL-3+
 
-----
-
-Download Linux packages:
+Download Linux packages from:
 
 https://www.linux-apps.com/p/1136805/
 

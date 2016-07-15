@@ -31,7 +31,6 @@ else:
     import tkMessageBox
 
 class XdgUrl:
-    """Core class of xdgurl"""
 
     def __init__(self, xdg_url=''):
         self.xdg_url = xdg_url
@@ -310,46 +309,9 @@ class XdgUrl:
         else:
             raise Exception('Incorrect XDG-URL ' + self.xdg_url)
 
-'''
-class XdgUrlApp(Tkinter.Frame):
-    """Confirmation dialog for xdgurl"""
-
-    def __init__(self, master=None, core=None):
-        Tkinter.Frame.__init__(self, master)
-        self.pack()
-        self.core = core
-        self.master.title('xdgurl')
-        self.master.geometry('300x120')
-        self.create_widget()
-
-    def create_widget(self):
-        execute_text = 'Download'
-        if self.core.meta['command'] == 'install':
-            execute_text = 'Install'
-
-        info_label = Tkinter.Label(self, text=execute_text + ': ' + self.core.meta['filename'])
-        info_label.pack(padx=10, pady=5, anchor=Tkinter.W)
-
-        message_label = Tkinter.Label(self, text='Do you want to continue?')
-        message_label.pack(padx=10, pady=5, anchor=Tkinter.W)
-
-        execute_button = Tkinter.Button(self, text=execute_text, command=self.execute)
-        execute_button.pack(padx=5, pady=10, side=Tkinter.RIGHT)
-
-        quit_button = Tkinter.Button(self, text='Cancel', command=self.quit)
-        quit_button.pack(padx=5, pady=10, side=Tkinter.RIGHT)
-
-    def execute(self):
-        self.core.execute()
-        sys.exit()
-
-    def quit(self):
-        sys.exit()
-'''
-
 def main():
     program = 'xdgurl'
-    version = '1.0.0'
+    version = '1.0.1'
 
     parser = argparse.ArgumentParser(
         prog=program,
@@ -365,13 +327,6 @@ def main():
     args = parser.parse_args()
 
     if args.xdg_url:
-        """
-        core = XdgUrl(args.xdg_url)
-        window = Tkinter.Tk()
-        app = XdgUrlApp(window, core)
-        app.mainloop()
-        """
-
         core = XdgUrl(args.xdg_url)
         if sys.version_info.major >= 3:
             window = tkinter.Tk()
@@ -404,6 +359,8 @@ def main():
                     tkinter.messagebox.showerror(program, info_text + '\n\n' + message + '\n' + str(e))
                 else:
                     tkMessageBox.showerror(program, info_text + '\n\n' + message + '\n' + str(e))
+
+                return str(e) # stderr and exit code 1
             else:
                 message = 'Download successfull'
                 if core.meta['command'] == 'install':
@@ -414,7 +371,7 @@ def main():
                     tkinter.messagebox.showinfo(program, message)
                 else:
                     tkMessageBox.showinfo(program, message)
-        sys.exit()
+    return 0
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

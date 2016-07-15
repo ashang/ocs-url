@@ -1,3 +1,10 @@
+xdgurl (1.0.1-0ubuntu1) xenial; urgency=low
+
+  * Clean successfull message
+  * Return exit code
+
+ -- Akira Ohgaki <akiraohgaki@gmail.com>  Fri, 15 Jul 2016 18:55:06 +0000
+
 xdgurl (1.0.0-0ubuntu1) xenial; urgency=low
 
   * Initial release
