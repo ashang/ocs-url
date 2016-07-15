@@ -1,6 +1,6 @@
 Summary: An install helper program for desktop stuff
 Name: xdgurl
-Version: 1.0.0
+Version: 1.0.1
 Release: 1%{?dist}
 License: GPLv3+
 Group: Applications/Internet
@@ -34,5 +34,9 @@ make DESTDIR="%{buildroot}" prefix="/usr" install
 rm -rf %{buildroot}
 
 %changelog
+* Fri Jul 15 2016 Akira Ohgaki <akiraohgaki@gmail.com> - 1.0.1-1
+- Clean successfull message
+- Return exit code
+
 * Wed Jul 06 2016 Akira Ohgaki <akiraohgaki@gmail.com> - 1.0.0-1
 - Initial release
