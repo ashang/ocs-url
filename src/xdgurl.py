@@ -404,6 +404,8 @@ def main():
                     tkinter.messagebox.showerror(program, info_text + '\n\n' + message + '\n' + str(e))
                 else:
                     tkMessageBox.showerror(program, info_text + '\n\n' + message + '\n' + str(e))
+
+                return str(e) # stderr and exit code 1
             else:
                 message = 'Download successfull'
                 if core.meta['command'] == 'install':
@@ -414,7 +416,7 @@ def main():
                     tkinter.messagebox.showinfo(program, message)
                 else:
                     tkMessageBox.showinfo(program, message)
-        sys.exit()
+    return 0
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
