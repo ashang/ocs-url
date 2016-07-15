@@ -8,14 +8,18 @@ arch=('i686' 'x86_64')
 url="https://github.com/xdgurl/xdgurl"
 license=('GPL3')
 depends=('tk')
-#source=("$pkgname-$pkgver.tar.gz")
+#source=("https://github.com/xdgurl/xdgurl/archive/release-$pkgver.tar.gz")
 source=("$pkgname.tar.gz")
 md5sums=() #autofill using updpkgsums
 
-package() {
-    #cd "$pkgname-$pkgver"
+build() {
+    #cd "$pkgname-release-$pkgver"
     cd $pkgname
+    make
+}
 
-    install -D -m 755 "src/$pkgname.py" "$pkgdir/usr/bin/$pkgname"
-    install -D -m 644 "src/$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
+package() {
+    #cd "$pkgname-release-$pkgver"
+    cd $pkgname
+    make DESTDIR="$pkgdir" prefix="/usr" install
 }
