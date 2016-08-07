@@ -27,11 +27,13 @@ clean:
 
 install: build
 	$(INSTALL_PROGRAM) ./$(TARGET) $(DESTDIR)$(bindir)/$(TARGET)
-	$(INSTALL_DATA) $(srcdir)/$(TARGET).desktop $(DESTDIR)$(datadir)/applications/$(TARGET).desktop
+	$(INSTALL_DATA) $(srcdir)/desktop/$(TARGET).desktop $(DESTDIR)$(datadir)/applications/$(TARGET).desktop
+	$(INSTALL_DATA) $(srcdir)/desktop/$(TARGET).svg $(DESTDIR)$(datadir)/icons/hicolor/scalable/apps/$(TARGET).svg
 
 uninstall:
 	$(RM) $(DESTDIR)$(bindir)/$(TARGET)
 	$(RM) $(DESTDIR)$(datadir)/applications/$(TARGET).desktop
+	$(RM) $(DESTDIR)$(datadir)/icons/hicolor/scalable/apps/$(TARGET).svg
 
 $(TARGET):
 	# Just copy for now
