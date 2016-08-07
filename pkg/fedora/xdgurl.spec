@@ -29,6 +29,7 @@ make DESTDIR="%{buildroot}" prefix="/usr" install
 %defattr(-,root,root)
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
+%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
 
 %clean
 rm -rf %{buildroot}
