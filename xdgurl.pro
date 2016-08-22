@@ -30,8 +30,9 @@ HEADERS += \
     src/utility/json.h
 
 RESOURCES += \
+    src/configs.qrc \
     src/qml.qrc \
-    src/configs.qrc
+    src/desktop.qrc
 
 DISTFILES += \
     README.md
