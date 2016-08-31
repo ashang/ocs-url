@@ -9,13 +9,13 @@ unix:!android {
 
     target.path = $${BINDIR}
 
-    desktopentry.files = $${SRCDIR}/desktop/$${TARGET}.desktop
-    desktopentry.path = $${DATADIR}/applications
+    desktop.files = $${SRCDIR}/desktop/$${TARGET}.desktop
+    desktop.path = $${DATADIR}/applications
 
     icon.files = $${SRCDIR}/desktop/$${TARGET}.svg
     icon.path = $${DATADIR}/icons/hicolor/scalable/apps
 
-    INSTALLS += target desktopentry icon
+    INSTALLS += target desktop icon
 }
 
 export(INSTALLS)
