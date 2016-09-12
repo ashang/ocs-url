@@ -27,12 +27,17 @@ public:
     explicit XdgUrl(const QString &xdgurl, Core::Config *appConfig, Core::Config *userConfig, Core::Network *asyncNetwork, QObject *parent = 0);
 
 private:
+    bool _download();
+    bool _install();
 
 private slots:
 
 public slots:
+    bool process();
 
 signals:
+    void downloaded(const QString &metadata);
+    void installed(const QString &metadata);
 
 };
 

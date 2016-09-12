@@ -14,4 +14,24 @@ XdgUrl::XdgUrl(const QString &xdgurl, Core::Config *appConfig, Core::Config *use
 {
 }
 
+bool XdgUrl::_download()
+{
+}
+
+bool XdgUrl::_install()
+{
+}
+
+/**
+ * Private slots
+ */
+
+/**
+ * Public slots
+ */
+
+bool XdgUrl::process()
+{
+}
+
 } // namespace Handlers
