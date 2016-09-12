@@ -2,7 +2,7 @@
 #define HANDLERS_XDGURL_H
 
 #include <QObject>
-//#include <QJsonObject>
+#include <QJsonObject>
 
 //class QNetworkReply;
 
@@ -23,10 +23,15 @@ private:
     Core::Config *_userConfig;
     Core::Network *_asyncNetwork;
 
+    QJsonObject _meta;
+
 public:
     explicit XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *userConfig, Core::Network *asyncNetwork, QObject *parent = 0);
 
 private:
+    QJsonObject _parse();
+    bool _installPlasmapkg(const QString &path, const QString &type = "plasmoid");
+    bool _uncompressArchive(const QString &path, const QString &targetDir);
     bool _download();
     bool _install();
 

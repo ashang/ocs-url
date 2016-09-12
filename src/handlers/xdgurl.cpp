@@ -14,6 +14,18 @@ XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *use
 {
 }
 
+QJsonObject XdgUrl::_parse()
+{
+}
+
+bool XdgUrl::_installPlasmapkg(const QString &path, const QString &type)
+{
+}
+
+bool XdgUrl::_uncompressArchive(const QString &path, const QString &targetDir)
+{
+}
+
 bool XdgUrl::_download()
 {
 }
