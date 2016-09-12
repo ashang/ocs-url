@@ -18,13 +18,13 @@ class XdgUrl : public QObject
     Q_OBJECT
 
 private:
-    QString _xdgurl;
+    QString _xdgUrl;
     Core::Config *_appConfig;
     Core::Config *_userConfig;
     Core::Network *_asyncNetwork;
 
 public:
-    explicit XdgUrl(const QString &xdgurl, Core::Config *appConfig, Core::Config *userConfig, Core::Network *asyncNetwork, QObject *parent = 0);
+    explicit XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *userConfig, Core::Network *asyncNetwork, QObject *parent = 0);
 
 private:
     bool _download();

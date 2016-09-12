@@ -9,8 +9,8 @@
 
 namespace Handlers {
 
-XdgUrl::XdgUrl(const QString &xdgurl, Core::Config *appConfig, Core::Config *userConfig, Core::Network *asyncNetwork, QObject *parent) :
-    QObject(parent), _xdgurl(xdgurl), _appConfig(appConfig), _userConfig(userConfig), _asyncNetwork(asyncNetwork)
+XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *userConfig, Core::Network *asyncNetwork, QObject *parent) :
+    QObject(parent), _xdgUrl(xdgUrl), _appConfig(appConfig), _userConfig(userConfig), _asyncNetwork(asyncNetwork)
 {
 }
 

@@ -46,12 +46,12 @@ int main(int argc, char *argv[])
         clParser.showHelp(1);
     }
 
-    const QString xdgurl = args.at(0);
+    const QString xdgUrl = args.at(0);
 
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
     QQmlContext *qmlContext = qmlAppEngine.rootContext();
-    qmlContext->setContextProperty("xdgUrlHandler", new Handlers::XdgUrl(xdgurl, appConfig, userConfig, asyncNetwork));
+    qmlContext->setContextProperty("xdgUrlHandler", new Handlers::XdgUrl(xdgUrl, appConfig, userConfig, asyncNetwork));
     qmlAppEngine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();
