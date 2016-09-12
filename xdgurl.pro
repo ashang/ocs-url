@@ -18,14 +18,14 @@ SOURCES += \
     src/main.cpp \
     src/core/config.cpp \
     src/core/network.cpp \
-    src/handlers/item.cpp \
+    src/handlers/xdgurl.cpp \
     src/utility/file.cpp \
     src/utility/json.cpp
 
 HEADERS += \
     src/core/config.h \
     src/core/network.h \
-    src/handlers/item.h \
+    src/handlers/xdgurl.h \
     src/utility/file.h \
     src/utility/json.h
 
