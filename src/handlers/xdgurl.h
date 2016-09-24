@@ -24,6 +24,8 @@ private:
     Core::Network *_asyncNetwork;
 
     QJsonObject _meta;
+    QJsonObject _destinations;
+    QJsonObject _archiveTypes;
 
 public:
     explicit XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *userConfig, Core::Network *asyncNetwork, QObject *parent = 0);
