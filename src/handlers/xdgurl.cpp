@@ -58,18 +58,22 @@ QJsonObject XdgUrl::_parse()
 
 bool XdgUrl::_installPlasmapkg(const QString &path, const QString &type)
 {
+    return true;
 }
 
 bool XdgUrl::_uncompressArchive(const QString &path, const QString &targetDir)
 {
+    return true;
 }
 
 bool XdgUrl::_download()
 {
+    return true;
 }
 
 bool XdgUrl::_install()
 {
+    return true;
 }
 
 /**
@@ -82,6 +86,7 @@ bool XdgUrl::_install()
 
 bool XdgUrl::process()
 {
+    return true;
 }
 
 } // namespace Handlers
