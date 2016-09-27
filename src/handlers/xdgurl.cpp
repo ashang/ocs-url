@@ -58,6 +58,21 @@ QJsonObject XdgUrl::_parse()
     return meta;
 }
 
+QString XdgUrl::_convertPathString(const QString &path)
+{
+    QString newPath = path;
+    if (newPath.contains("$HOME")) {
+        newPath.replace("$HOME", Utility::File::homePath());
+    }
+    else if (newPath.contains("$XDG_DATA")) {
+        newPath.replace("$XDG_DATA", Utility::File::xdgDataHomePath());
+    }
+    else if (newPath.contains("$KDE_DATA")) {
+        newPath.replace("$KDE_DATA", Utility::File::kdeDataHomePath());
+    }
+    return newPath;
+}
+
 QJsonObject XdgUrl::_importDestinations()
 {
     QJsonObject destinations;
