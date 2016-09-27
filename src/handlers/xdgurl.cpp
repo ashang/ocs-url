@@ -65,13 +65,13 @@ QJsonObject XdgUrl::_importDestinations()
 
     foreach (const QString key, appConfigDestinations.keys()) {
         QString value = appConfigDestinations[key].toString();
-        if (value.startsWith("$HOME")) {
+        if (value.contains("$HOME")) {
             value = value.replace("$HOME", Utility::File::homePath());
         }
-        else if (value.startsWith("$XDG_DATA")) {
+        else if (value.contains("$XDG_DATA")) {
             value = value.replace("$XDG_DATA", Utility::File::xdgDataHomePath());
         }
-        else if (value.startsWith("$KDE_DATA")) {
+        else if (value.contains("$KDE_DATA")) {
             value = value.replace("$KDE_DATA", Utility::File::kdeDataHomePath());
         }
         destinations[key] = value;
