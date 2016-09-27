@@ -112,11 +112,19 @@ QJsonObject XdgUrl::_importDestinations()
 
 QJsonObject XdgUrl::_importArchiveTypes()
 {
-    //QJsonObject archiveTypes;
-    //QJsonObject appConfigArchiveTypes = _appConfig->get("archive_types");
+    QJsonObject archiveTypes;
+    QJsonObject appConfigArchiveTypes = _appConfig->get("archive_types");
+    QJsonObject userConfigArchiveTypes = _userConfig->get("archive_types");
 
-    //return archiveTypes;
-    return _appConfig->get("archive_types");
+    archiveTypes = appConfigArchiveTypes;
+
+    if (!userConfigArchiveTypes.isEmpty()) {
+        foreach (const QString key, userConfigArchiveTypes.keys()) {
+            archiveTypes[key] = userConfigArchiveTypes.value(key);
+        }
+    }
+
+    return archiveTypes;
 }
 
 bool XdgUrl::_installPlasmapkg(const QString &path, const QString &type)
