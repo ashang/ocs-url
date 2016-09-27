@@ -16,6 +16,7 @@ XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *use
 {
     _meta = _parse();
     _destinations = _importDestinations();
+    _archiveTypes = _importArchiveTypes();
 }
 
 QJsonObject XdgUrl::_parse()
@@ -86,6 +87,15 @@ QJsonObject XdgUrl::_importDestinations()
     }
 
     return destinations;
+}
+
+QJsonObject XdgUrl::_importArchiveTypes()
+{
+    //QJsonObject archiveTypes;
+    //QJsonObject appConfigArchiveTypes = _appConfig->get("archive_types");
+
+    //return archiveTypes;
+    return _appConfig->get("archive_types");
 }
 
 bool XdgUrl::_installPlasmapkg(const QString &path, const QString &type)
