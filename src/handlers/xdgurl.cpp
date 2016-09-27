@@ -78,27 +78,33 @@ QJsonObject XdgUrl::_importDestinations()
     QJsonObject destinations;
     QJsonObject appConfigDestinations = _appConfig->get("destinations");
     QJsonObject appConfigDestinationsAlias = _appConfig->get("destinations_alias");
+    QJsonObject userConfigDestinations = _userConfig->get("destinations");
+    QJsonObject userConfigDestinationsAlias = _userConfig->get("destinations_alias");
 
     foreach (const QString key, appConfigDestinations.keys()) {
-        QString value = appConfigDestinations[key].toString();
-        if (value.contains("$HOME")) {
-            value = value.replace("$HOME", Utility::File::homePath());
-        }
-        else if (value.contains("$XDG_DATA")) {
-            value = value.replace("$XDG_DATA", Utility::File::xdgDataHomePath());
-        }
-        else if (value.contains("$KDE_DATA")) {
-            value = value.replace("$KDE_DATA", Utility::File::kdeDataHomePath());
-        }
-        destinations[key] = value;
+        destinations[key] = _convertPathString(appConfigDestinations[key].toString());
     }
 
     foreach (const QString key, appConfigDestinationsAlias.keys()) {
         QString value = appConfigDestinationsAlias[key].toString();
         if (destinations.contains(value)) {
-            value = destinations[value].toString();
+            destinations[key] = destinations.value(value);
         }
-        destinations[key] = value;
+    }
+
+    if (!userConfigDestinations.isEmpty()) {
+        foreach (const QString key, userConfigDestinations.keys()) {
+            destinations[key] = _convertPathString(userConfigDestinations[key].toString());
+        }
+    }
+
+    if (!userConfigDestinationsAlias.isEmpty()) {
+        foreach (const QString key, userConfigDestinationsAlias.keys()) {
+            QString value = userConfigDestinationsAlias[key].toString();
+            if (destinations.contains(value)) {
+                destinations[key] = destinations.value(value);
+            }
+        }
     }
 
     return destinations;
