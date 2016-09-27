@@ -1,24 +1,20 @@
 {
-    "tar": [
-        "application/x-tar",
-        "application/x-gzip",
-        "application/gzip",
-        "application/x-bzip",
-        "application/x-bzip2",
-        "application/x-xz",
-        "application/x-lzma",
-        "application/x-lzip",
-        "application/x-compressed-tar",
-        "application/x-bzip-compressed-tar",
-        "application/x-bzip2-compressed-tar",
-        "application/x-xz-compressed-tar",
-        "application/x-lzma-compressed-tar",
-        "application/x-lzip-compressed-tar"
-    ],
-    "zip": ["application/zip"],
-    "7z": ["application/x-7z-compressed"],
-    "rar": [
-        "application/x-rar",
-        "application/x-rar-compressed"
-    ]
+    "application/x-tar": "tar",
+    "application/x-gzip": "tar",
+    "application/gzip": "tar",
+    "application/x-bzip": "tar",
+    "application/x-bzip2": "tar",
+    "application/x-xz": "tar",
+    "application/x-lzma": "tar",
+    "application/x-lzip": "tar",
+    "application/x-compressed-tar": "tar",
+    "application/x-bzip-compressed-tar": "tar",
+    "application/x-bzip2-compressed-tar": "tar",
+    "application/x-xz-compressed-tar": "tar",
+    "application/x-lzma-compressed-tar": "tar",
+    "application/x-lzip-compressed-tar": "tar",
+    "application/zip": "zip",
+    "application/x-7z-compressed": "7z",
+    "application/x-rar": "rar",
+    "application/x-rar-compressed": "rar"
 }
