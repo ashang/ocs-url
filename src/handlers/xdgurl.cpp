@@ -63,6 +63,7 @@ QJsonObject XdgUrl::_parse()
 QString XdgUrl::_convertPathString(const QString &path)
 {
     QString newPath = path;
+
     if (newPath.contains("$HOME")) {
         newPath.replace("$HOME", Utility::File::homePath());
     }
@@ -72,6 +73,7 @@ QString XdgUrl::_convertPathString(const QString &path)
     else if (newPath.contains("$KDE_DATA")) {
         newPath.replace("$KDE_DATA", Utility::File::kdeDataHomePath());
     }
+
     return newPath;
 }
 
@@ -134,10 +136,13 @@ bool XdgUrl::_installPlasmapkg(const QString &path, const QString &type)
     QProcess process;
     QStringList arguments;
     arguments << "-t" << type << "-i" << path;
+
     process.start("plasmapkg2", arguments);
+
     if (process.waitForFinished()) {
         return true;
     }
+
     return false;
 }
 
@@ -199,6 +204,33 @@ bool XdgUrl::_install()
 /**
  * Public slots
  */
+
+bool XdgUrl::isValid()
+{
+    bool isValid = true;
+
+    if (_meta["scheme"].toString() != "xdg" && _meta["scheme"].toString() != "xdgs") {
+        isValid = false;
+    }
+
+    if (_meta["command"].toString() != "download" && _meta["command"].toString() != "install") {
+        isValid = false;
+    }
+
+    if (!QUrl(_meta["url"].toString()).isValid()) {
+        isValid = false;
+    }
+
+    if (!_destinations.contains(_meta["type"].toString())) {
+        isValid = false;
+    }
+
+    if (_meta["filename"].toString().isEmpty()) {
+        isValid = false;
+    }
+
+    return isValid;
+}
 
 bool XdgUrl::process()
 {

@@ -43,6 +43,7 @@ private:
 private slots:
 
 public slots:
+    bool isValid();
     bool process();
 
 signals:
