@@ -50,7 +50,7 @@ QJsonObject XdgUrl::_parse()
     }
 
     if (query.hasQueryItem("filename") && !query.queryItemValue("filename").isEmpty()) {
-        meta["filename"] = query.queryItemValue("filename", QUrl::FullyDecoded).split("?").at(0);
+        meta["filename"] = QUrl(query.queryItemValue("filename", QUrl::FullyDecoded)).fileName();
     }
 
     if (!meta["url"].toString().isEmpty() && meta["filename"].toString().isEmpty()) {
