@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QProcess>
 
 #include "../core/config.h"
 #include "../core/network.h"
@@ -129,7 +130,14 @@ QJsonObject XdgUrl::_importArchiveTypes()
 
 bool XdgUrl::_installPlasmapkg(const QString &path, const QString &type)
 {
-    return true;
+    QProcess process;
+    QStringList arguments;
+    arguments << "-t" << type << "-i" << path;
+    process.start("plasmapkg2", arguments);
+    if (process.waitForFinished()) {
+        return true;
+    }
+    return false;
 }
 
 bool XdgUrl::_uncompressArchive(const QString &path, const QString &targetDir)
