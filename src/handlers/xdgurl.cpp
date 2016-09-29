@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QMimeDatabase>
 #include <QProcess>
 
 #include "../core/config.h"
@@ -142,7 +143,43 @@ bool XdgUrl::_installPlasmapkg(const QString &path, const QString &type)
 
 bool XdgUrl::_uncompressArchive(const QString &path, const QString &targetDir)
 {
-    return true;
+    QMimeDatabase mimeDb;
+    QString mimeType = mimeDb.mimeTypeForFile(path).name();
+    QString archiveType;
+
+    QProcess process;
+    QString program;
+    QStringList arguments;
+
+    if (_archiveTypes.contains(mimeType)) {
+        archiveType = _archiveTypes[mimeType].toString();
+
+        if (archiveType == "tar") {
+            program = "tar";
+            arguments << "-xf" << path << "-C" << targetDir;
+        }
+        else if (archiveType == "zip") {
+            program = "unzip";
+            arguments << "-o" << path << "-d" << targetDir;
+        }
+        else if (archiveType == "7z") {
+            program = "7z";
+            arguments << "x" << path << "-o" + targetDir; // No space between -o and directory
+        }
+        else if (archiveType == "rar") {
+            program = "unrar";
+            arguments << "e" << path << targetDir;
+        }
+
+        process.start(program, arguments);
+
+        if (process.waitForFinished()) {
+            process.waitForReadyRead();
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool XdgUrl::_download()
