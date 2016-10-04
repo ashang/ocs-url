@@ -25,39 +25,39 @@ QJsonObject XdgUrl::_parse()
 {
     QUrl url(_xdgUrl);
     QUrlQuery query(url);
-    QJsonObject meta;
+    QJsonObject metadata;
 
-    meta["scheme"] = QString("xdg");
-    meta["command"] = QString("download");
-    meta["url"] = QString("");
-    meta["type"] = QString("downloads");
-    meta["filename"] = QString("");
+    metadata["scheme"] = QString("xdg");
+    metadata["command"] = QString("download");
+    metadata["url"] = QString("");
+    metadata["type"] = QString("downloads");
+    metadata["filename"] = QString("");
 
     if (!url.scheme().isEmpty()) {
-        meta["scheme"] = url.scheme();
+        metadata["scheme"] = url.scheme();
     }
 
     if (!url.host().isEmpty()) {
-        meta["command"] = url.host();
+        metadata["command"] = url.host();
     }
 
     if (query.hasQueryItem("url") && !query.queryItemValue("url").isEmpty()) {
-        meta["url"] = query.queryItemValue("url", QUrl::FullyDecoded);
+        metadata["url"] = query.queryItemValue("url", QUrl::FullyDecoded);
     }
 
     if (query.hasQueryItem("type") && !query.queryItemValue("type").isEmpty()) {
-        meta["type"] = query.queryItemValue("type", QUrl::FullyDecoded);
+        metadata["type"] = query.queryItemValue("type", QUrl::FullyDecoded);
     }
 
     if (query.hasQueryItem("filename") && !query.queryItemValue("filename").isEmpty()) {
-        meta["filename"] = QUrl(query.queryItemValue("filename", QUrl::FullyDecoded)).fileName();
+        metadata["filename"] = QUrl(query.queryItemValue("filename", QUrl::FullyDecoded)).fileName();
     }
 
-    if (!meta["url"].toString().isEmpty() && meta["filename"].toString().isEmpty()) {
-        meta["filename"] = QUrl(meta["url"].toString()).fileName();
+    if (!metadata["url"].toString().isEmpty() && metadata["filename"].toString().isEmpty()) {
+        metadata["filename"] = QUrl(metadata["url"].toString()).fileName();
     }
 
-    return meta;
+    return metadata;
 }
 
 QString XdgUrl::_convertPathString(const QString &path)

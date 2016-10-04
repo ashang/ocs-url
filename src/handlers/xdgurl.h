@@ -49,8 +49,8 @@ public slots:
     bool process();
 
 signals:
-    void downloaded(const QString &metadata);
-    void installed(const QString &metadata);
+    void downloaded(const QString &result);
+    void installed(const QString &result);
 
 };
 
