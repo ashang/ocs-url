@@ -23,7 +23,7 @@ private:
     Core::Config *_userConfig;
     Core::Network *_asyncNetwork;
 
-    QJsonObject _meta;
+    QJsonObject _metadata;
     QJsonObject _destinations;
     QJsonObject _archiveTypes;
 
@@ -44,6 +44,7 @@ private slots:
 
 public slots:
     QString getXdgUrl();
+    QString getMetadata();
     bool isValid();
     bool process();
 

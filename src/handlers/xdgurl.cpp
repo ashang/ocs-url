@@ -16,7 +16,7 @@ namespace Handlers {
 XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *userConfig, Core::Network *asyncNetwork, QObject *parent) :
     QObject(parent), _xdgUrl(xdgUrl), _appConfig(appConfig), _userConfig(userConfig), _asyncNetwork(asyncNetwork)
 {
-    _meta = _parse();
+    _metadata = _parse();
     _destinations = _importDestinations();
     _archiveTypes = _importArchiveTypes();
 }
@@ -210,27 +210,32 @@ QString XdgUrl::getXdgUrl()
     return _xdgUrl;
 }
 
+QString XdgUrl::getMetadata()
+{
+    return Utility::Json::convertObjToStr(_metadata);
+}
+
 bool XdgUrl::isValid()
 {
     bool isValid = true;
 
-    if (_meta["scheme"].toString() != "xdg" && _meta["scheme"].toString() != "xdgs") {
+    if (_metadata["scheme"].toString() != "xdg" && _metadata["scheme"].toString() != "xdgs") {
         isValid = false;
     }
 
-    if (_meta["command"].toString() != "download" && _meta["command"].toString() != "install") {
+    if (_metadata["command"].toString() != "download" && _metadata["command"].toString() != "install") {
         isValid = false;
     }
 
-    if (!QUrl(_meta["url"].toString()).isValid()) {
+    if (!QUrl(_metadata["url"].toString()).isValid()) {
         isValid = false;
     }
 
-    if (!_destinations.contains(_meta["type"].toString())) {
+    if (!_destinations.contains(_metadata["type"].toString())) {
         isValid = false;
     }
 
-    if (_meta["filename"].toString().isEmpty()) {
+    if (_metadata["filename"].toString().isEmpty()) {
         isValid = false;
     }
 
