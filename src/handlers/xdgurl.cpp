@@ -205,6 +205,11 @@ bool XdgUrl::_install()
  * Public slots
  */
 
+QString XdgUrl::getXdgUrl()
+{
+    return _xdgUrl;
+}
+
 bool XdgUrl::isValid()
 {
     bool isValid = true;

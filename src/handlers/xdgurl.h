@@ -43,6 +43,7 @@ private:
 private slots:
 
 public slots:
+    QString getXdgUrl();
     bool isValid();
     bool process();
 
