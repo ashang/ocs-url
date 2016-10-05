@@ -33,8 +33,8 @@ public:
 private:
     QJsonObject _parse();
     QString _convertPathString(const QString &path);
-    QJsonObject _importDestinations();
-    QJsonObject _importArchiveTypes();
+    QJsonObject _loadDestinations();
+    QJsonObject _loadArchiveTypes();
     bool _installPlasmapkg(const QString &path, const QString &type = "plasmoid");
     bool _uncompressArchive(const QString &path, const QString &targetDir);
     bool _download();

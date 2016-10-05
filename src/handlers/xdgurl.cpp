@@ -17,8 +17,8 @@ XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *use
     QObject(parent), _xdgUrl(xdgUrl), _appConfig(appConfig), _userConfig(userConfig), _asyncNetwork(asyncNetwork)
 {
     _metadata = _parse();
-    _destinations = _importDestinations();
-    _archiveTypes = _importArchiveTypes();
+    _destinations = _loadDestinations();
+    _archiveTypes = _loadArchiveTypes();
 }
 
 QJsonObject XdgUrl::_parse()
@@ -77,7 +77,7 @@ QString XdgUrl::_convertPathString(const QString &path)
     return newPath;
 }
 
-QJsonObject XdgUrl::_importDestinations()
+QJsonObject XdgUrl::_loadDestinations()
 {
     QJsonObject destinations;
     QJsonObject appConfigDestinations = _appConfig->get("destinations");
@@ -114,7 +114,7 @@ QJsonObject XdgUrl::_importDestinations()
     return destinations;
 }
 
-QJsonObject XdgUrl::_importArchiveTypes()
+QJsonObject XdgUrl::_loadArchiveTypes()
 {
     QJsonObject archiveTypes;
     QJsonObject appConfigArchiveTypes = _appConfig->get("archive_types");
