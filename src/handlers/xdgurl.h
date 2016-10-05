@@ -37,8 +37,8 @@ private:
     QJsonObject _loadArchiveTypes();
     bool _installPlasmapkg(const QString &path, const QString &type = "plasmoid");
     bool _uncompressArchive(const QString &path, const QString &targetDir);
-    bool _download();
-    bool _install();
+    void _download();
+    void _install();
 
 private slots:
 
@@ -46,7 +46,7 @@ public slots:
     QString getXdgUrl();
     QString getMetadata();
     bool isValid();
-    bool process();
+    void process();
 
 signals:
     void downloaded(const QString &result);

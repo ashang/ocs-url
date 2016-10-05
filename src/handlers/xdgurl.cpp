@@ -188,12 +188,12 @@ bool XdgUrl::_uncompressArchive(const QString &path, const QString &targetDir)
     return false;
 }
 
-bool XdgUrl::_download()
+void XdgUrl::_download()
 {
     return true;
 }
 
-bool XdgUrl::_install()
+void XdgUrl::_install()
 {
     return true;
 }
@@ -243,9 +243,21 @@ bool XdgUrl::isValid()
     return isValid;
 }
 
-bool XdgUrl::process()
+void XdgUrl::process()
 {
-    return true;
+    /**
+     * xdgs scheme is a reserved name, so the process of xdgs
+     * is the same process of the xdg scheme currently.
+     */
+
+    if (isValid()) {
+        if (_metadata["command"].toString() == "download") {
+            _download();
+        }
+        else if (_metadata["command"].toString() == "install") {
+            _install();
+        }
+    }
 }
 
 } // namespace Handlers
