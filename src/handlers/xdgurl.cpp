@@ -134,10 +134,11 @@ QJsonObject XdgUrl::_loadArchiveTypes()
 bool XdgUrl::_installPlasmapkg(const QString &path, const QString &type)
 {
     QProcess process;
+    QString program = "plasmapkg2"; // Use plasmapkg2 for now
     QStringList arguments;
     arguments << "-t" << type << "-i" << path;
 
-    process.start("plasmapkg2", arguments);
+    process.start(program, arguments);
 
     if (process.waitForFinished()) {
         return true;
