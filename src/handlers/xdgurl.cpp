@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QTemporaryFile>
 #include <QMimeDatabase>
 #include <QProcess>
 #include <QNetworkReply>
@@ -189,16 +190,61 @@ bool XdgUrl::_uncompressArchive(const QString &path, const QString &targetDir)
     return false;
 }
 
+void XdgUrl::_saveDownloadedFile(const QTemporaryFile &temporaryFile)
+{
+}
+
+void XdgUrl::_installDownloadedFile(const QTemporaryFile &temporaryFile)
+{
+}
+
 /**
  * Private slots
  */
 
-void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
+void XdgUrl::_downloaded(QNetworkReply *reply)
 {
-}
+    QJsonObject result;
 
-void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
-{
+    if (reply->error() != QNetworkReply::NoError) {
+        result["error"] = QString("network_error");
+        emit finished(Utility::Json::convertObjToStr(result));
+        return;
+    }
+
+    // If the network reply has a refresh header, retry download
+    if (reply->hasRawHeader("Refresh")) {
+        QString refreshUrl = QString(reply->rawHeader("Refresh")).split("url=").last();
+        if (refreshUrl.startsWith("/")) {
+            QUrl url = reply->url();
+            refreshUrl = url.scheme() + "://" + url.host() + refreshUrl;
+        }
+        _asyncNetwork->get(QUrl(refreshUrl));
+        return;
+    }
+
+    QTemporaryFile temporaryFile;
+    if (!temporaryFile.open()) {
+        result["error"] = QString("save_error");
+        emit finished(Utility::Json::convertObjToStr(result));
+        return;
+    }
+    temporaryFile.write(reply->readAll());
+
+    QMimeDatabase mimeDb;
+    QString mimeType = mimeDb.mimeTypeForFile(temporaryFile.fileName()).name();
+    if (mimeType == "text/html" || mimeType == "application/xhtml+xml") {
+        result["error"] = QString("filetype_error");
+        emit finished(Utility::Json::convertObjToStr(result));
+        return;
+    }
+
+    if (_metadata["command"].toString() == "download") {
+        _saveDownloadedFile(temporaryFile);
+    }
+    else if (_metadata["command"].toString() == "install") {
+        _installDownloadedFile(temporaryFile);
+    }
 }
 
 /**

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QJsonObject>
 
+class QTemporaryFile;
 class QNetworkReply;
 
 namespace Core {
@@ -37,10 +38,11 @@ private:
     QJsonObject _loadArchiveTypes();
     bool _installPlasmapkg(const QString &path, const QString &type = "plasmoid");
     bool _uncompressArchive(const QString &path, const QString &targetDir);
+    void _saveDownloadedFile(const QTemporaryFile &temporaryFile);
+    void _installDownloadedFile(const QTemporaryFile &temporaryFile);
 
 private slots:
-    void _saveDownloadedFile(QNetworkReply *reply);
-    void _installDownloadedFile(QNetworkReply *reply);
+    void _downloaded(QNetworkReply *reply);
 
 public slots:
     QString getXdgUrl();
