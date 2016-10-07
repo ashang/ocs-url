@@ -256,6 +256,7 @@ void XdgUrl::process()
         else if (_metadata["command"].toString() == "install") {
             connect(_asyncNetwork, &Core::Network::finished, this, &XdgUrl::_installDownloadedFile);
         }
+        _asyncNetwork->get(QUrl(_metadata["url"].toString()));
     }
 }
 
