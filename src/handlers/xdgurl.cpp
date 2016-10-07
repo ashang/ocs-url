@@ -192,6 +192,23 @@ bool XdgUrl::_uncompressArchive(const QString &path, const QString &targetDir)
 
 void XdgUrl::_saveDownloadedFile(const QTemporaryFile &temporaryFile)
 {
+    QJsonObject result;
+
+    QString destination = _destinations[_metadata["type"].toString()].toString();
+    QString path = destination + "/" + _metadata["filename"].toString();
+
+    Utility::File::makeDir(destination);
+    Utility::File::remove(path); // Remove previous downloaded file
+
+    if (!temporaryFile.copy(path)) {
+        result["error"] = QString("save_error");
+        emit finished(Utility::Json::convertObjToStr(result));
+        return;
+    }
+
+    result["success"] = QString("download_success");
+    result["destination"] = destination;
+    emit finished(Utility::Json::convertObjToStr(result));
 }
 
 void XdgUrl::_installDownloadedFile(const QTemporaryFile &temporaryFile)
@@ -224,15 +241,18 @@ void XdgUrl::_downloaded(QNetworkReply *reply)
     }
 
     QTemporaryFile temporaryFile;
+
     if (!temporaryFile.open()) {
         result["error"] = QString("save_error");
         emit finished(Utility::Json::convertObjToStr(result));
         return;
     }
+
     temporaryFile.write(reply->readAll());
 
     QMimeDatabase mimeDb;
     QString mimeType = mimeDb.mimeTypeForFile(temporaryFile.fileName()).name();
+
     if (mimeType == "text/html" || mimeType == "application/xhtml+xml") {
         result["error"] = QString("filetype_error");
         emit finished(Utility::Json::convertObjToStr(result));
