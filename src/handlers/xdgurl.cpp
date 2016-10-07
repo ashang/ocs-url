@@ -250,12 +250,7 @@ void XdgUrl::process()
      */
 
     if (isValid()) {
-        if (_metadata["command"].toString() == "download") {
-            connect(_asyncNetwork, &Core::Network::finished, this, &XdgUrl::_saveDownloadedFile);
-        }
-        else if (_metadata["command"].toString() == "install") {
-            connect(_asyncNetwork, &Core::Network::finished, this, &XdgUrl::_installDownloadedFile);
-        }
+        connect(_asyncNetwork, &Core::Network::finished, this, &XdgUrl::_downloaded);
         _asyncNetwork->get(QUrl(_metadata["url"].toString()));
     }
 }
