@@ -190,9 +190,28 @@ bool XdgUrl::_uncompressArchive(const QString &path, const QString &targetDir)
     return false;
 }
 
-void XdgUrl::_saveDownloadedFile(const QTemporaryFile &temporaryFile)
+void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
 {
     QJsonObject result;
+
+    QTemporaryFile temporaryFile;
+
+    if (!temporaryFile.open()) {
+        result["error"] = QString("save_error");
+        emit finished(Utility::Json::convertObjToStr(result));
+        return;
+    }
+
+    temporaryFile.write(reply->readAll());
+
+    QMimeDatabase mimeDb;
+    QString mimeType = mimeDb.mimeTypeForFile(temporaryFile.fileName()).name();
+
+    if (mimeType == "text/html" || mimeType == "application/xhtml+xml") {
+        result["error"] = QString("filetype_error");
+        emit finished(Utility::Json::convertObjToStr(result));
+        return;
+    }
 
     QString destination = _destinations[_metadata["type"].toString()].toString();
     QString path = destination + "/" + _metadata["filename"].toString();
@@ -211,7 +230,7 @@ void XdgUrl::_saveDownloadedFile(const QTemporaryFile &temporaryFile)
     emit finished(Utility::Json::convertObjToStr(result));
 }
 
-void XdgUrl::_installDownloadedFile(const QTemporaryFile &temporaryFile)
+void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
 {
 }
 
@@ -240,30 +259,11 @@ void XdgUrl::_downloaded(QNetworkReply *reply)
         return;
     }
 
-    QTemporaryFile temporaryFile;
-
-    if (!temporaryFile.open()) {
-        result["error"] = QString("save_error");
-        emit finished(Utility::Json::convertObjToStr(result));
-        return;
-    }
-
-    temporaryFile.write(reply->readAll());
-
-    QMimeDatabase mimeDb;
-    QString mimeType = mimeDb.mimeTypeForFile(temporaryFile.fileName()).name();
-
-    if (mimeType == "text/html" || mimeType == "application/xhtml+xml") {
-        result["error"] = QString("filetype_error");
-        emit finished(Utility::Json::convertObjToStr(result));
-        return;
-    }
-
     if (_metadata["command"].toString() == "download") {
-        _saveDownloadedFile(temporaryFile);
+        _saveDownloadedFile(reply);
     }
     else if (_metadata["command"].toString() == "install") {
-        _installDownloadedFile(temporaryFile);
+        _installDownloadedFile(reply);
     }
 }
 
