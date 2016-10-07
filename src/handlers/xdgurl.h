@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QJsonObject>
 
-//class QNetworkReply;
+class QNetworkReply;
 
 namespace Core {
 class Config;
@@ -37,10 +37,10 @@ private:
     QJsonObject _loadArchiveTypes();
     bool _installPlasmapkg(const QString &path, const QString &type = "plasmoid");
     bool _uncompressArchive(const QString &path, const QString &targetDir);
-    void _download();
-    void _install();
 
 private slots:
+    void _saveDownloadedFile(QNetworkReply *reply);
+    void _installDownloadedFile(QNetworkReply *reply);
 
 public slots:
     QString getXdgUrl();

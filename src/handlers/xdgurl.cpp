@@ -3,6 +3,7 @@
 #include <QUrlQuery>
 #include <QMimeDatabase>
 #include <QProcess>
+#include <QNetworkReply>
 
 #include "../core/config.h"
 #include "../core/network.h"
@@ -188,19 +189,17 @@ bool XdgUrl::_uncompressArchive(const QString &path, const QString &targetDir)
     return false;
 }
 
-void XdgUrl::_download()
-{
-    return true;
-}
-
-void XdgUrl::_install()
-{
-    return true;
-}
-
 /**
  * Private slots
  */
+
+void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
+{
+}
+
+void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
+{
+}
 
 /**
  * Public slots
@@ -252,10 +251,10 @@ void XdgUrl::process()
 
     if (isValid()) {
         if (_metadata["command"].toString() == "download") {
-            _download();
+            connect(_asyncNetwork, &Core::Network::finished, this, &XdgUrl::_saveDownloadedFile);
         }
         else if (_metadata["command"].toString() == "install") {
-            _install();
+            connect(_asyncNetwork, &Core::Network::finished, this, &XdgUrl::_installDownloadedFile);
         }
     }
 }
