@@ -49,9 +49,7 @@ public slots:
     void process();
 
 signals:
-    void downloaded(const QString &result);
-    void installed(const QString &result);
-
+    void finished(const QString &result);
 };
 
 } // namespace Handlers
