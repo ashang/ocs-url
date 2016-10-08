@@ -25,7 +25,6 @@ private:
 
     QJsonObject _metadata;
     QJsonObject _destinations;
-    QJsonObject _archiveTypes;
 
 public:
     explicit XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *userConfig, Core::Network *asyncNetwork, QObject *parent = 0);
@@ -34,9 +33,6 @@ private:
     QJsonObject _parse();
     QString _convertPathString(const QString &path);
     QJsonObject _loadDestinations();
-    QJsonObject _loadArchiveTypes();
-    bool _installPlasmapkg(const QString &path, const QString &type = "plasmoid");
-    bool _uncompressArchive(const QString &path, const QString &targetDir);
     void _saveDownloadedFile(QNetworkReply *reply);
     void _installDownloadedFile(QNetworkReply *reply);
 

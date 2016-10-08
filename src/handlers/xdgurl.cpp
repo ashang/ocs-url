@@ -3,13 +3,13 @@
 #include <QUrlQuery>
 #include <QTemporaryFile>
 #include <QMimeDatabase>
-#include <QProcess>
 #include <QNetworkReply>
 
 #include "../core/config.h"
 #include "../core/network.h"
 #include "../utility/file.h"
 #include "../utility/json.h"
+#include "../utility/package.h"
 
 #include "xdgurl.h"
 
@@ -20,7 +20,6 @@ XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *use
 {
     _metadata = _parse();
     _destinations = _loadDestinations();
-    _archiveTypes = _loadArchiveTypes();
 }
 
 QJsonObject XdgUrl::_parse()
@@ -114,80 +113,6 @@ QJsonObject XdgUrl::_loadDestinations()
     }
 
     return destinations;
-}
-
-QJsonObject XdgUrl::_loadArchiveTypes()
-{
-    QJsonObject archiveTypes;
-    QJsonObject appConfigArchiveTypes = _appConfig->get("archive_types");
-    QJsonObject userConfigArchiveTypes = _userConfig->get("archive_types");
-
-    archiveTypes = appConfigArchiveTypes;
-
-    if (!userConfigArchiveTypes.isEmpty()) {
-        foreach (const QString key, userConfigArchiveTypes.keys()) {
-            archiveTypes[key] = userConfigArchiveTypes.value(key);
-        }
-    }
-
-    return archiveTypes;
-}
-
-bool XdgUrl::_installPlasmapkg(const QString &path, const QString &type)
-{
-    QProcess process;
-    QString program = "plasmapkg2"; // Use plasmapkg2 for now
-    QStringList arguments;
-    arguments << "-t" << type << "-i" << path;
-
-    process.start(program, arguments);
-
-    if (process.waitForFinished()) {
-        return true;
-    }
-
-    return false;
-}
-
-bool XdgUrl::_uncompressArchive(const QString &path, const QString &targetDir)
-{
-    QMimeDatabase mimeDb;
-    QString mimeType = mimeDb.mimeTypeForFile(path).name();
-    QString archiveType;
-
-    QProcess process;
-    QString program;
-    QStringList arguments;
-
-    if (_archiveTypes.contains(mimeType)) {
-        archiveType = _archiveTypes[mimeType].toString();
-
-        if (archiveType == "tar") {
-            program = "tar";
-            arguments << "-xf" << path << "-C" << targetDir;
-        }
-        else if (archiveType == "zip") {
-            program = "unzip";
-            arguments << "-o" << path << "-d" << targetDir;
-        }
-        else if (archiveType == "7z") {
-            program = "7z";
-            arguments << "x" << path << "-o" + targetDir; // No space between -o and directory
-        }
-        else if (archiveType == "rar") {
-            program = "unrar";
-            arguments << "e" << path << targetDir;
-        }
-
-        process.start(program, arguments);
-
-        if (process.waitForFinished()) {
-            process.waitForReadyRead();
-            return true;
-        }
-    }
-
-    return false;
 }
 
 void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
