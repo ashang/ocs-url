@@ -20,14 +20,16 @@ SOURCES += \
     src/core/network.cpp \
     src/handlers/xdgurl.cpp \
     src/utility/file.cpp \
-    src/utility/json.cpp
+    src/utility/json.cpp \
+    src/utility/package.cpp
 
 HEADERS += \
     src/core/config.h \
     src/core/network.h \
     src/handlers/xdgurl.h \
     src/utility/file.h \
-    src/utility/json.h
+    src/utility/json.h \
+    src/utility/package.h
 
 RESOURCES += \
     src/configs.qrc \
