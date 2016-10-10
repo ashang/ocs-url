@@ -20,6 +20,8 @@ XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *use
 {
     _metadata = _parse();
     _destinations = _loadDestinations();
+
+    connect(_asyncNetwork, &Core::Network::finished, this, &XdgUrl::_downloaded);
 }
 
 QJsonObject XdgUrl::_parse()
@@ -306,7 +308,6 @@ void XdgUrl::process()
      */
 
     if (isValid()) {
-        connect(_asyncNetwork, &Core::Network::finished, this, &XdgUrl::_downloaded);
         _asyncNetwork->get(QUrl(_metadata["url"].toString()));
     }
 }
