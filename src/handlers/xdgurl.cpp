@@ -136,7 +136,8 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
         return;
     }
 
-    QString destination = _destinations[_metadata["type"].toString()].toString();
+    QString type = _metadata["type"].toString();
+    QString destination = _destinations[type].toString();
     QString path = destination + "/" + _metadata["filename"].toString();
 
     Utility::File::makeDir(destination);
@@ -150,6 +151,7 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
 
     result["success"] = QString("download_success");
     result["destination"] = destination;
+    result["path"] = path;
     emit finished(Utility::Json::convertObjToStr(result));
 }
 
