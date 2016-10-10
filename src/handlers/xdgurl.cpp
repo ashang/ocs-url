@@ -157,6 +157,72 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
 
 void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
 {
+    QJsonObject result;
+
+    QTemporaryFile temporaryFile;
+
+    if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
+        result["error"] = QString("save_error");
+        emit finished(Utility::Json::convertObjToStr(result));
+        return;
+    }
+
+    QMimeDatabase mimeDb;
+    QString mimeType = mimeDb.mimeTypeForFile(temporaryFile.fileName()).name();
+
+    if (mimeType == "text/html" || mimeType == "application/xhtml+xml") {
+        result["error"] = QString("filetype_error");
+        emit finished(Utility::Json::convertObjToStr(result));
+        return;
+    }
+
+    QString type = _metadata["type"].toString();
+    QString destination = _destinations[type].toString();
+    QString path = destination + "/" + _metadata["filename"].toString();
+
+    Utility::File::makeDir(destination);
+    Utility::File::remove(path); // Remove previous downloaded file
+
+    if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
+            && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "plasmoid")) {
+        qInfo("The plasmoid has been installed");
+    }
+    else if ((type == "plasma_look_and_feel" || type == "plasma5_look_and_feel")
+             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "lookandfeel")) {
+        qInfo("The plasma look and feel has been installed");
+    }
+    else if ((type == "plasma_desktopthemes" || type == "plasma5_desktopthemes")
+             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "theme")) {
+        qInfo("The plasma desktop theme has been installed");
+    }
+    else if (type == "kwin_effects"
+             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "kwineffect")) {
+        qInfo("The KWin effect has been installed");
+    }
+    else if (type == "kwin_scripts"
+             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "kwinscript")) {
+        qInfo("The KWin script has been installed");
+    }
+    else if (type == "kwin_tabbox"
+             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "windowswitcher")) {
+        qInfo("The KWin window switcher has been installed");
+    }
+    else if (Utility::Package::uncompressArchive(temporaryFile.fileName(), destination)) {
+        qInfo("The archive file has been uncompressed into " + destination);
+    }
+    else if (temporaryFile.copy(path)) {
+        qInfo("Saved the file as " + path);
+    }
+    else {
+        result["error"] = QString("install_error");
+        emit finished(Utility::Json::convertObjToStr(result));
+        return;
+    }
+
+    result["success"] = QString("install_success");
+    result["destination"] = destination;
+    result["path"] = path;
+    emit finished(Utility::Json::convertObjToStr(result));
 }
 
 /**
