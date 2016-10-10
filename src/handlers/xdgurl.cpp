@@ -121,13 +121,11 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
 
     QTemporaryFile temporaryFile;
 
-    if (!temporaryFile.open()) {
+    if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
         result["error"] = QString("save_error");
         emit finished(Utility::Json::convertObjToStr(result));
         return;
     }
-
-    temporaryFile.write(reply->readAll());
 
     QMimeDatabase mimeDb;
     QString mimeType = mimeDb.mimeTypeForFile(temporaryFile.fileName()).name();
