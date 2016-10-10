@@ -187,33 +187,33 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
 
     if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "plasmoid")) {
-        qInfo("The plasmoid has been installed");
+        qInfo() << "The plasmoid has been installed";
     }
     else if ((type == "plasma_look_and_feel" || type == "plasma5_look_and_feel")
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "lookandfeel")) {
-        qInfo("The plasma look and feel has been installed");
+        qInfo() << "The plasma look and feel has been installed";
     }
     else if ((type == "plasma_desktopthemes" || type == "plasma5_desktopthemes")
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "theme")) {
-        qInfo("The plasma desktop theme has been installed");
+        qInfo() << "The plasma desktop theme has been installed";
     }
     else if (type == "kwin_effects"
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "kwineffect")) {
-        qInfo("The KWin effect has been installed");
+        qInfo() << "The KWin effect has been installed";
     }
     else if (type == "kwin_scripts"
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "kwinscript")) {
-        qInfo("The KWin script has been installed");
+        qInfo() << "The KWin script has been installed";
     }
     else if (type == "kwin_tabbox"
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "windowswitcher")) {
-        qInfo("The KWin window switcher has been installed");
+        qInfo() << "The KWin window switcher has been installed";
     }
     else if (Utility::Package::uncompressArchive(temporaryFile.fileName(), destination)) {
-        qInfo("The archive file has been uncompressed into " + destination);
+        qInfo() << "The archive file has been uncompressed into" << destination;
     }
     else if (temporaryFile.copy(path)) {
-        qInfo("Saved the file as " + path);
+        qInfo() << "Saved the file as " << path;
     }
     else {
         result["error"] = QString("install_error");
