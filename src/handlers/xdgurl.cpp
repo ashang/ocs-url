@@ -213,7 +213,7 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
         qInfo() << "The archive file has been uncompressed into" << destination;
     }
     else if (temporaryFile.copy(path)) {
-        qInfo() << "Saved the file as " << path;
+        qInfo() << "Saved the file as" << path;
     }
     else {
         result["error"] = QString("install_error");
