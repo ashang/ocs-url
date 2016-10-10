@@ -177,8 +177,7 @@ void XdgUrl::_downloaded(QNetworkReply *reply)
     if (reply->hasRawHeader("Refresh")) {
         QString refreshUrl = QString(reply->rawHeader("Refresh")).split("url=").last();
         if (refreshUrl.startsWith("/")) {
-            QUrl url = reply->url();
-            refreshUrl = url.scheme() + "://" + url.host() + refreshUrl;
+            refreshUrl = reply->url().authority() + refreshUrl;
         }
         _asyncNetwork->get(QUrl(refreshUrl));
         return;
