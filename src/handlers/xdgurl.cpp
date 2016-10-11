@@ -275,29 +275,21 @@ QString XdgUrl::getMetadata()
 
 bool XdgUrl::isValid()
 {
-    bool isValid = true;
+    QString scheme = _metadata["scheme"].toString();
+    QString command = _metadata["command"].toString();
+    QString url = _metadata["url"].toString();
+    QString type = _metadata["type"].toString();
+    QString filename = _metadata["filename"].toString();
 
-    if (_metadata["scheme"].toString() != "xdg" && _metadata["scheme"].toString() != "xdgs") {
-        isValid = false;
+    if ((scheme == "xdg" || scheme == "xdgs")
+            && (command == "download" || command == "install")
+            && QUrl(url).isValid()
+            && _destinations.contains(type)
+            && !filename.isEmpty()) {
+        return true;
     }
 
-    if (_metadata["command"].toString() != "download" && _metadata["command"].toString() != "install") {
-        isValid = false;
-    }
-
-    if (!QUrl(_metadata["url"].toString()).isValid()) {
-        isValid = false;
-    }
-
-    if (!_destinations.contains(_metadata["type"].toString())) {
-        isValid = false;
-    }
-
-    if (_metadata["filename"].toString().isEmpty()) {
-        isValid = false;
-    }
-
-    return isValid;
+    return false;
 }
 
 void XdgUrl::process()
