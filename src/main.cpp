@@ -24,7 +24,6 @@ int main(int argc, char *argv[])
     QJsonObject appConfigApplication = appConfig->get("application");
     Core::Config *userConfig = new Core::Config(Utility::File::xdgConfigHomePath() + "/" + appConfigApplication["id"].toString());
     Core::Network *asyncNetwork = new Core::Network(true);
-    //Core::Network *syncNetwork = new Core::Network(false);
 
     app.setApplicationName(appConfigApplication["name"].toString());
     app.setApplicationVersion(appConfigApplication["version"].toString());
