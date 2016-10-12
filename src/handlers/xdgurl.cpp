@@ -276,9 +276,14 @@ void XdgUrl::process()
      * is the same process of the xdg scheme currently.
      */
 
-    if (isValid()) {
-        _network->get(QUrl(_metadata["url"].toString()));
+    if (!isValid()) {
+        QJsonObject result;
+        result["error"] = QString("validation_error");
+        emit finished(Utility::Json::convertObjToStr(result));
+        return;
     }
+
+    _network->get(QUrl(_metadata["url"].toString()));
 }
 
 } // namespace Handlers
