@@ -63,14 +63,13 @@ QString File::xdgCacheHomePath()
  * https://userbase.kde.org/KDE_System_Administration/Environment_Variables
  */
 
-QString File::kdeDataHomePath()
+QString File::kdehomePath()
 {
-    // KDE 4
+    // KDE 4 maybe uses $KDEHOME
     QString path = QString::fromLocal8Bit(qgetenv("KDEHOME").constData());
     if (path.isEmpty()) {
         path = homePath() + "/.kde";
     }
-    path += "/share";
     return path;
 }
 
