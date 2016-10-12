@@ -18,49 +18,63 @@ namespace Handlers {
 XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *config, Core::Network *network, QObject *parent) :
     QObject(parent), _xdgUrl(xdgUrl), _config(config), _network(network)
 {
-    _metadata = _parse();
-    _destinations = _loadDestinations();
+    _parse();
+    _loadDestinations();
 
     connect(_network, &Core::Network::finished, this, &XdgUrl::_downloaded);
 }
 
-QJsonObject XdgUrl::_parse()
+void XdgUrl::_parse()
 {
     QUrl url(_xdgUrl);
     QUrlQuery query(url);
-    QJsonObject metadata;
 
-    metadata["scheme"] = QString("xdg");
-    metadata["command"] = QString("download");
-    metadata["url"] = QString("");
-    metadata["type"] = QString("downloads");
-    metadata["filename"] = QString("");
+    _metadata["scheme"] = QString("xdg");
+    _metadata["command"] = QString("download");
+    _metadata["url"] = QString("");
+    _metadata["type"] = QString("downloads");
+    _metadata["filename"] = QString("");
 
     if (!url.scheme().isEmpty()) {
-        metadata["scheme"] = url.scheme();
+        _metadata["scheme"] = url.scheme();
     }
 
     if (!url.host().isEmpty()) {
-        metadata["command"] = url.host();
+        _metadata["command"] = url.host();
     }
 
     if (query.hasQueryItem("url") && !query.queryItemValue("url").isEmpty()) {
-        metadata["url"] = query.queryItemValue("url", QUrl::FullyDecoded);
+        _metadata["url"] = query.queryItemValue("url", QUrl::FullyDecoded);
     }
 
     if (query.hasQueryItem("type") && !query.queryItemValue("type").isEmpty()) {
-        metadata["type"] = query.queryItemValue("type", QUrl::FullyDecoded);
+        _metadata["type"] = query.queryItemValue("type", QUrl::FullyDecoded);
     }
 
     if (query.hasQueryItem("filename") && !query.queryItemValue("filename").isEmpty()) {
-        metadata["filename"] = QUrl(query.queryItemValue("filename", QUrl::FullyDecoded)).fileName();
+        _metadata["filename"] = QUrl(query.queryItemValue("filename", QUrl::FullyDecoded)).fileName();
     }
 
-    if (!metadata["url"].toString().isEmpty() && metadata["filename"].toString().isEmpty()) {
-        metadata["filename"] = QUrl(metadata["url"].toString()).fileName();
+    if (!_metadata["url"].toString().isEmpty() && _metadata["filename"].toString().isEmpty()) {
+        _metadata["filename"] = QUrl(_metadata["url"].toString()).fileName();
+    }
+}
+
+void XdgUrl::_loadDestinations()
+{
+    QJsonObject configDestinations = _config->get("destinations");
+    QJsonObject configDestinationsAlias = _config->get("destinations_alias");
+
+    foreach (const QString key, configDestinations.keys()) {
+        _destinations[key] = _convertPathString(configDestinations[key].toString());
     }
 
-    return metadata;
+    foreach (const QString key, configDestinationsAlias.keys()) {
+        QString value = configDestinationsAlias[key].toString();
+        if (_destinations.contains(value)) {
+            _destinations[key] = _destinations.value(value);
+        }
+    }
 }
 
 QString XdgUrl::_convertPathString(const QString &path)
@@ -78,26 +92,6 @@ QString XdgUrl::_convertPathString(const QString &path)
     }
 
     return newPath;
-}
-
-QJsonObject XdgUrl::_loadDestinations()
-{
-    QJsonObject destinations;
-    QJsonObject configDestinations = _config->get("destinations");
-    QJsonObject configDestinationsAlias = _config->get("destinations_alias");
-
-    foreach (const QString key, configDestinations.keys()) {
-        destinations[key] = _convertPathString(configDestinations[key].toString());
-    }
-
-    foreach (const QString key, configDestinationsAlias.keys()) {
-        QString value = configDestinationsAlias[key].toString();
-        if (destinations.contains(value)) {
-            destinations[key] = destinations.value(value);
-        }
-    }
-
-    return destinations;
 }
 
 void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)

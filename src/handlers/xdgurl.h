@@ -29,9 +29,9 @@ public:
     explicit XdgUrl(const QString &xdgUrl, Core::Config *config, Core::Network *network, QObject *parent = 0);
 
 private:
-    QJsonObject _parse();
+    void _parse();
+    void _loadDestinations();
     QString _convertPathString(const QString &path);
-    QJsonObject _loadDestinations();
     void _saveDownloadedFile(QNetworkReply *reply);
     void _installDownloadedFile(QNetworkReply *reply);
 
