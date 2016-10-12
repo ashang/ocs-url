@@ -19,15 +19,14 @@ class XdgUrl : public QObject
 
 private:
     QString _xdgUrl;
-    Core::Config *_appConfig;
-    Core::Config *_userConfig;
-    Core::Network *_asyncNetwork;
+    Core::Config *_config;
+    Core::Network *_network;
 
     QJsonObject _metadata;
     QJsonObject _destinations;
 
 public:
-    explicit XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *userConfig, Core::Network *asyncNetwork, QObject *parent = 0);
+    explicit XdgUrl(const QString &xdgUrl, Core::Config *config, Core::Network *network, QObject *parent = 0);
 
 private:
     QJsonObject _parse();

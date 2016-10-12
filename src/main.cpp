@@ -12,28 +12,26 @@
 #include "core/config.h"
 #include "core/network.h"
 #include "handlers/xdgurl.h"
-#include "utility/file.h"
 
 int main(int argc, char *argv[])
 {
     // Init
     //QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // Qt 5.6 or higher
     QGuiApplication app(argc, argv);
+    Core::Config *config = new Core::Config(":/configs");
+    Core::Network *network = new Core::Network(true);
 
-    Core::Config *appConfig = new Core::Config(":/configs");
-    QJsonObject appConfigApplication = appConfig->get("application");
-    Core::Config *userConfig = new Core::Config(Utility::File::xdgConfigHomePath() + "/" + appConfigApplication["id"].toString());
-    Core::Network *asyncNetwork = new Core::Network(true);
+    QJsonObject configApplication = config->get("application");
 
-    app.setApplicationName(appConfigApplication["name"].toString());
-    app.setApplicationVersion(appConfigApplication["version"].toString());
-    app.setOrganizationName(appConfigApplication["organization"].toString());
-    app.setOrganizationDomain(appConfigApplication["domain"].toString());
-    app.setWindowIcon(QIcon::fromTheme(appConfigApplication["id"].toString(), QIcon(appConfigApplication["icon"].toString())));
+    app.setApplicationName(configApplication["name"].toString());
+    app.setApplicationVersion(configApplication["version"].toString());
+    app.setOrganizationName(configApplication["organization"].toString());
+    app.setOrganizationDomain(configApplication["domain"].toString());
+    app.setWindowIcon(QIcon::fromTheme(configApplication["id"].toString(), QIcon(configApplication["icon"].toString())));
 
     // Setup CLI
     QCommandLineParser clParser;
-    clParser.setApplicationDescription(appConfigApplication["description"].toString());
+    clParser.setApplicationDescription(configApplication["description"].toString());
     clParser.addHelpOption();
     clParser.addVersionOption();
     clParser.addPositionalArgument("xdgurl", "XDG-URL");
@@ -50,7 +48,7 @@ int main(int argc, char *argv[])
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
     QQmlContext *qmlContext = qmlAppEngine.rootContext();
-    qmlContext->setContextProperty("xdgUrlHandler", new Handlers::XdgUrl(xdgUrl, appConfig, userConfig, asyncNetwork));
+    qmlContext->setContextProperty("xdgUrlHandler", new Handlers::XdgUrl(xdgUrl, config, network));
     qmlAppEngine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();

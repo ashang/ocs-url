@@ -15,13 +15,13 @@
 
 namespace Handlers {
 
-XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *appConfig, Core::Config *userConfig, Core::Network *asyncNetwork, QObject *parent) :
-    QObject(parent), _xdgUrl(xdgUrl), _appConfig(appConfig), _userConfig(userConfig), _asyncNetwork(asyncNetwork)
+XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *config, Core::Network *network, QObject *parent) :
+    QObject(parent), _xdgUrl(xdgUrl), _config(config), _network(network)
 {
     _metadata = _parse();
     _destinations = _loadDestinations();
 
-    connect(_asyncNetwork, &Core::Network::finished, this, &XdgUrl::_downloaded);
+    connect(_network, &Core::Network::finished, this, &XdgUrl::_downloaded);
 }
 
 QJsonObject XdgUrl::_parse()
@@ -83,34 +83,17 @@ QString XdgUrl::_convertPathString(const QString &path)
 QJsonObject XdgUrl::_loadDestinations()
 {
     QJsonObject destinations;
-    QJsonObject appConfigDestinations = _appConfig->get("destinations");
-    QJsonObject appConfigDestinationsAlias = _appConfig->get("destinations_alias");
-    QJsonObject userConfigDestinations = _userConfig->get("destinations");
-    QJsonObject userConfigDestinationsAlias = _userConfig->get("destinations_alias");
+    QJsonObject configDestinations = _config->get("destinations");
+    QJsonObject configDestinationsAlias = _config->get("destinations_alias");
 
-    foreach (const QString key, appConfigDestinations.keys()) {
-        destinations[key] = _convertPathString(appConfigDestinations[key].toString());
+    foreach (const QString key, configDestinations.keys()) {
+        destinations[key] = _convertPathString(configDestinations[key].toString());
     }
 
-    foreach (const QString key, appConfigDestinationsAlias.keys()) {
-        QString value = appConfigDestinationsAlias[key].toString();
+    foreach (const QString key, configDestinationsAlias.keys()) {
+        QString value = configDestinationsAlias[key].toString();
         if (destinations.contains(value)) {
             destinations[key] = destinations.value(value);
-        }
-    }
-
-    if (!userConfigDestinations.isEmpty()) {
-        foreach (const QString key, userConfigDestinations.keys()) {
-            destinations[key] = _convertPathString(userConfigDestinations[key].toString());
-        }
-    }
-
-    if (!userConfigDestinationsAlias.isEmpty()) {
-        foreach (const QString key, userConfigDestinationsAlias.keys()) {
-            QString value = userConfigDestinationsAlias[key].toString();
-            if (destinations.contains(value)) {
-                destinations[key] = destinations.value(value);
-            }
         }
     }
 
@@ -247,7 +230,7 @@ void XdgUrl::_downloaded(QNetworkReply *reply)
         if (refreshUrl.startsWith("/")) {
             refreshUrl = reply->url().authority() + refreshUrl;
         }
-        _asyncNetwork->get(QUrl(refreshUrl));
+        _network->get(QUrl(refreshUrl));
         return;
     }
 
@@ -300,7 +283,7 @@ void XdgUrl::process()
      */
 
     if (isValid()) {
-        _asyncNetwork->get(QUrl(_metadata["url"].toString()));
+        _network->get(QUrl(_metadata["url"].toString()));
     }
 }
 
