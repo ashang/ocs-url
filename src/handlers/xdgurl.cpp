@@ -101,6 +101,7 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
     QTemporaryFile temporaryFile;
 
     if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
+        qWarning() << temporaryFile.errorString();
         result["error"] = QString("save_error");
         emit finished(Utility::Json::convertObjToStr(result));
         return;
@@ -123,6 +124,7 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
     Utility::File::remove(path); // Remove previous downloaded file
 
     if (!temporaryFile.copy(path)) {
+        qWarning() << temporaryFile.errorString();
         result["error"] = QString("save_error");
         emit finished(Utility::Json::convertObjToStr(result));
         return;
@@ -141,6 +143,7 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
     QTemporaryFile temporaryFile;
 
     if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
+        qWarning() << temporaryFile.errorString();
         result["error"] = QString("save_error");
         emit finished(Utility::Json::convertObjToStr(result));
         return;
@@ -193,6 +196,7 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
         qInfo() << "Saved the file as" << path;
     }
     else {
+        qWarning() << temporaryFile.errorString();
         result["error"] = QString("install_error");
         emit finished(Utility::Json::convertObjToStr(result));
         return;
@@ -210,9 +214,9 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
 
 void XdgUrl::_downloaded(QNetworkReply *reply)
 {
-    QJsonObject result;
-
     if (reply->error() != QNetworkReply::NoError) {
+        qWarning() << reply->errorString();
+        QJsonObject result;
         result["error"] = QString("network_error");
         emit finished(Utility::Json::convertObjToStr(result));
         return;
