@@ -1,4 +1,3 @@
-#include <QDebug>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QTemporaryFile>
@@ -101,8 +100,8 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
     QTemporaryFile temporaryFile;
 
     if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
-        qWarning() << temporaryFile.errorString();
-        result["error"] = QString("save_error");
+        result["status"] = QString("error_save");
+        result["message"] = temporaryFile.errorString();
         emit finished(Utility::Json::convertObjToStr(result));
         return;
     }
@@ -111,7 +110,8 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
     QString mimeType = mimeDb.mimeTypeForFile(temporaryFile.fileName()).name();
 
     if (mimeType == "text/html" || mimeType == "application/xhtml+xml") {
-        result["error"] = QString("filetype_error");
+        result["status"] = QString("error_filetype");
+        result["message"] = QString("The file is unsupported file type " + mimeType);
         emit finished(Utility::Json::convertObjToStr(result));
         return;
     }
@@ -124,15 +124,14 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
     Utility::File::remove(path); // Remove previous downloaded file
 
     if (!temporaryFile.copy(path)) {
-        qWarning() << temporaryFile.errorString();
-        result["error"] = QString("save_error");
+        result["status"] = QString("error_save");
+        result["message"] = temporaryFile.errorString();
         emit finished(Utility::Json::convertObjToStr(result));
         return;
     }
 
-    result["success"] = QString("download_success");
-    result["destination"] = destination;
-    result["path"] = path;
+    result["status"] = QString("success_download");
+    result["message"] = QString("The file has been stored into " + destination);
     emit finished(Utility::Json::convertObjToStr(result));
 }
 
@@ -143,8 +142,8 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
     QTemporaryFile temporaryFile;
 
     if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
-        qWarning() << temporaryFile.errorString();
-        result["error"] = QString("save_error");
+        result["status"] = QString("error_save");
+        result["message"] = temporaryFile.errorString();
         emit finished(Utility::Json::convertObjToStr(result));
         return;
     }
@@ -153,7 +152,8 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
     QString mimeType = mimeDb.mimeTypeForFile(temporaryFile.fileName()).name();
 
     if (mimeType == "text/html" || mimeType == "application/xhtml+xml") {
-        result["error"] = QString("filetype_error");
+        result["status"] = QString("error_filetype");
+        result["message"] = QString("The file is unsupported file type " + mimeType);
         emit finished(Utility::Json::convertObjToStr(result));
         return;
     }
@@ -167,44 +167,42 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
 
     if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "plasmoid")) {
-        qInfo() << "The plasmoid has been installed";
+        result["message"] = QString("The plasmoid has been installed");
     }
     else if ((type == "plasma_look_and_feel" || type == "plasma5_look_and_feel")
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "lookandfeel")) {
-        qInfo() << "The plasma look and feel has been installed";
+        result["message"] = QString("The plasma look and feel has been installed");
     }
     else if ((type == "plasma_desktopthemes" || type == "plasma5_desktopthemes")
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "theme")) {
-        qInfo() << "The plasma desktop theme has been installed";
+        result["message"] = QString("The plasma desktop theme has been installed");
     }
     else if (type == "kwin_effects"
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "kwineffect")) {
-        qInfo() << "The KWin effect has been installed";
+        result["message"] = QString("The KWin effect has been installed");
     }
     else if (type == "kwin_scripts"
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "kwinscript")) {
-        qInfo() << "The KWin script has been installed";
+        result["message"] = QString("The KWin script has been installed");
     }
     else if (type == "kwin_tabbox"
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "windowswitcher")) {
-        qInfo() << "The KWin window switcher has been installed";
+        result["message"] = QString("The KWin window switcher has been installed");
     }
     else if (Utility::Package::uncompressArchive(temporaryFile.fileName(), destination)) {
-        qInfo() << "The archive file has been uncompressed into" << destination;
+        result["message"] = QString("The archive file has been uncompressed into " + destination);
     }
     else if (temporaryFile.copy(path)) {
-        qInfo() << "Saved the file as" << path;
+        result["message"] = QString("The file has been stored into " + destination);
     }
     else {
-        qWarning() << temporaryFile.errorString();
-        result["error"] = QString("install_error");
+        result["status"] = QString("error_install");
+        result["message"] = temporaryFile.errorString();
         emit finished(Utility::Json::convertObjToStr(result));
         return;
     }
 
-    result["success"] = QString("install_success");
-    result["destination"] = destination;
-    result["path"] = path;
+    result["status"] = QString("success_install");
     emit finished(Utility::Json::convertObjToStr(result));
 }
 
@@ -215,9 +213,9 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
 void XdgUrl::_downloaded(QNetworkReply *reply)
 {
     if (reply->error() != QNetworkReply::NoError) {
-        qWarning() << reply->errorString();
         QJsonObject result;
-        result["error"] = QString("network_error");
+        result["status"] = QString("error_network");
+        result["message"] = reply->errorString();
         emit finished(Utility::Json::convertObjToStr(result));
         return;
     }
@@ -282,7 +280,8 @@ void XdgUrl::process()
 
     if (!isValid()) {
         QJsonObject result;
-        result["error"] = QString("validation_error");
+        result["status"] = QString("error_validation");
+        result["message"] = QString("Invalid XDG-URL " + _xdgUrl);
         emit finished(Utility::Json::convertObjToStr(result));
         return;
     }
