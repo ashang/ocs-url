@@ -15,9 +15,9 @@ Window {
     MessageDialog {
         id: confirmDialog
         title: root.title
+        icon: StandardIcon.Question
         text: ''
         detailedText: ''
-        icon: StandardIcon.Question
         standardButtons: StandardButton.Ok | StandardButton.Cancel
         onAccepted: xdgUrlHandler.process()
         onRejected: Qt.quit()
@@ -26,27 +26,28 @@ Window {
     MessageDialog {
         id: infoDialog
         title: root.title
+        icon: StandardIcon.Information
         text: ''
         detailedText: ''
-        icon: StandardIcon.Information
         onAccepted: Qt.quit()
     }
 
     MessageDialog {
         id: errorDialog
         title: root.title
+        icon: StandardIcon.Warning
         text: ''
         detailedText: ''
-        icon: StandardIcon.Warning
         onAccepted: Qt.quit()
     }
 
     Component.onCompleted: {
         xdgUrlHandler.finished.connect(function(result) {
             result = JSON.parse(result);
+            var metadata = JSON.parse(xdgUrlHandler.getMetadata());
             var messages = {
-                'download_success': 'Download finished',
-                'install_success': 'Installation finished',
+                'download_success': 'Download successfull',
+                'install_success': 'Installation successfull',
                 'validation_error': 'Invalid XDG-URL',
                 'network_error': 'Download failed',
                 'filetype_error': 'Incorrect file type',
@@ -54,20 +55,39 @@ Window {
                 'install_error': 'Installation failed'
             };
             if (result.success) {
-                infoDialog.text = messages[result.success];
-                infoDialog.detailedText = xdgUrlHandler.getXdgUrl();
+                infoDialog.text
+                        = (metadata.command === 'install' ? 'Install' : 'Download')
+                        + ': ' + metadata.filename
+                        + '\n\n'
+                        + messages[result.success];
+                infoDialog.detailedText
+                        = 'The file has stored into: ' + result.destination;
                 infoDialog.open();
             }
             else if (result.error) {
-                errorDialog.text = messages[result.error];
-                errorDialog.detailedText = xdgUrlHandler.getXdgUrl();
+                errorDialog.text
+                        = (metadata.command === 'install' ? 'Install' : 'Download')
+                        + ': ' + metadata.filename
+                        + '\n\n'
+                        + messages[result.error];
+                errorDialog.detailedText = result.detail;
                 errorDialog.open();
             }
         });
 
         if (xdgUrlHandler.isValid()) {
-            confirmDialog.text = 'Do you want to continue?';
-            confirmDialog.detailedText = xdgUrlHandler.getXdgUrl();
+            var metadata = JSON.parse(xdgUrlHandler.getMetadata());
+            confirmDialog.text
+                    = (metadata.command === 'install' ? 'Install' : 'Download')
+                    + ': ' + metadata.filename
+                    + '\n\n'
+                    + 'Do you want to continue?';
+            confirmDialog.detailedText
+                    = 'URL: ' + metadata.url
+                    + '\n\n'
+                    + 'File: ' + metadata.filename
+                    + '\n\n'
+                    + 'Type: ' + metadata.type;
             confirmDialog.open();
         }
         else {
