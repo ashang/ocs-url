@@ -17,6 +17,7 @@ Window {
         title: root.title
         icon: StandardIcon.Question
         text: ''
+        informativeText: ''
         detailedText: ''
         standardButtons: StandardButton.Ok | StandardButton.Cancel
         onAccepted: xdgUrlHandler.process()
@@ -28,6 +29,7 @@ Window {
         title: root.title
         icon: StandardIcon.Information
         text: ''
+        informativeText: ''
         detailedText: ''
         onAccepted: Qt.quit()
     }
@@ -37,6 +39,7 @@ Window {
         title: root.title
         icon: StandardIcon.Warning
         text: ''
+        informativeText: ''
         detailedText: ''
         onAccepted: Qt.quit()
     }
@@ -54,45 +57,32 @@ Window {
                 'error_save': 'Saving file failed',
                 'error_install': 'Installation failed'
             };
-            if (result.success) {
-                infoDialog.text
-                        = (metadata.command === 'install' ? 'Install' : 'Download')
-                        + ': ' + metadata.filename
-                        + '\n\n'
-                        + messages[result.success];
-                infoDialog.detailedText
-                        = 'The file has stored into: ' + result.destination;
+            if (result.status.split('_').shift() === 'success') {
+                infoDialog.text = messages[result.status];
+                infoDialog.informativeText = metadata.filename;
+                infoDialog.detailedText = result.message;
                 infoDialog.open();
             }
-            else if (result.error) {
-                errorDialog.text
-                        = (metadata.command === 'install' ? 'Install' : 'Download')
-                        + ': ' + metadata.filename
-                        + '\n\n'
-                        + messages[result.error];
-                errorDialog.detailedText = result.detail;
+            else {
+                errorDialog.text = messages[result.status];
+                errorDialog.informativeText = metadata.filename;
+                errorDialog.detailedText = result.message;
                 errorDialog.open();
             }
         });
 
         if (xdgUrlHandler.isValid()) {
             var metadata = JSON.parse(xdgUrlHandler.getMetadata());
-            confirmDialog.text
-                    = (metadata.command === 'install' ? 'Install' : 'Download')
-                    + ': ' + metadata.filename
-                    + '\n\n'
-                    + 'Do you want to continue?';
-            confirmDialog.detailedText
-                    = 'URL: ' + metadata.url
-                    + '\n\n'
-                    + 'File: ' + metadata.filename
-                    + '\n\n'
+            confirmDialog.text = 'Do you want to ' + metadata.command + '?';
+            confirmDialog.informativeText = metadata.filename;
+            confirmDialog.detailedText = 'URL: ' + metadata.url + '\n\n'
+                    + 'File: ' + metadata.filename + '\n\n'
                     + 'Type: ' + metadata.type;
             confirmDialog.open();
         }
         else {
-            errorDialog.text = 'Invalid XDG-URL';
-            errorDialog.detailedText = xdgUrlHandler.getXdgUrl();
+            errorDialog.text = 'Validation error';
+            errorDialog.detailedText = 'Invalid XDG-URL ' + xdgUrlHandler.getXdgUrl();
             errorDialog.open();
         }
     }
