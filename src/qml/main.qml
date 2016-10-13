@@ -5,6 +5,12 @@ import QtQuick.Dialogs 1.1
 Window {
     id: root
     title: Qt.application.name
+    width: 400
+    height: 200
+    minimumWidth: 400
+    minimumHeight: 200
+    maximumWidth: 800
+    maximumHeight: 400
 
     MessageDialog {
         id: confirmDialog
