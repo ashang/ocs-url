@@ -46,13 +46,13 @@ Window {
             result = JSON.parse(result);
             var metadata = JSON.parse(xdgUrlHandler.getMetadata());
             var messages = {
-                'download_success': 'Download successfull',
-                'install_success': 'Installation successfull',
-                'validation_error': 'Invalid XDG-URL',
-                'network_error': 'Download failed',
-                'filetype_error': 'Incorrect file type',
-                'save_error': 'Saving file failed',
-                'install_error': 'Installation failed'
+                'success_download': 'Download successfull',
+                'success_install': 'Installation successfull',
+                'error_validation': 'Validation error',
+                'error_network': 'Network error',
+                'error_filetype': 'File type error',
+                'error_save': 'Saving file failed',
+                'error_install': 'Installation failed'
             };
             if (result.success) {
                 infoDialog.text
