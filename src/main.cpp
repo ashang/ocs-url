@@ -37,13 +37,16 @@ int main(int argc, char *argv[])
     clParser.addPositionalArgument("xdgurl", "XDG-URL");
     clParser.process(app);
 
-    const QStringList args = clParser.positionalArguments();
+    QStringList args = clParser.positionalArguments();
+
+    // This is for testing
+    args.append("xdg://install?url=https%3A%2F%2Fdl.opendesktop.org%2Fapi%2Ffiles%2Fdownload%2Fid%2F1460759361%2F129008-Faenza-Cupertino.tar.gz&type=icons&filename=129008-Faenza-Cupertino.tar.gz");
 
     if (args.size() != 1) {
         clParser.showHelp(1);
     }
 
-    const QString xdgUrl = args.at(0);
+    QString xdgUrl = args.at(0);
 
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
