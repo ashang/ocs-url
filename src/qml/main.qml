@@ -10,6 +10,7 @@ ApplicationWindow {
         id: confirmDialog
         title: root.title
         text: ''
+        detailedText: ''
         icon: StandardIcon.Question
         standardButtons: StandardButton.Ok | StandardButton.Cancel
         onAccepted: xdgUrlHandler.process()
@@ -20,6 +21,7 @@ ApplicationWindow {
         id: infoDialog
         title: root.title
         text: ''
+        detailedText: ''
         icon: StandardIcon.Information
         onAccepted: Qt.quit()
     }
@@ -28,6 +30,7 @@ ApplicationWindow {
         id: errorDialog
         title: root.title
         text: ''
+        detailedText: ''
         icon: StandardIcon.Warning
         onAccepted: Qt.quit()
     }
@@ -46,20 +49,24 @@ ApplicationWindow {
             };
             if (result.success) {
                 infoDialog.text = messages[result.success];
+                infoDialog.detailedText = xdgUrlHandler.getXdgUrl();
                 infoDialog.open();
             }
             else if (result.error) {
                 errorDialog.text = messages[result.error];
+                errorDialog.detailedText = xdgUrlHandler.getXdgUrl();
                 errorDialog.open();
             }
         });
 
         if (xdgUrlHandler.isValid()) {
             confirmDialog.text = 'Do you want to continue?';
+            confirmDialog.detailedText = xdgUrlHandler.getXdgUrl();
             confirmDialog.open();
         }
         else {
             errorDialog.text = 'Invalid XDG-URL';
+            errorDialog.detailedText = xdgUrlHandler.getXdgUrl();
             errorDialog.open();
         }
     }
