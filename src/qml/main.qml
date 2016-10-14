@@ -89,6 +89,10 @@ Window {
             errorDialog.open();
         });
 
+        xdgUrlHandler.downloadProgress.connect(function(received, total) {
+            console.log([received, total]);
+        });
+
         if (xdgUrlHandler.isValid()) {
             confirmDialog.text = 'Do you want to ' + metadata.command + '?';
             confirmDialog.informativeText = metadata.filename;
