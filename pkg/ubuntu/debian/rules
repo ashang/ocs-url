@@ -3,8 +3,8 @@
 %:
 	dh $@
 
-override_dh_auto_install:
-	make DESTDIR="$(CURDIR)/debian/tmp" prefix="/usr" install
+override_dh_auto_configure:
+	qmake PREFIX="/usr"
 
-override_dh_shlibdeps:
-	# ignore
+override_dh_auto_install:
+	make INSTALL_ROOT="$(CURDIR)/debian/tmp" install
