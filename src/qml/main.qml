@@ -57,32 +57,36 @@ Window {
 
     Component.onCompleted: {
         var metadata = JSON.parse(xdgUrlHandler.getMetadata());
+        var primaryMessages = {
+            'success_download': 'Download successfull',
+            'success_install': 'Installation successfull',
+            'error_validation': 'Validation error',
+            'error_network': 'Network error',
+            'error_filetype': 'File type error',
+            'error_save': 'Saving file failed',
+            'error_install': 'Installation failed'
+        };
+
+        xdgUrlHandler.started.connect(function() {
+            progressDialog.open();
+        });
 
         xdgUrlHandler.finished.connect(function(result) {
+            progressDialog.close();
             result = JSON.parse(result);
-            var primaryMessages = {
-                'success_download': 'Download successfull',
-                'success_install': 'Installation successfull',
-                'error_validation': 'Validation error',
-                'error_network': 'Network error',
-                'error_filetype': 'File type error',
-                'error_save': 'Saving file failed',
-                'error_install': 'Installation failed'
-            };
-            var primaryMessage = primaryMessages[result.status];
+            infoDialog.text = primaryMessages[result.status];
+            infoDialog.informativeText = metadata.filename;
+            infoDialog.detailedText = result.message;
+            infoDialog.open();
+        });
 
-            if (result.status.split('_').shift() === 'success') {
-                infoDialog.text = primaryMessage;
-                infoDialog.informativeText = metadata.filename;
-                infoDialog.detailedText = result.message;
-                infoDialog.open();
-            }
-            else {
-                errorDialog.text = primaryMessage;
-                errorDialog.informativeText = metadata.filename;
-                errorDialog.detailedText = result.message;
-                errorDialog.open();
-            }
+        xdgUrlHandler.error.connect(function(result) {
+            progressDialog.close();
+            result = JSON.parse(result);
+            errorDialog.text = primaryMessages[result.status];
+            errorDialog.informativeText = metadata.filename;
+            errorDialog.detailedText = result.message;
+            errorDialog.open();
         });
 
         if (xdgUrlHandler.isValid()) {
