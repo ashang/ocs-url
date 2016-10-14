@@ -47,6 +47,7 @@ public slots:
 signals:
     void started();
     void finished(const QString &result);
+    void error(const QString &result);
 };
 
 } // namespace Handlers

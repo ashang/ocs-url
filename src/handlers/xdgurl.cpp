@@ -102,7 +102,7 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
     if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
         result["status"] = QString("error_save");
         result["message"] = temporaryFile.errorString();
-        emit finished(Utility::Json::convertObjToStr(result));
+        emit error(Utility::Json::convertObjToStr(result));
         return;
     }
 
@@ -112,7 +112,7 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
     if (mimeType == "text/html" || mimeType == "application/xhtml+xml") {
         result["status"] = QString("error_filetype");
         result["message"] = QString("The file is unsupported file type " + mimeType);
-        emit finished(Utility::Json::convertObjToStr(result));
+        emit error(Utility::Json::convertObjToStr(result));
         return;
     }
 
@@ -126,7 +126,7 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
     if (!temporaryFile.copy(path)) {
         result["status"] = QString("error_save");
         result["message"] = temporaryFile.errorString();
-        emit finished(Utility::Json::convertObjToStr(result));
+        emit error(Utility::Json::convertObjToStr(result));
         return;
     }
 
@@ -144,7 +144,7 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
     if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
         result["status"] = QString("error_save");
         result["message"] = temporaryFile.errorString();
-        emit finished(Utility::Json::convertObjToStr(result));
+        emit error(Utility::Json::convertObjToStr(result));
         return;
     }
 
@@ -154,7 +154,7 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
     if (mimeType == "text/html" || mimeType == "application/xhtml+xml") {
         result["status"] = QString("error_filetype");
         result["message"] = QString("The file is unsupported file type " + mimeType);
-        emit finished(Utility::Json::convertObjToStr(result));
+        emit error(Utility::Json::convertObjToStr(result));
         return;
     }
 
@@ -198,7 +198,7 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
     else {
         result["status"] = QString("error_install");
         result["message"] = temporaryFile.errorString();
-        emit finished(Utility::Json::convertObjToStr(result));
+        emit error(Utility::Json::convertObjToStr(result));
         return;
     }
 
@@ -216,7 +216,7 @@ void XdgUrl::_downloaded(QNetworkReply *reply)
         QJsonObject result;
         result["status"] = QString("error_network");
         result["message"] = reply->errorString();
-        emit finished(Utility::Json::convertObjToStr(result));
+        emit error(Utility::Json::convertObjToStr(result));
         return;
     }
 
@@ -282,7 +282,7 @@ void XdgUrl::process()
         QJsonObject result;
         result["status"] = QString("error_validation");
         result["message"] = QString("Invalid XDG-URL " + _xdgUrl);
-        emit finished(Utility::Json::convertObjToStr(result));
+        emit error(Utility::Json::convertObjToStr(result));
         return;
     }
 
