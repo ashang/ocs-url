@@ -5,7 +5,8 @@ cd `dirname $0`
 build_ubuntu() {
     mkdir ./build
     cp -r ../src ./build/
-    cp ../Makefile ./build/
+    cp ../*.pro ./build/
+    cp ../*.pri ./build/
     cp -r ./ubuntu/debian ./build/
     cd ./build
     debuild -uc -us -b
