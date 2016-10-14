@@ -101,12 +101,12 @@ bool Package::uninstallPlasmapkg(const QString &path, const QString &type)
     return false;
 }
 
-bool Package::installAppimage(const QString &path, const QString &targetDir)
+bool Package::installAppimage(const QString &path, const QString &targetPath)
 {
     QProcess process;
     QString program = "install";
     QStringList arguments;
-    arguments << "-D" << "-m" << "755" << path << targetDir;
+    arguments << "-D" << "-m" << "755" << path << targetPath;
 
     process.start(program, arguments);
 
