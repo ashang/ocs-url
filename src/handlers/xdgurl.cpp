@@ -190,6 +190,10 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "windowswitcher")) {
         result["message"] = QString("The KWin window switcher has been installed");
     }
+    else if (type == "appimages"
+             && Utility::Package::installAppimage(temporaryFile.fileName(), path)) {
+        result["message"] = QString("The Appimage has been installed into " + destination);
+    }
     else if (Utility::Package::uncompressArchive(temporaryFile.fileName(), destination)) {
         result["message"] = QString("The archive file has been uncompressed into " + destination);
     }
