@@ -101,4 +101,20 @@ bool Package::uninstallPlasmapkg(const QString &path, const QString &type)
     return false;
 }
 
+bool Package::installAppimage(const QString &path, const QString &targetDir)
+{
+    QProcess process;
+    QString program = "install";
+    QStringList arguments;
+    arguments << "-D" << "-m" << "755" << path << targetDir;
+
+    process.start(program, arguments);
+
+    if (process.waitForFinished()) {
+        return true;
+    }
+
+    return false;
+}
+
 } // namespace Utility
