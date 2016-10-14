@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import QtQuick.Controls 1.1
-import QtQuick.Dialogs 1.1
+import QtQuick.Dialogs 1.2
 
 Window {
     id: root
@@ -47,14 +47,12 @@ Window {
         onAccepted: Qt.quit()
     }
 
-    MessageDialog {
-        // We maybe use generic Dialog component for
-        // this dialog if we drop Qt 5.2 support
+    Dialog {
         id: progressDialog
         title: root.title
         contentItem: Item {
             implicitWidth: 400
-            implicitHeight: 100
+            implicitHeight: 150
             Column {
                 anchors.fill: parent
                 anchors.margins: 12
@@ -64,12 +62,21 @@ Window {
                     text: ''
                     font.bold: true
                 }
+                Label {
+                    id: informativeLabel
+                    text: ''
+                }
                 ProgressBar {
                     id: progressBar
                     maximumValue: 1
                     minimumValue: 0
                     value: 0
                     anchors.left: parent.left
+                    anchors.right: parent.right
+                }
+                Label {
+                    id: progressLabel
+                    text: ''
                     anchors.right: parent.right
                 }
                 Button {
@@ -81,7 +88,9 @@ Window {
             }
         }
         property alias primaryLabel: primaryLabel
+        property alias informativeLabel: informativeLabel
         property alias progressBar: progressBar
+        property alias progressLabel: progressLabel
     }
 
     Component.onCompleted: {
@@ -119,7 +128,11 @@ Window {
         });
 
         xdgUrlHandler.downloadProgress.connect(function(received, total) {
-            console.log([received, total]);
+            progressDialog.primaryLabel.text = 'Downloading... ';
+            progressDialog.informativeLabel.text = metadata.filename;
+            progressDialog.progressBar.value = received / total;
+            progressDialog.progressLabel.text = convertByteToHumanReadable(received)
+                    + ' / ' + convertByteToHumanReadable(total)
         });
 
         if (xdgUrlHandler.isValid()) {
