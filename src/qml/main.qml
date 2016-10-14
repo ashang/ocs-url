@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
+import QtQuick.Controls 1.1
 import QtQuick.Dialogs 1.1
 
 Window {
@@ -47,12 +48,40 @@ Window {
     }
 
     MessageDialog {
+        // We maybe use generic Dialog component for
+        // this dialog if we drop Qt 5.2 support
         id: progressDialog
         title: root.title
-        contentItem: Rectangle {
+        contentItem: Item {
             implicitWidth: 400
-            implicitHeight: 200
+            implicitHeight: 100
+            Column {
+                anchors.fill: parent
+                anchors.margins: 12
+                spacing: 8
+                Label {
+                    id: primaryLabel
+                    text: ''
+                    font.bold: true
+                }
+                ProgressBar {
+                    id: progressBar
+                    maximumValue: 1
+                    minimumValue: 0
+                    value: 0
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                }
+                Button {
+                    id: cancelButton
+                    text: 'Cancel'
+                    anchors.right: parent.right
+                    onClicked: Qt.quit()
+                }
+            }
         }
+        property alias primaryLabel: primaryLabel
+        property alias progressBar: progressBar
     }
 
     Component.onCompleted: {
