@@ -45,6 +45,7 @@ public slots:
     void process();
 
 signals:
+    void started();
     void finished(const QString &result);
 };
 

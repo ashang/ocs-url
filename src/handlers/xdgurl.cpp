@@ -287,6 +287,7 @@ void XdgUrl::process()
     }
 
     _network->get(QUrl(_metadata["url"].toString()));
+    emit started();
 }
 
 } // namespace Handlers
