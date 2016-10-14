@@ -48,6 +48,7 @@ signals:
     void started();
     void finished(const QString &result);
     void error(const QString &result);
+    void downloadProgress(const qint64 &received, const qint64 &total);
 };
 
 } // namespace Handlers

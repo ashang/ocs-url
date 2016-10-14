@@ -21,6 +21,7 @@ XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *config, Core::Network *netwo
     _loadDestinations();
 
     connect(_network, &Core::Network::finished, this, &XdgUrl::_downloaded);
+    connect(_network, &Core::Network::downloadProgress, this, &XdgUrl::downloadProgress);
 }
 
 void XdgUrl::_parse()
