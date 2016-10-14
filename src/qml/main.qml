@@ -46,6 +46,15 @@ Window {
         onAccepted: Qt.quit()
     }
 
+    MessageDialog {
+        id: progressDialog
+        title: root.title
+        contentItem: Rectangle {
+            implicitWidth: 400
+            implicitHeight: 200
+        }
+    }
+
     Component.onCompleted: {
         var metadata = JSON.parse(xdgUrlHandler.getMetadata());
 
