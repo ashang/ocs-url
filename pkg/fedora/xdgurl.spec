@@ -9,7 +9,7 @@ URL: https://github.com/xdgurl/xdgurl
 #Source0: https://github.com/xdgurl/xdgurl/archive/release-%{version}.tar.gz
 Source0: %{name}.tar.gz
 
-Requires: tkinter, python3-tkinter
+Requires: qt5-qtbase >= 5.3.0, qt5-qtsvg >= 5.3.0, qt5-qtdeclarative >= 5.3.0, qt5-qtquickcontrols >= 5.3.0
 
 %description
 An install helper program for desktop stuff.
@@ -20,10 +20,11 @@ An install helper program for desktop stuff.
 
 %build
 %define debug_package %{nil}
+qmake PREFIX="/usr"
 make
 
 %install
-make DESTDIR="%{buildroot}" prefix="/usr" install
+make INSTALL_ROOT="%{buildroot}" install
 
 %files
 %defattr(-,root,root)
