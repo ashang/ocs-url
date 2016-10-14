@@ -47,10 +47,11 @@ Window {
     }
 
     Component.onCompleted: {
+        var metadata = JSON.parse(xdgUrlHandler.getMetadata());
+
         xdgUrlHandler.finished.connect(function(result) {
             result = JSON.parse(result);
-            var metadata = JSON.parse(xdgUrlHandler.getMetadata());
-            var messages = {
+            var primaryMessages = {
                 'success_download': 'Download successfull',
                 'success_install': 'Installation successfull',
                 'error_validation': 'Validation error',
@@ -59,14 +60,16 @@ Window {
                 'error_save': 'Saving file failed',
                 'error_install': 'Installation failed'
             };
+            var primaryMessage = primaryMessages[result.status];
+
             if (result.status.split('_').shift() === 'success') {
-                infoDialog.text = messages[result.status];
+                infoDialog.text = primaryMessage;
                 infoDialog.informativeText = metadata.filename;
                 infoDialog.detailedText = result.message;
                 infoDialog.open();
             }
             else {
-                errorDialog.text = messages[result.status];
+                errorDialog.text = primaryMessage;
                 errorDialog.informativeText = metadata.filename;
                 errorDialog.detailedText = result.message;
                 errorDialog.open();
@@ -74,7 +77,6 @@ Window {
         });
 
         if (xdgUrlHandler.isValid()) {
-            var metadata = JSON.parse(xdgUrlHandler.getMetadata());
             confirmDialog.text = 'Do you want to ' + metadata.command + '?';
             confirmDialog.informativeText = metadata.filename;
             confirmDialog.detailedText = 'URL: ' + metadata.url + '\n\n'
