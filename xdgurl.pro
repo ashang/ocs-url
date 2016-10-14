@@ -36,9 +36,6 @@ RESOURCES += \
     src/qml.qrc \
     src/desktop.qrc
 
-DISTFILES += \
-    README.md
-
 # Additional RPATH
 #include(rpath.pri)
 
