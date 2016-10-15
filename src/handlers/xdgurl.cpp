@@ -225,7 +225,15 @@ void XdgUrl::_downloaded(QNetworkReply *reply)
         return;
     }
 
-    // If the network reply has a refresh header, retry download
+    if (reply->hasRawHeader("Location")) {
+        QString redirectUrl = QString(reply->rawHeader("Location"));
+        if (redirectUrl.startsWith("/")) {
+            redirectUrl = reply->url().authority() + redirectUrl;
+        }
+        _network->get(QUrl(redirectUrl));
+        return;
+    }
+
     if (reply->hasRawHeader("Refresh")) {
         QString refreshUrl = QString(reply->rawHeader("Refresh")).split("url=").last();
         if (refreshUrl.startsWith("/")) {
