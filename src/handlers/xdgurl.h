@@ -24,6 +24,7 @@ private:
 
     QJsonObject _metadata;
     QJsonObject _destinations;
+    QString _destination;
 
 public:
     explicit XdgUrl(const QString &xdgUrl, Core::Config *config, Core::Network *network, QObject *parent = 0);
@@ -43,6 +44,7 @@ public slots:
     QString getMetadata();
     bool isValid();
     void process();
+    void openDestination();
 
 signals:
     void started();

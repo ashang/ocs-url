@@ -3,6 +3,7 @@
 #include <QTemporaryFile>
 #include <QMimeDatabase>
 #include <QNetworkReply>
+#include <QDesktopServices>
 
 #include "../core/config.h"
 #include "../core/network.h"
@@ -131,6 +132,8 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
         return;
     }
 
+    _destination = destination;
+
     result["status"] = QString("success_download");
     result["message"] = QString("The file has been stored into " + destination);
     emit finished(Utility::Json::convertObjToStr(result));
@@ -206,6 +209,8 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
         emit error(Utility::Json::convertObjToStr(result));
         return;
     }
+
+    _destination = destination;
 
     result["status"] = QString("success_install");
     emit finished(Utility::Json::convertObjToStr(result));
@@ -301,6 +306,13 @@ void XdgUrl::process()
 
     _network->get(QUrl(_metadata["url"].toString()));
     emit started();
+}
+
+void XdgUrl::openDestination()
+{
+    if (!_destination.isEmpty()) {
+        QDesktopServices::openUrl(QUrl("file://" + _destination));
+    }
 }
 
 } // namespace Handlers
