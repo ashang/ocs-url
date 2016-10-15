@@ -43,8 +43,8 @@ Window {
         text: ''
         informativeText: ''
         detailedText: ''
-        standardButtons: StandardButton.Ok
-        onAccepted: Qt.quit()
+        standardButtons: StandardButton.Close
+        onRejected: Qt.quit()
     }
 
     Dialog {
