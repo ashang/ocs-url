@@ -32,8 +32,12 @@ Window {
         text: ''
         informativeText: ''
         detailedText: ''
-        standardButtons: StandardButton.Ok
-        onAccepted: Qt.quit()
+        standardButtons: StandardButton.Open | StandardButton.Close
+        onAccepted: {
+            xdgUrlHandler.openDestination();
+            Qt.quit();
+        }
+        onRejected: Qt.quit()
     }
 
     MessageDialog {
