@@ -34,6 +34,5 @@
     "nautilus_scripts": "$XDG_DATA_HOME/nautilus/scripts",
     "amarok_scripts": "$KDEHOME/share/apps/amarok/scripts",
     "yakuake_skins": "$KDEHOME/share/apps/yakuake/skins",
-    "cairo_clock_themes": "$HOME/.cairo-clock/themes",
-    "appimages": "$HOME/.appimages"
+    "cairo_clock_themes": "$HOME/.cairo-clock/themes"
 }
