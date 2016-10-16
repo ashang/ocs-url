@@ -9,6 +9,17 @@ namespace Utility {
 Package::Package(QObject *parent) : QObject(parent)
 {}
 
+bool Package::process(const QString &program, const QStringList &arguments)
+{
+    QProcess process;
+    process.start(program, arguments);
+    if (process.waitForFinished()) {
+        process.waitForReadyRead();
+        return true;
+    }
+    return false;
+}
+
 bool Package::installProgram(const QString &path, const QString &targetPath)
 {
     QProcess process;
