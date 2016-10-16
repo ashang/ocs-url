@@ -22,66 +22,34 @@ bool Package::process(const QString &program, const QStringList &arguments)
 
 bool Package::installProgram(const QString &path, const QString &targetPath)
 {
-    QProcess process;
     QString program = "install";
     QStringList arguments;
     arguments << "-m" << "755" << "-p" << path << targetPath;
-
-    process.start(program, arguments);
-
-    if (process.waitForFinished()) {
-        return true;
-    }
-
-    return false;
+    return process(program, arguments);
 }
 
 bool Package::installFile(const QString &path, const QString &targetPath)
 {
-    QProcess process;
     QString program = "install";
     QStringList arguments;
     arguments << "-m" << "644" << "-p" << path << targetPath;
-
-    process.start(program, arguments);
-
-    if (process.waitForFinished()) {
-        return true;
-    }
-
-    return false;
+    return process(program, arguments);
 }
 
 bool Package::installPlasmapkg(const QString &path, const QString &type)
 {
-    QProcess process;
-    QString program = "plasmapkg2"; // Use plasmapkg2 for now
+    QString program = "plasmapkg2";
     QStringList arguments;
     arguments << "-t" << type << "-i" << path;
-
-    process.start(program, arguments);
-
-    if (process.waitForFinished()) {
-        return true;
-    }
-
-    return false;
+    return process(program, arguments);
 }
 
 bool Package::uninstallPlasmapkg(const QString &path, const QString &type)
 {
-    QProcess process;
-    QString program = "plasmapkg2"; // Use plasmapkg2 for now
+    QString program = "plasmapkg2";
     QStringList arguments;
     arguments << "-t" << type << "-r" << path;
-
-    process.start(program, arguments);
-
-    if (process.waitForFinished()) {
-        return true;
-    }
-
-    return false;
+    return process(program, arguments);
 }
 
 bool Package::uncompressArchive(const QString &path, const QString &targetDir)
@@ -112,7 +80,6 @@ bool Package::uncompressArchive(const QString &path, const QString &targetDir)
     if (archiveTypes.contains(mimeType)) {
         QString archiveType = archiveTypes[mimeType].toString();
 
-        QProcess process;
         QString program;
         QStringList arguments;
 
@@ -133,12 +100,7 @@ bool Package::uncompressArchive(const QString &path, const QString &targetDir)
             arguments << "e" << path << targetDir;
         }
 
-        process.start(program, arguments);
-
-        if (process.waitForFinished()) {
-            process.waitForReadyRead();
-            return true;
-        }
+        return process(program, arguments);
     }
 
     return false;
