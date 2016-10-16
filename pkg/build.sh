@@ -14,8 +14,9 @@ build_ubuntu() {
 
 build_fedora() {
     tar -czvf /tmp/xdgurl.tar.gz ../../xdgurl
-    mkdir -p ./build/SOURCES
-    mkdir -p ./build/SPECS
+    mkdir ./build
+    mkdir ./build/SOURCES
+    mkdir ./build/SPECS
     mv /tmp/xdgurl.tar.gz ./build/SOURCES/
     cp ./fedora/xdgurl.spec ./build/SPECS/
     rpmbuild --define '_topdir '`pwd`'/build' -bb ./build/SPECS/xdgurl.spec
