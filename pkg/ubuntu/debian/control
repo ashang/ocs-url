@@ -8,5 +8,5 @@ Standards-Version: 3.9.4
 Package: xdgurl
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5svg5 (>= 5.3.0), qtdeclarative5-qtquick2-plugin (>= 5.3.0), qtdeclarative5-window-plugin (>= 5.3.0), qtdeclarative5-controls-plugin (>= 5.3.0), qtdeclarative5-dialogs-plugin (>= 5.3.0)
-Description: xdgurl
+Description: An install helper program for desktop stuff
  An install helper program for desktop stuff.
