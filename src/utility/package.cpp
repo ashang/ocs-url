@@ -9,6 +9,70 @@ namespace Utility {
 Package::Package(QObject *parent) : QObject(parent)
 {}
 
+bool Package::installProgram(const QString &path, const QString &targetPath)
+{
+    QProcess process;
+    QString program = "install";
+    QStringList arguments;
+    arguments << "-m" << "755" << "-p" << path << targetPath;
+
+    process.start(program, arguments);
+
+    if (process.waitForFinished()) {
+        return true;
+    }
+
+    return false;
+}
+
+bool Package::installFile(const QString &path, const QString &targetPath)
+{
+    QProcess process;
+    QString program = "install";
+    QStringList arguments;
+    arguments << "-m" << "644" << "-p" << path << targetPath;
+
+    process.start(program, arguments);
+
+    if (process.waitForFinished()) {
+        return true;
+    }
+
+    return false;
+}
+
+bool Package::installPlasmapkg(const QString &path, const QString &type)
+{
+    QProcess process;
+    QString program = "plasmapkg2"; // Use plasmapkg2 for now
+    QStringList arguments;
+    arguments << "-t" << type << "-i" << path;
+
+    process.start(program, arguments);
+
+    if (process.waitForFinished()) {
+        return true;
+    }
+
+    return false;
+}
+
+bool Package::uninstallPlasmapkg(const QString &path, const QString &type)
+{
+    QProcess process;
+    QString program = "plasmapkg2"; // Use plasmapkg2 for now
+    QStringList arguments;
+    arguments << "-t" << type << "-r" << path;
+
+    process.start(program, arguments);
+
+    if (process.waitForFinished()) {
+        return true;
+    }
+
+    return false;
+}
+
 bool Package::uncompressArchive(const QString &path, const QString &targetDir)
 {
     QJsonObject archiveTypes;
@@ -64,54 +128,6 @@ bool Package::uncompressArchive(const QString &path, const QString &targetDir)
             process.waitForReadyRead();
             return true;
         }
-    }
-
-    return false;
-}
-
-bool Package::installPlasmapkg(const QString &path, const QString &type)
-{
-    QProcess process;
-    QString program = "plasmapkg2"; // Use plasmapkg2 for now
-    QStringList arguments;
-    arguments << "-t" << type << "-i" << path;
-
-    process.start(program, arguments);
-
-    if (process.waitForFinished()) {
-        return true;
-    }
-
-    return false;
-}
-
-bool Package::uninstallPlasmapkg(const QString &path, const QString &type)
-{
-    QProcess process;
-    QString program = "plasmapkg2"; // Use plasmapkg2 for now
-    QStringList arguments;
-    arguments << "-t" << type << "-r" << path;
-
-    process.start(program, arguments);
-
-    if (process.waitForFinished()) {
-        return true;
-    }
-
-    return false;
-}
-
-bool Package::installProgram(const QString &path, const QString &targetPath)
-{
-    QProcess process;
-    QString program = "install";
-    QStringList arguments;
-    arguments << "-D" << "-m" << "755" << path << targetPath;
-
-    process.start(program, arguments);
-
-    if (process.waitForFinished()) {
-        return true;
     }
 
     return false;
