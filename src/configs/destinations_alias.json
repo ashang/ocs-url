@@ -1,4 +1,5 @@
 {
+    "appimage": "bin",
     "gnome_shell_themes": "themes",
     "cinnamon_themes": "themes",
     "gtk2_themes": "themes",
