@@ -101,7 +101,7 @@ bool Package::uninstallPlasmapkg(const QString &path, const QString &type)
     return false;
 }
 
-bool Package::installAppimage(const QString &path, const QString &targetPath)
+bool Package::installProgram(const QString &path, const QString &targetPath)
 {
     QProcess process;
     QString program = "install";

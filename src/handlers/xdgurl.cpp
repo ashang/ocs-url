@@ -194,7 +194,7 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
         result["message"] = QString("The KWin window switcher has been installed");
     }
     else if (type == "appimages"
-             && Utility::Package::installAppimage(temporaryFile.fileName(), path)) {
+             && Utility::Package::installProgram(temporaryFile.fileName(), path)) {
         result["message"] = QString("The Appimage has been installed into " + destination);
     }
     else if (Utility::Package::uncompressArchive(temporaryFile.fileName(), destination)) {

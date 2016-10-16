@@ -15,7 +15,7 @@ public:
     static bool uncompressArchive(const QString &path, const QString &targetDir);
     static bool installPlasmapkg(const QString &path, const QString &type = "plasmoid");
     static bool uninstallPlasmapkg(const QString &path, const QString &type = "plasmoid");
-    static bool installAppimage(const QString &path, const QString &targetPath);
+    static bool installProgram(const QString &path, const QString &targetPath);
 };
 
 } // namespace Utility
