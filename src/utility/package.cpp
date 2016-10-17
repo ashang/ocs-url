@@ -9,23 +9,12 @@ namespace Utility {
 Package::Package(QObject *parent) : QObject(parent)
 {}
 
-bool Package::process(const QString &program, const QStringList &arguments)
-{
-    QProcess process;
-    process.start(program, arguments);
-    if (process.waitForFinished()) {
-        process.waitForReadyRead();
-        return true;
-    }
-    return false;
-}
-
 bool Package::installProgram(const QString &path, const QString &targetPath)
 {
     QString program = "install";
     QStringList arguments;
     arguments << "-m" << "755" << "-p" << path << targetPath;
-    return process(program, arguments);
+    return _process(program, arguments);
 }
 
 bool Package::installFile(const QString &path, const QString &targetPath)
@@ -33,7 +22,7 @@ bool Package::installFile(const QString &path, const QString &targetPath)
     QString program = "install";
     QStringList arguments;
     arguments << "-m" << "644" << "-p" << path << targetPath;
-    return process(program, arguments);
+    return _process(program, arguments);
 }
 
 bool Package::installPlasmapkg(const QString &path, const QString &type)
@@ -41,7 +30,7 @@ bool Package::installPlasmapkg(const QString &path, const QString &type)
     QString program = "plasmapkg2";
     QStringList arguments;
     arguments << "-t" << type << "-i" << path;
-    return process(program, arguments);
+    return _process(program, arguments);
 }
 
 bool Package::uninstallPlasmapkg(const QString &path, const QString &type)
@@ -49,7 +38,7 @@ bool Package::uninstallPlasmapkg(const QString &path, const QString &type)
     QString program = "plasmapkg2";
     QStringList arguments;
     arguments << "-t" << type << "-r" << path;
-    return process(program, arguments);
+    return _process(program, arguments);
 }
 
 bool Package::uncompressArchive(const QString &path, const QString &targetDir)
@@ -100,9 +89,20 @@ bool Package::uncompressArchive(const QString &path, const QString &targetDir)
             arguments << "e" << path << targetDir;
         }
 
-        return process(program, arguments);
+        return _process(program, arguments);
     }
 
+    return false;
+}
+
+bool Package::_process(const QString &program, const QStringList &arguments)
+{
+    QProcess process;
+    process.start(program, arguments);
+    if (process.waitForFinished()) {
+        process.waitForReadyRead();
+        return true;
+    }
     return false;
 }
 

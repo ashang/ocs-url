@@ -12,12 +12,14 @@ class Package : public QObject
 public:
     explicit Package(QObject *parent = 0);
 
-    static bool process(const QString &program, const QStringList &arguments);
     static bool installProgram(const QString &path, const QString &targetPath);
     static bool installFile(const QString &path, const QString &targetPath);
     static bool installPlasmapkg(const QString &path, const QString &type = "plasmoid");
     static bool uninstallPlasmapkg(const QString &path, const QString &type = "plasmoid");
     static bool uncompressArchive(const QString &path, const QString &targetDir);
+
+private:
+    static bool _process(const QString &program, const QStringList &arguments);
 };
 
 } // namespace Utility
