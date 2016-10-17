@@ -193,7 +193,7 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "windowswitcher")) {
         result["message"] = QString("The KWin window switcher has been installed");
     }
-    else if (type == "bin" || type == "appimage"
+    else if ((type == "bin" || type == "appimage")
              && Utility::Package::installProgram(temporaryFile.fileName(), path)) {
         result["message"] = QString("The program has been installed into " + destination);
     }
