@@ -169,8 +169,12 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
     Utility::File::makeDir(destination);
     Utility::File::remove(path); // Remove previous downloaded file
 
-    if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
-            && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "plasmoid")) {
+    if ((type == "bin" || type == "appimage")
+            && Utility::Package::installProgram(temporaryFile.fileName(), path)) {
+        result["message"] = QString("The program has been installed into " + destination);
+    }
+    else if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
+             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "plasmoid")) {
         result["message"] = QString("The plasmoid has been installed");
     }
     else if ((type == "plasma_look_and_feel" || type == "plasma5_look_and_feel")
@@ -193,10 +197,6 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "windowswitcher")) {
         result["message"] = QString("The KWin window switcher has been installed");
     }
-    else if ((type == "bin" || type == "appimage")
-             && Utility::Package::installProgram(temporaryFile.fileName(), path)) {
-        result["message"] = QString("The program has been installed into " + destination);
-    }
     else if (Utility::Package::uncompressArchive(temporaryFile.fileName(), destination)) {
         result["message"] = QString("The archive file has been uncompressed into " + destination);
     }
@@ -217,8 +217,63 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
 }
 
 /**
- * Private slots
+ * Slots
  */
+
+void XdgUrl::process()
+{
+    /**
+     * xdgs scheme is a reserved name, so the process of xdgs
+     * is the same process of the xdg scheme currently.
+     */
+
+    if (!isValid()) {
+        QJsonObject result;
+        result["status"] = QString("error_validation");
+        result["message"] = QString("Invalid XDG-URL " + _xdgUrl);
+        emit error(Utility::Json::convertObjToStr(result));
+        return;
+    }
+
+    _network->get(QUrl(_metadata["url"].toString()));
+    emit started();
+}
+
+void XdgUrl::openDestination()
+{
+    if (!_destination.isEmpty()) {
+        QDesktopServices::openUrl(QUrl("file://" + _destination));
+    }
+}
+
+bool XdgUrl::isValid()
+{
+    QString scheme = _metadata["scheme"].toString();
+    QString command = _metadata["command"].toString();
+    QString url = _metadata["url"].toString();
+    QString type = _metadata["type"].toString();
+    QString filename = _metadata["filename"].toString();
+
+    if ((scheme == "xdg" || scheme == "xdgs")
+            && (command == "download" || command == "install")
+            && QUrl(url).isValid()
+            && _destinations.contains(type)
+            && !filename.isEmpty()) {
+        return true;
+    }
+
+    return false;
+}
+
+QString XdgUrl::getXdgUrl()
+{
+    return _xdgUrl;
+}
+
+QString XdgUrl::getMetadata()
+{
+    return Utility::Json::convertObjToStr(_metadata);
+}
 
 void XdgUrl::_downloaded(QNetworkReply *reply)
 {
@@ -253,65 +308,6 @@ void XdgUrl::_downloaded(QNetworkReply *reply)
     }
     else if (_metadata["command"].toString() == "install") {
         _installDownloadedFile(reply);
-    }
-}
-
-/**
- * Public slots
- */
-
-QString XdgUrl::getXdgUrl()
-{
-    return _xdgUrl;
-}
-
-QString XdgUrl::getMetadata()
-{
-    return Utility::Json::convertObjToStr(_metadata);
-}
-
-bool XdgUrl::isValid()
-{
-    QString scheme = _metadata["scheme"].toString();
-    QString command = _metadata["command"].toString();
-    QString url = _metadata["url"].toString();
-    QString type = _metadata["type"].toString();
-    QString filename = _metadata["filename"].toString();
-
-    if ((scheme == "xdg" || scheme == "xdgs")
-            && (command == "download" || command == "install")
-            && QUrl(url).isValid()
-            && _destinations.contains(type)
-            && !filename.isEmpty()) {
-        return true;
-    }
-
-    return false;
-}
-
-void XdgUrl::process()
-{
-    /**
-     * xdgs scheme is a reserved name, so the process of xdgs
-     * is the same process of the xdg scheme currently.
-     */
-
-    if (!isValid()) {
-        QJsonObject result;
-        result["status"] = QString("error_validation");
-        result["message"] = QString("Invalid XDG-URL " + _xdgUrl);
-        emit error(Utility::Json::convertObjToStr(result));
-        return;
-    }
-
-    _network->get(QUrl(_metadata["url"].toString()));
-    emit started();
-}
-
-void XdgUrl::openDestination()
-{
-    if (!_destination.isEmpty()) {
-        QDesktopServices::openUrl(QUrl("file://" + _destination));
     }
 }
 

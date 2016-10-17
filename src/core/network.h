@@ -25,10 +25,6 @@ public:
     QNetworkReply *head(const QUrl &uri);
     QNetworkReply *get(const QUrl &uri);
 
-private slots:
-    void _finished(QNetworkReply *reply);
-    void _downloadProgress(const qint64 &received, const qint64 &total);
-
 signals:
     void finished(QNetworkReply *reply);
     void downloadProgress(const qint64 &received, const qint64 &total);

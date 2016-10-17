@@ -8,6 +8,14 @@
 
 namespace Utility {
 
+/**
+ * XDG Base Directory Specification
+ * http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
+ *
+ * KDE System Administration/Environment Variables
+ * https://userbase.kde.org/KDE_System_Administration/Environment_Variables
+ */
+
 File::File(QObject *parent) : QObject(parent)
 {}
 
@@ -25,11 +33,6 @@ QString File::homePath()
 {
     return QDir::homePath();
 }
-
-/**
- * XDG Base Directory Specification
- * http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
- */
 
 QString File::xdgDataHomePath()
 {
@@ -57,11 +60,6 @@ QString File::xdgCacheHomePath()
     }
     return path;
 }
-
-/**
- * KDE System Administration/Environment Variables
- * https://userbase.kde.org/KDE_System_Administration/Environment_Variables
- */
 
 QString File::kdehomePath()
 {

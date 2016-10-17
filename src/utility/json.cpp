@@ -9,14 +9,10 @@ namespace Utility {
 Json::Json(QObject *parent) : QObject(parent)
 {}
 
-bool Json::isValid(const QString &json)
+QString Json::convertObjToStr(const QJsonObject &jsonObj)
 {
-    QJsonParseError jsonError;
-    QJsonDocument::fromJson(json.toUtf8(), &jsonError);
-    if (jsonError.error == QJsonParseError::NoError) {
-        return true;
-    }
-    return false;
+    QJsonDocument jsonDoc(jsonObj);
+    return QString::fromUtf8(jsonDoc.toJson());
 }
 
 QJsonObject Json::convertStrToObj(const QString &json)
@@ -30,10 +26,14 @@ QJsonObject Json::convertStrToObj(const QString &json)
     return jsonObj;
 }
 
-QString Json::convertObjToStr(const QJsonObject &jsonObj)
+bool Json::isValid(const QString &json)
 {
-    QJsonDocument jsonDoc(jsonObj);
-    return QString::fromUtf8(jsonDoc.toJson());
+    QJsonParseError jsonError;
+    QJsonDocument::fromJson(json.toUtf8(), &jsonError);
+    if (jsonError.error == QJsonParseError::NoError) {
+        return true;
+    }
+    return false;
 }
 
 } // namespace Utility

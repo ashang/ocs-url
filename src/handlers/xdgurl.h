@@ -36,15 +36,15 @@ private:
     void _saveDownloadedFile(QNetworkReply *reply);
     void _installDownloadedFile(QNetworkReply *reply);
 
-private slots:
-    void _downloaded(QNetworkReply *reply);
-
 public slots:
-    QString getXdgUrl();
-    QString getMetadata();
-    bool isValid();
     void process();
     void openDestination();
+    bool isValid();
+    QString getXdgUrl();
+    QString getMetadata();
+
+private slots:
+    void _downloaded(QNetworkReply *reply);
 
 signals:
     void started();

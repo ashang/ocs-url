@@ -12,9 +12,9 @@ class Json : public QObject
 public:
     explicit Json(QObject *parent = 0);
 
-    static bool isValid(const QString &json);
-    static QJsonObject convertStrToObj(const QString &json);
     static QString convertObjToStr(const QJsonObject &jsonObj);
+    static QJsonObject convertStrToObj(const QString &json);
+    static bool isValid(const QString &json);
 };
 
 } // namespace Utility
