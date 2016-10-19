@@ -1,7 +1,7 @@
 # Maintainer: Akira Ohgaki <akiraohgaki@gmail.com>
 
 pkgname=xdgurl
-pkgver=2.0.0-beta
+pkgver=2.0.0beta
 pkgrel=1
 pkgdesc="An install helper program for desktop stuff."
 arch=('i686' 'x86_64')
