@@ -1,5 +1,5 @@
 {
-    "bin": "$HOME/bin",
+    "bin": "$HOME/.bin",
     "downloads": "$HOME/Downloads",
     "documents": "$HOME/Documents",
     "pictures": "$HOME/Pictures",
