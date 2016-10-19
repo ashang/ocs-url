@@ -27,7 +27,7 @@ build_fedora() {
 }
 
 build_arch() {
-    sudo pacman -S base-devel qt5-base qt5-svg qt5-declarative
+    sudo pacman -S base-devel qt5-base qt5-svg qt5-declarative qt5-quickcontrols
 
     tar -czvf /tmp/xdgurl.tar.gz ../../xdgurl
     mkdir ./build
