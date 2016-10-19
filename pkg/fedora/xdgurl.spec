@@ -1,6 +1,6 @@
 Summary: An install helper program for desktop stuff
 Name: xdgurl
-Version: 2.0.0-beta
+Version: 2.0.0beta
 Release: 1%{?dist}
 License: GPLv3+
 Group: Applications/Internet
@@ -20,7 +20,7 @@ An install helper program for desktop stuff.
 
 %build
 %define debug_package %{nil}
-qmake PREFIX="/usr"
+qmake-qt5 PREFIX="/usr"
 make
 
 %install
@@ -36,7 +36,7 @@ make INSTALL_ROOT="%{buildroot}" install
 rm -rf %{buildroot}
 
 %changelog
-* Mon Oct 17 2016 Akira Ohgaki <akiraohgaki@gmail.com> - 2.0.0-beta-1
+* Mon Oct 17 2016 Akira Ohgaki <akiraohgaki@gmail.com> - 2.0.0beta-1
 - Re-implemented xdgurl as Qt program
 - Download progress bar
 - Add install-type "bin" and "appimage"
