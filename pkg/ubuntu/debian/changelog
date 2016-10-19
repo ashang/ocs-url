@@ -2,7 +2,7 @@ xdgurl (2.0.0beta-0ubuntu1) xenial; urgency=low
 
   * Re-implemented xdgurl as Qt program
   * Download progress bar
-  * Add install-type "bin" and "appimage"
+  * Add install-type "bin"
 
  -- Akira Ohgaki <akiraohgaki@gmail.com>  Mon, 17 Oct 2016 02:56:28 +0000
 
