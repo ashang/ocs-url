@@ -10,6 +10,7 @@ URL: https://github.com/xdgurl/xdgurl
 Source0: %{name}.tar.gz
 
 Requires: qt5-qtbase >= 5.3.0, qt5-qtbase-gui >= 5.3.0, qt5-qtsvg >= 5.3.0, qt5-qtdeclarative >= 5.3.0, qt5-qtquickcontrols >= 5.3.0
+BuildRequires: make, automake, gcc, gcc-c++, libtool, qt5-qtbase-devel, qt5-qtsvg-devel, qt5-qtdeclarative-devel, rpm-build
 
 %description
 An install helper program for desktop stuff.
