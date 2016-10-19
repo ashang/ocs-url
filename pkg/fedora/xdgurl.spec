@@ -40,7 +40,7 @@ rm -rf %{buildroot}
 * Mon Oct 17 2016 Akira Ohgaki <akiraohgaki@gmail.com> - 2.0.0beta-1
 - Re-implemented xdgurl as Qt program
 - Download progress bar
-- Add install-type "bin" and "appimage"
+- Add install-type "bin"
 
 * Fri Jul 15 2016 Akira Ohgaki <akiraohgaki@gmail.com> - 1.0.1-1
 - Clean successfull message
