@@ -1,4 +1,4 @@
-xdgurl (2.0.0-beta-0ubuntu1) xenial; urgency=low
+xdgurl (2.0.0beta-0ubuntu1) xenial; urgency=low
 
   * Re-implemented xdgurl as Qt program
   * Download progress bar
