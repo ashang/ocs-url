@@ -16,7 +16,9 @@
 int main(int argc, char *argv[])
 {
     // Init
-    //QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // Qt 5.6 or higher
+    if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)) {
+        QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    }
     QGuiApplication app(argc, argv);
     Core::Config *config = new Core::Config(":/configs");
     Core::Network *network = new Core::Network(true);
