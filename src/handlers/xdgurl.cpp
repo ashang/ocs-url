@@ -1,7 +1,6 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QTemporaryFile>
-#include <QMimeDatabase>
 #include <QNetworkReply>
 #include <QDesktopServices>
 
@@ -108,16 +107,6 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
         return;
     }
 
-    QMimeDatabase mimeDb;
-    QString mimeType = mimeDb.mimeTypeForFile(temporaryFile.fileName()).name();
-
-    if (mimeType == "text/html" || mimeType == "application/xhtml+xml") {
-        result["status"] = QString("error_filetype");
-        result["message"] = QString("The file is unsupported file type " + mimeType);
-        emit error(Utility::Json::convertObjToStr(result));
-        return;
-    }
-
     QString type = _metadata["type"].toString();
     QString destination = _destinations[type].toString();
     QString path = destination + "/" + _metadata["filename"].toString();
@@ -148,16 +137,6 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
     if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
         result["status"] = QString("error_save");
         result["message"] = temporaryFile.errorString();
-        emit error(Utility::Json::convertObjToStr(result));
-        return;
-    }
-
-    QMimeDatabase mimeDb;
-    QString mimeType = mimeDb.mimeTypeForFile(temporaryFile.fileName()).name();
-
-    if (mimeType == "text/html" || mimeType == "application/xhtml+xml") {
-        result["status"] = QString("error_filetype");
-        result["message"] = QString("The file is unsupported file type " + mimeType);
         emit error(Utility::Json::convertObjToStr(result));
         return;
     }

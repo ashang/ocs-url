@@ -104,7 +104,6 @@ Window {
             'success_install': 'Installation successfull',
             'error_validation': 'Validation error',
             'error_network': 'Network error',
-            'error_filetype': 'File type error',
             'error_save': 'Saving file failed',
             'error_install': 'Installation failed'
         };
