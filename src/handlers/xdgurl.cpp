@@ -169,9 +169,13 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
     Utility::File::makeDir(destination);
     Utility::File::remove(path); // Remove previous downloaded file
 
-    if ((type == "bin" || type == "appimage")
+    if (type == "bin"
             && Utility::Package::installProgram(temporaryFile.fileName(), path)) {
         result["message"] = QString("The program has been installed into " + destination);
+    }
+    else if (type == "appimages"
+             && Utility::Package::installProgram(temporaryFile.fileName(), path)) {
+        result["message"] = QString("The Appimage has been installed into " + destination);
     }
     else if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
              && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "plasmoid")) {
