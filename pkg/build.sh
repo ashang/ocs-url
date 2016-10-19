@@ -3,7 +3,7 @@
 cd `dirname $0`
 
 build_ubuntu() {
-    sudo apt install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev devscripts debhelper fakeroot
+    #sudo apt install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev devscripts debhelper fakeroot
 
     mkdir ./build
     cp -r ../src ./build/
@@ -15,7 +15,7 @@ build_ubuntu() {
 }
 
 build_fedora() {
-    su -c 'dnf install make automake gcc gcc-c++ libtool qt5-qtbase-devel qt5-qtsvg-devel qt5-qtdeclarative-devel rpm-build'
+    #su -c 'dnf install make automake gcc gcc-c++ libtool qt5-qtbase-devel qt5-qtsvg-devel qt5-qtdeclarative-devel rpm-build'
 
     tar -czvf /tmp/xdgurl.tar.gz ../../xdgurl
     mkdir ./build
@@ -27,7 +27,7 @@ build_fedora() {
 }
 
 build_arch() {
-    sudo pacman -S base-devel qt5-base qt5-svg qt5-declarative qt5-quickcontrols
+    #sudo pacman -S base-devel qt5-base qt5-svg qt5-declarative qt5-quickcontrols
 
     tar -czvf /tmp/xdgurl.tar.gz ../../xdgurl
     mkdir ./build
