@@ -9,7 +9,7 @@ URL: https://github.com/xdgurl/xdgurl
 #Source0: https://github.com/xdgurl/xdgurl/archive/release-%{version}.tar.gz
 Source0: %{name}.tar.gz
 
-Requires: qt5-qtbase >= 5.3.0, qt5-qtsvg >= 5.3.0, qt5-qtdeclarative >= 5.3.0, qt5-qtquickcontrols >= 5.3.0
+Requires: qt5-qtbase >= 5.3.0, qt5-qtbase-gui >= 5.3.0, qt5-qtsvg >= 5.3.0, qt5-qtdeclarative >= 5.3.0, qt5-qtquickcontrols >= 5.3.0
 
 %description
 An install helper program for desktop stuff.
