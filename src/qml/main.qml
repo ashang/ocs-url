@@ -98,7 +98,7 @@ Window {
     }
 
     Component.onCompleted: {
-        var metadata = JSON.parse(xdgUrlHandler.getMetadata());
+        var metadata = xdgUrlHandler.getMetadata();
         var primaryMessages = {
             'success_download': 'Download successfull',
             'success_install': 'Installation successfull',
@@ -114,7 +114,6 @@ Window {
 
         xdgUrlHandler.finished.connect(function(result) {
             progressDialog.close();
-            result = JSON.parse(result);
             infoDialog.text = primaryMessages[result.status];
             infoDialog.informativeText = metadata.filename;
             infoDialog.detailedText = result.message;
@@ -123,7 +122,6 @@ Window {
 
         xdgUrlHandler.error.connect(function(result) {
             progressDialog.close();
-            result = JSON.parse(result);
             errorDialog.text = primaryMessages[result.status];
             errorDialog.informativeText = metadata.filename;
             errorDialog.detailedText = result.message;

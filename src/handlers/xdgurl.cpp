@@ -7,7 +7,6 @@
 #include "../core/config.h"
 #include "../core/network.h"
 #include "../utility/file.h"
-#include "../utility/json.h"
 #include "../utility/package.h"
 
 #include "xdgurl.h"
@@ -103,7 +102,7 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
     if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
         result["status"] = QString("error_save");
         result["message"] = temporaryFile.errorString();
-        emit error(Utility::Json::convertObjToStr(result));
+        emit error(result);
         return;
     }
 
@@ -117,7 +116,7 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
     if (!temporaryFile.copy(path)) {
         result["status"] = QString("error_save");
         result["message"] = temporaryFile.errorString();
-        emit error(Utility::Json::convertObjToStr(result));
+        emit error(result);
         return;
     }
 
@@ -125,7 +124,7 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
 
     result["status"] = QString("success_download");
     result["message"] = QString("The file has been stored into " + destination);
-    emit finished(Utility::Json::convertObjToStr(result));
+    emit finished(result);
 }
 
 void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
@@ -137,7 +136,7 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
     if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
         result["status"] = QString("error_save");
         result["message"] = temporaryFile.errorString();
-        emit error(Utility::Json::convertObjToStr(result));
+        emit error(result);
         return;
     }
 
@@ -185,14 +184,14 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
     else {
         result["status"] = QString("error_install");
         result["message"] = temporaryFile.errorString();
-        emit error(Utility::Json::convertObjToStr(result));
+        emit error(result);
         return;
     }
 
     _destination = destination;
 
     result["status"] = QString("success_install");
-    emit finished(Utility::Json::convertObjToStr(result));
+    emit finished(result);
 }
 
 /**
@@ -210,7 +209,7 @@ void XdgUrl::process()
         QJsonObject result;
         result["status"] = QString("error_validation");
         result["message"] = QString("Invalid XDG-URL " + _xdgUrl);
-        emit error(Utility::Json::convertObjToStr(result));
+        emit error(result);
         return;
     }
 
@@ -249,9 +248,9 @@ QString XdgUrl::getXdgUrl()
     return _xdgUrl;
 }
 
-QString XdgUrl::getMetadata()
+QJsonObject XdgUrl::getMetadata()
 {
-    return Utility::Json::convertObjToStr(_metadata);
+    return _metadata;
 }
 
 void XdgUrl::_downloaded(QNetworkReply *reply)
@@ -260,7 +259,7 @@ void XdgUrl::_downloaded(QNetworkReply *reply)
         QJsonObject result;
         result["status"] = QString("error_network");
         result["message"] = reply->errorString();
-        emit error(Utility::Json::convertObjToStr(result));
+        emit error(result);
         return;
     }
 

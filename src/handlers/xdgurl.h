@@ -41,15 +41,15 @@ public slots:
     void openDestination();
     bool isValid();
     QString getXdgUrl();
-    QString getMetadata();
+    QJsonObject getMetadata();
 
 private slots:
     void _downloaded(QNetworkReply *reply);
 
 signals:
     void started();
-    void finished(const QString &result);
-    void error(const QString &result);
+    void finished(const QJsonObject &result);
+    void error(const QJsonObject &result);
     void downloadProgress(const qint64 &received, const qint64 &total);
 };
 
