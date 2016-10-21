@@ -18,23 +18,23 @@ class XdgUrl : public QObject
     Q_OBJECT
 
 private:
-    QString _xdgUrl;
-    Core::Config *_config;
-    Core::Network *_network;
+    QString xdgUrl_;
+    Core::Config *config_;
+    Core::Network *network_;
 
-    QJsonObject _metadata;
-    QJsonObject _destinations;
-    QString _destination;
+    QJsonObject metadata_;
+    QJsonObject destinations_;
+    QString destination_;
 
 public:
     explicit XdgUrl(const QString &xdgUrl, Core::Config *config, Core::Network *network, QObject *parent = 0);
 
 private:
-    void _parse();
-    void _loadDestinations();
-    QString _convertPathString(const QString &path);
-    void _saveDownloadedFile(QNetworkReply *reply);
-    void _installDownloadedFile(QNetworkReply *reply);
+    void parse_();
+    void loadDestinations_();
+    QString convertPathString_(const QString &path);
+    void saveDownloadedFile_(QNetworkReply *reply);
+    void installDownloadedFile_(QNetworkReply *reply);
 
 public slots:
     void process();
@@ -44,7 +44,7 @@ public slots:
     QJsonObject getMetadata();
 
 private slots:
-    void _downloaded(QNetworkReply *reply);
+    void downloaded_(QNetworkReply *reply);
 
 signals:
     void started();

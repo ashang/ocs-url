@@ -11,8 +11,8 @@ class Config : public QObject
     Q_OBJECT
 
 private:
-    QString _configsDir;
-    QJsonObject _cacheData;
+    QString configsDir_;
+    QJsonObject cacheData_;
 
 public:
     explicit Config(const QString &configsDir, QObject *parent = 0);

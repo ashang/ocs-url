@@ -14,69 +14,69 @@
 namespace Handlers {
 
 XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *config, Core::Network *network, QObject *parent) :
-    QObject(parent), _xdgUrl(xdgUrl), _config(config), _network(network)
+    QObject(parent), xdgUrl_(xdgUrl), config_(config), network_(network)
 {
-    _parse();
-    _loadDestinations();
+    parse_();
+    loadDestinations_();
 
-    connect(_network, &Core::Network::finished, this, &XdgUrl::_downloaded);
-    connect(_network, &Core::Network::downloadProgress, this, &XdgUrl::downloadProgress);
+    connect(network_, &Core::Network::finished, this, &XdgUrl::downloaded_);
+    connect(network_, &Core::Network::downloadProgress, this, &XdgUrl::downloadProgress);
 }
 
-void XdgUrl::_parse()
+void XdgUrl::parse_()
 {
-    QUrl url(_xdgUrl);
+    QUrl url(xdgUrl_);
     QUrlQuery query(url);
 
-    _metadata["scheme"] = QString("xdg");
-    _metadata["command"] = QString("download");
-    _metadata["url"] = QString("");
-    _metadata["type"] = QString("downloads");
-    _metadata["filename"] = QString("");
+    metadata_["scheme"] = QString("xdg");
+    metadata_["command"] = QString("download");
+    metadata_["url"] = QString("");
+    metadata_["type"] = QString("downloads");
+    metadata_["filename"] = QString("");
 
     if (!url.scheme().isEmpty()) {
-        _metadata["scheme"] = url.scheme();
+        metadata_["scheme"] = url.scheme();
     }
 
     if (!url.host().isEmpty()) {
-        _metadata["command"] = url.host();
+        metadata_["command"] = url.host();
     }
 
     if (query.hasQueryItem("url") && !query.queryItemValue("url").isEmpty()) {
-        _metadata["url"] = query.queryItemValue("url", QUrl::FullyDecoded);
+        metadata_["url"] = query.queryItemValue("url", QUrl::FullyDecoded);
     }
 
     if (query.hasQueryItem("type") && !query.queryItemValue("type").isEmpty()) {
-        _metadata["type"] = query.queryItemValue("type", QUrl::FullyDecoded);
+        metadata_["type"] = query.queryItemValue("type", QUrl::FullyDecoded);
     }
 
     if (query.hasQueryItem("filename") && !query.queryItemValue("filename").isEmpty()) {
-        _metadata["filename"] = QUrl(query.queryItemValue("filename", QUrl::FullyDecoded)).fileName();
+        metadata_["filename"] = QUrl(query.queryItemValue("filename", QUrl::FullyDecoded)).fileName();
     }
 
-    if (!_metadata["url"].toString().isEmpty() && _metadata["filename"].toString().isEmpty()) {
-        _metadata["filename"] = QUrl(_metadata["url"].toString()).fileName();
+    if (!metadata_["url"].toString().isEmpty() && metadata_["filename"].toString().isEmpty()) {
+        metadata_["filename"] = QUrl(metadata_["url"].toString()).fileName();
     }
 }
 
-void XdgUrl::_loadDestinations()
+void XdgUrl::loadDestinations_()
 {
-    QJsonObject configDestinations = _config->get("destinations");
-    QJsonObject configDestinationsAlias = _config->get("destinations_alias");
+    QJsonObject configDestinations = config_->get("destinations");
+    QJsonObject configDestinationsAlias = config_->get("destinations_alias");
 
     foreach (const QString key, configDestinations.keys()) {
-        _destinations[key] = _convertPathString(configDestinations[key].toString());
+        destinations_[key] = convertPathString_(configDestinations[key].toString());
     }
 
     foreach (const QString key, configDestinationsAlias.keys()) {
         QString value = configDestinationsAlias[key].toString();
-        if (_destinations.contains(value)) {
-            _destinations[key] = _destinations.value(value);
+        if (destinations_.contains(value)) {
+            destinations_[key] = destinations_.value(value);
         }
     }
 }
 
-QString XdgUrl::_convertPathString(const QString &path)
+QString XdgUrl::convertPathString_(const QString &path)
 {
     QString newPath = path;
 
@@ -93,7 +93,7 @@ QString XdgUrl::_convertPathString(const QString &path)
     return newPath;
 }
 
-void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
+void XdgUrl::saveDownloadedFile_(QNetworkReply *reply)
 {
     QJsonObject result;
 
@@ -106,9 +106,9 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
         return;
     }
 
-    QString type = _metadata["type"].toString();
-    QString destination = _destinations[type].toString();
-    QString path = destination + "/" + _metadata["filename"].toString();
+    QString type = metadata_["type"].toString();
+    QString destination = destinations_[type].toString();
+    QString path = destination + "/" + metadata_["filename"].toString();
 
     Utility::File::makeDir(destination);
     Utility::File::remove(path); // Remove previous downloaded file
@@ -120,14 +120,14 @@ void XdgUrl::_saveDownloadedFile(QNetworkReply *reply)
         return;
     }
 
-    _destination = destination;
+    destination_ = destination;
 
     result["status"] = QString("success_download");
     result["message"] = QString("The file has been stored into " + destination);
     emit finished(result);
 }
 
-void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
+void XdgUrl::installDownloadedFile_(QNetworkReply *reply)
 {
     QJsonObject result;
 
@@ -140,9 +140,9 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
         return;
     }
 
-    QString type = _metadata["type"].toString();
-    QString destination = _destinations[type].toString();
-    QString path = destination + "/" + _metadata["filename"].toString();
+    QString type = metadata_["type"].toString();
+    QString destination = destinations_[type].toString();
+    QString path = destination + "/" + metadata_["filename"].toString();
 
     Utility::File::makeDir(destination);
     Utility::File::remove(path); // Remove previous downloaded file
@@ -188,7 +188,7 @@ void XdgUrl::_installDownloadedFile(QNetworkReply *reply)
         return;
     }
 
-    _destination = destination;
+    destination_ = destination;
 
     result["status"] = QString("success_install");
     emit finished(result);
@@ -208,34 +208,34 @@ void XdgUrl::process()
     if (!isValid()) {
         QJsonObject result;
         result["status"] = QString("error_validation");
-        result["message"] = QString("Invalid XDG-URL " + _xdgUrl);
+        result["message"] = QString("Invalid XDG-URL " + xdgUrl_);
         emit error(result);
         return;
     }
 
-    _network->get(QUrl(_metadata["url"].toString()));
+    network_->get(QUrl(metadata_["url"].toString()));
     emit started();
 }
 
 void XdgUrl::openDestination()
 {
-    if (!_destination.isEmpty()) {
-        QDesktopServices::openUrl(QUrl("file://" + _destination));
+    if (!destination_.isEmpty()) {
+        QDesktopServices::openUrl(QUrl("file://" + destination_));
     }
 }
 
 bool XdgUrl::isValid()
 {
-    QString scheme = _metadata["scheme"].toString();
-    QString command = _metadata["command"].toString();
-    QString url = _metadata["url"].toString();
-    QString type = _metadata["type"].toString();
-    QString filename = _metadata["filename"].toString();
+    QString scheme = metadata_["scheme"].toString();
+    QString command = metadata_["command"].toString();
+    QString url = metadata_["url"].toString();
+    QString type = metadata_["type"].toString();
+    QString filename = metadata_["filename"].toString();
 
     if ((scheme == "xdg" || scheme == "xdgs")
             && (command == "download" || command == "install")
             && QUrl(url).isValid()
-            && _destinations.contains(type)
+            && destinations_.contains(type)
             && !filename.isEmpty()) {
         return true;
     }
@@ -245,15 +245,15 @@ bool XdgUrl::isValid()
 
 QString XdgUrl::getXdgUrl()
 {
-    return _xdgUrl;
+    return xdgUrl_;
 }
 
 QJsonObject XdgUrl::getMetadata()
 {
-    return _metadata;
+    return metadata_;
 }
 
-void XdgUrl::_downloaded(QNetworkReply *reply)
+void XdgUrl::downloaded_(QNetworkReply *reply)
 {
     if (reply->error() != QNetworkReply::NoError) {
         QJsonObject result;
@@ -268,7 +268,7 @@ void XdgUrl::_downloaded(QNetworkReply *reply)
         if (redirectUrl.startsWith("/")) {
             redirectUrl = reply->url().authority() + redirectUrl;
         }
-        _network->get(QUrl(redirectUrl));
+        network_->get(QUrl(redirectUrl));
         return;
     }
 
@@ -277,15 +277,15 @@ void XdgUrl::_downloaded(QNetworkReply *reply)
         if (refreshUrl.startsWith("/")) {
             refreshUrl = reply->url().authority() + refreshUrl;
         }
-        _network->get(QUrl(refreshUrl));
+        network_->get(QUrl(refreshUrl));
         return;
     }
 
-    if (_metadata["command"].toString() == "download") {
-        _saveDownloadedFile(reply);
+    if (metadata_["command"].toString() == "download") {
+        saveDownloadedFile_(reply);
     }
-    else if (_metadata["command"].toString() == "install") {
-        _installDownloadedFile(reply);
+    else if (metadata_["command"].toString() == "install") {
+        installDownloadedFile_(reply);
     }
 }
 

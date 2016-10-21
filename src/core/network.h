@@ -14,9 +14,9 @@ class Network : public QObject
     Q_OBJECT
 
 private:
-    bool _async;
-    QNetworkAccessManager *_manager;
-    QEventLoop *_eventLoop;
+    bool async_;
+    QNetworkAccessManager *manager_;
+    QEventLoop *eventLoop_;
 
 public:
     explicit Network(const bool &async = true, QObject *parent = 0);
