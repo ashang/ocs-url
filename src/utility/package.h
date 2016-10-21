@@ -19,7 +19,7 @@ public:
     static bool uncompressArchive(const QString &path, const QString &targetDir);
 
 private:
-    static bool process_(const QString &program, const QStringList &arguments);
+    static bool runProcess(const QString &program, const QStringList &arguments);
 };
 
 } // namespace utility

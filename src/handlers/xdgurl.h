@@ -34,14 +34,14 @@ public slots:
     QJsonObject getMetadata();
 
 private slots:
-    void downloaded_(QNetworkReply *reply);
+    void downloaded(QNetworkReply *reply);
 
 private:
-    void parse_();
-    void loadDestinations_();
-    QString convertPathString_(const QString &path);
-    void saveDownloadedFile_(QNetworkReply *reply);
-    void installDownloadedFile_(QNetworkReply *reply);
+    void parse();
+    void loadDestinations();
+    QString convertPathString(const QString &path);
+    void saveDownloadedFile(QNetworkReply *reply);
+    void installDownloadedFile(QNetworkReply *reply);
 
     QString xdgUrl_;
     core::Config *config_;

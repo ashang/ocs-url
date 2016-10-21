@@ -16,10 +16,10 @@ namespace handlers {
 XdgUrl::XdgUrl(const QString &xdgUrl, core::Config *config, core::Network *network, QObject *parent) :
     QObject(parent), xdgUrl_(xdgUrl), config_(config), network_(network)
 {
-    parse_();
-    loadDestinations_();
+    parse();
+    loadDestinations();
 
-    connect(network_, &core::Network::finished, this, &XdgUrl::downloaded_);
+    connect(network_, &core::Network::finished, this, &XdgUrl::downloaded);
     connect(network_, &core::Network::downloadProgress, this, &XdgUrl::downloadProgress);
 }
 
@@ -78,7 +78,7 @@ QJsonObject XdgUrl::getMetadata()
     return metadata_;
 }
 
-void XdgUrl::downloaded_(QNetworkReply *reply)
+void XdgUrl::downloaded(QNetworkReply *reply)
 {
     if (reply->error() != QNetworkReply::NoError) {
         QJsonObject result;
@@ -107,14 +107,14 @@ void XdgUrl::downloaded_(QNetworkReply *reply)
     }
 
     if (metadata_["command"].toString() == "download") {
-        saveDownloadedFile_(reply);
+        saveDownloadedFile(reply);
     }
     else if (metadata_["command"].toString() == "install") {
-        installDownloadedFile_(reply);
+        installDownloadedFile(reply);
     }
 }
 
-void XdgUrl::parse_()
+void XdgUrl::parse()
 {
     QUrl url(xdgUrl_);
     QUrlQuery query(url);
@@ -150,13 +150,13 @@ void XdgUrl::parse_()
     }
 }
 
-void XdgUrl::loadDestinations_()
+void XdgUrl::loadDestinations()
 {
     QJsonObject configDestinations = config_->get("destinations");
     QJsonObject configDestinationsAlias = config_->get("destinations_alias");
 
     foreach (const QString key, configDestinations.keys()) {
-        destinations_[key] = convertPathString_(configDestinations[key].toString());
+        destinations_[key] = convertPathString(configDestinations[key].toString());
     }
 
     foreach (const QString key, configDestinationsAlias.keys()) {
@@ -167,7 +167,7 @@ void XdgUrl::loadDestinations_()
     }
 }
 
-QString XdgUrl::convertPathString_(const QString &path)
+QString XdgUrl::convertPathString(const QString &path)
 {
     QString newPath = path;
 
@@ -184,7 +184,7 @@ QString XdgUrl::convertPathString_(const QString &path)
     return newPath;
 }
 
-void XdgUrl::saveDownloadedFile_(QNetworkReply *reply)
+void XdgUrl::saveDownloadedFile(QNetworkReply *reply)
 {
     QJsonObject result;
 
@@ -218,7 +218,7 @@ void XdgUrl::saveDownloadedFile_(QNetworkReply *reply)
     emit finished(result);
 }
 
-void XdgUrl::installDownloadedFile_(QNetworkReply *reply)
+void XdgUrl::installDownloadedFile(QNetworkReply *reply)
 {
     QJsonObject result;
 
