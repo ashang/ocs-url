@@ -98,7 +98,7 @@ Window {
     }
 
     Component.onCompleted: {
-        var metadata = xdgUrlHandler.getMetadata();
+        var metadata = xdgUrlHandler.metadata();
         var primaryMessages = {
             'success_download': 'Download successfull',
             'success_install': 'Installation successfull',
@@ -146,7 +146,7 @@ Window {
         }
         else {
             errorDialog.text = 'Validation error';
-            errorDialog.detailedText = 'Invalid XDG-URL ' + xdgUrlHandler.getXdgUrl();
+            errorDialog.detailedText = 'Invalid XDG-URL ' + xdgUrlHandler.xdgUrl();
             errorDialog.open();
         }
     }

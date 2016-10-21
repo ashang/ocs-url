@@ -14,7 +14,7 @@ bool Package::installProgram(const QString &path, const QString &targetPath)
     QString program = "install";
     QStringList arguments;
     arguments << "-m" << "755" << "-p" << path << targetPath;
-    return runProcess(program, arguments);
+    return execute(program, arguments);
 }
 
 bool Package::installFile(const QString &path, const QString &targetPath)
@@ -22,7 +22,7 @@ bool Package::installFile(const QString &path, const QString &targetPath)
     QString program = "install";
     QStringList arguments;
     arguments << "-m" << "644" << "-p" << path << targetPath;
-    return runProcess(program, arguments);
+    return execute(program, arguments);
 }
 
 bool Package::installPlasmapkg(const QString &path, const QString &type)
@@ -30,7 +30,7 @@ bool Package::installPlasmapkg(const QString &path, const QString &type)
     QString program = "plasmapkg2";
     QStringList arguments;
     arguments << "-t" << type << "-i" << path;
-    return runProcess(program, arguments);
+    return execute(program, arguments);
 }
 
 bool Package::uninstallPlasmapkg(const QString &path, const QString &type)
@@ -38,7 +38,7 @@ bool Package::uninstallPlasmapkg(const QString &path, const QString &type)
     QString program = "plasmapkg2";
     QStringList arguments;
     arguments << "-t" << type << "-r" << path;
-    return runProcess(program, arguments);
+    return execute(program, arguments);
 }
 
 bool Package::uncompressArchive(const QString &path, const QString &targetDir)
@@ -89,13 +89,13 @@ bool Package::uncompressArchive(const QString &path, const QString &targetDir)
             arguments << "e" << path << targetDir;
         }
 
-        return runProcess(program, arguments);
+        return execute(program, arguments);
     }
 
     return false;
 }
 
-bool Package::runProcess(const QString &program, const QStringList &arguments)
+bool Package::execute(const QString &program, const QStringList &arguments)
 {
     QProcess process;
     process.start(program, arguments);

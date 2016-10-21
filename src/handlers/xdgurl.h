@@ -28,10 +28,10 @@ signals:
 
 public slots:
     void process();
-    void openDestination();
     bool isValid();
-    QString getXdgUrl();
-    QJsonObject getMetadata();
+    void openDestination();
+    QString xdgUrl() const;
+    QJsonObject metadata() const;
 
 private slots:
     void downloaded(QNetworkReply *reply);

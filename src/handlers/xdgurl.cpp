@@ -42,13 +42,6 @@ void XdgUrl::process()
     emit started();
 }
 
-void XdgUrl::openDestination()
-{
-    if (!destination_.isEmpty()) {
-        QDesktopServices::openUrl(QUrl("file://" + destination_));
-    }
-}
-
 bool XdgUrl::isValid()
 {
     QString scheme = metadata_["scheme"].toString();
@@ -68,12 +61,19 @@ bool XdgUrl::isValid()
     return false;
 }
 
-QString XdgUrl::getXdgUrl()
+void XdgUrl::openDestination()
+{
+    if (!destination_.isEmpty()) {
+        QDesktopServices::openUrl(QUrl("file://" + destination_));
+    }
+}
+
+QString XdgUrl::xdgUrl() const
 {
     return xdgUrl_;
 }
 
-QJsonObject XdgUrl::getMetadata()
+QJsonObject XdgUrl::metadata() const
 {
     return metadata_;
 }
