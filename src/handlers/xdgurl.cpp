@@ -23,6 +23,97 @@ XdgUrl::XdgUrl(const QString &xdgUrl, core::Config *config, core::Network *netwo
     connect(network_, &core::Network::downloadProgress, this, &XdgUrl::downloadProgress);
 }
 
+void XdgUrl::process()
+{
+    /**
+     * xdgs scheme is a reserved name, so the process of xdgs
+     * is the same process of the xdg scheme currently.
+     */
+
+    if (!isValid()) {
+        QJsonObject result;
+        result["status"] = QString("error_validation");
+        result["message"] = QString("Invalid XDG-URL " + xdgUrl_);
+        emit error(result);
+        return;
+    }
+
+    network_->get(QUrl(metadata_["url"].toString()));
+    emit started();
+}
+
+void XdgUrl::openDestination()
+{
+    if (!destination_.isEmpty()) {
+        QDesktopServices::openUrl(QUrl("file://" + destination_));
+    }
+}
+
+bool XdgUrl::isValid()
+{
+    QString scheme = metadata_["scheme"].toString();
+    QString command = metadata_["command"].toString();
+    QString url = metadata_["url"].toString();
+    QString type = metadata_["type"].toString();
+    QString filename = metadata_["filename"].toString();
+
+    if ((scheme == "xdg" || scheme == "xdgs")
+            && (command == "download" || command == "install")
+            && QUrl(url).isValid()
+            && destinations_.contains(type)
+            && !filename.isEmpty()) {
+        return true;
+    }
+
+    return false;
+}
+
+QString XdgUrl::getXdgUrl()
+{
+    return xdgUrl_;
+}
+
+QJsonObject XdgUrl::getMetadata()
+{
+    return metadata_;
+}
+
+void XdgUrl::downloaded_(QNetworkReply *reply)
+{
+    if (reply->error() != QNetworkReply::NoError) {
+        QJsonObject result;
+        result["status"] = QString("error_network");
+        result["message"] = reply->errorString();
+        emit error(result);
+        return;
+    }
+
+    if (reply->hasRawHeader("Location")) {
+        QString redirectUrl = QString(reply->rawHeader("Location"));
+        if (redirectUrl.startsWith("/")) {
+            redirectUrl = reply->url().authority() + redirectUrl;
+        }
+        network_->get(QUrl(redirectUrl));
+        return;
+    }
+
+    if (reply->hasRawHeader("Refresh")) {
+        QString refreshUrl = QString(reply->rawHeader("Refresh")).split("url=").last();
+        if (refreshUrl.startsWith("/")) {
+            refreshUrl = reply->url().authority() + refreshUrl;
+        }
+        network_->get(QUrl(refreshUrl));
+        return;
+    }
+
+    if (metadata_["command"].toString() == "download") {
+        saveDownloadedFile_(reply);
+    }
+    else if (metadata_["command"].toString() == "install") {
+        installDownloadedFile_(reply);
+    }
+}
+
 void XdgUrl::parse_()
 {
     QUrl url(xdgUrl_);
@@ -192,101 +283,6 @@ void XdgUrl::installDownloadedFile_(QNetworkReply *reply)
 
     result["status"] = QString("success_install");
     emit finished(result);
-}
-
-/**
- * Slots
- */
-
-void XdgUrl::process()
-{
-    /**
-     * xdgs scheme is a reserved name, so the process of xdgs
-     * is the same process of the xdg scheme currently.
-     */
-
-    if (!isValid()) {
-        QJsonObject result;
-        result["status"] = QString("error_validation");
-        result["message"] = QString("Invalid XDG-URL " + xdgUrl_);
-        emit error(result);
-        return;
-    }
-
-    network_->get(QUrl(metadata_["url"].toString()));
-    emit started();
-}
-
-void XdgUrl::openDestination()
-{
-    if (!destination_.isEmpty()) {
-        QDesktopServices::openUrl(QUrl("file://" + destination_));
-    }
-}
-
-bool XdgUrl::isValid()
-{
-    QString scheme = metadata_["scheme"].toString();
-    QString command = metadata_["command"].toString();
-    QString url = metadata_["url"].toString();
-    QString type = metadata_["type"].toString();
-    QString filename = metadata_["filename"].toString();
-
-    if ((scheme == "xdg" || scheme == "xdgs")
-            && (command == "download" || command == "install")
-            && QUrl(url).isValid()
-            && destinations_.contains(type)
-            && !filename.isEmpty()) {
-        return true;
-    }
-
-    return false;
-}
-
-QString XdgUrl::getXdgUrl()
-{
-    return xdgUrl_;
-}
-
-QJsonObject XdgUrl::getMetadata()
-{
-    return metadata_;
-}
-
-void XdgUrl::downloaded_(QNetworkReply *reply)
-{
-    if (reply->error() != QNetworkReply::NoError) {
-        QJsonObject result;
-        result["status"] = QString("error_network");
-        result["message"] = reply->errorString();
-        emit error(result);
-        return;
-    }
-
-    if (reply->hasRawHeader("Location")) {
-        QString redirectUrl = QString(reply->rawHeader("Location"));
-        if (redirectUrl.startsWith("/")) {
-            redirectUrl = reply->url().authority() + redirectUrl;
-        }
-        network_->get(QUrl(redirectUrl));
-        return;
-    }
-
-    if (reply->hasRawHeader("Refresh")) {
-        QString refreshUrl = QString(reply->rawHeader("Refresh")).split("url=").last();
-        if (refreshUrl.startsWith("/")) {
-            refreshUrl = reply->url().authority() + refreshUrl;
-        }
-        network_->get(QUrl(refreshUrl));
-        return;
-    }
-
-    if (metadata_["command"].toString() == "download") {
-        saveDownloadedFile_(reply);
-    }
-    else if (metadata_["command"].toString() == "install") {
-        installDownloadedFile_(reply);
-    }
 }
 
 } // namespace handlers

@@ -13,11 +13,6 @@ class Network : public QObject
 {
     Q_OBJECT
 
-private:
-    bool async_;
-    QNetworkAccessManager *manager_;
-    QEventLoop *eventLoop_;
-
 public:
     explicit Network(const bool &async = true, QObject *parent = 0);
     ~Network();
@@ -28,6 +23,11 @@ public:
 signals:
     void finished(QNetworkReply *reply);
     void downloadProgress(const qint64 &received, const qint64 &total);
+
+private:
+    bool async_;
+    QNetworkAccessManager *manager_;
+    QEventLoop *eventLoop_;
 };
 
 } // namespace core
