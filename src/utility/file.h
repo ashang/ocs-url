@@ -6,7 +6,7 @@
 class QFileInfo;
 typedef QList<QFileInfo> QFileInfoList;
 
-namespace Utility {
+namespace utility {
 
 class File : public QObject
 {
@@ -33,6 +33,6 @@ public:
     static bool remove(const QString &path);
 };
 
-} // namespace Utility
+} // namespace utility
 
 #endif // UTILITY_FILE_H

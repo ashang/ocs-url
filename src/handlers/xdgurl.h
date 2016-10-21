@@ -6,12 +6,12 @@
 
 class QNetworkReply;
 
-namespace Core {
+namespace core {
 class Config;
 class Network;
 }
 
-namespace Handlers {
+namespace handlers {
 
 class XdgUrl : public QObject
 {
@@ -19,15 +19,15 @@ class XdgUrl : public QObject
 
 private:
     QString xdgUrl_;
-    Core::Config *config_;
-    Core::Network *network_;
+    core::Config *config_;
+    core::Network *network_;
 
     QJsonObject metadata_;
     QJsonObject destinations_;
     QString destination_;
 
 public:
-    explicit XdgUrl(const QString &xdgUrl, Core::Config *config, Core::Network *network, QObject *parent = 0);
+    explicit XdgUrl(const QString &xdgUrl, core::Config *config, core::Network *network, QObject *parent = 0);
 
 private:
     void parse_();
@@ -53,6 +53,6 @@ signals:
     void downloadProgress(const qint64 &received, const qint64 &total);
 };
 
-} // namespace Handlers
+} // namespace handlers
 
 #endif // HANDLERS_XDGURL_H

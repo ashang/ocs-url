@@ -6,7 +6,7 @@
 
 #include "file.h"
 
-namespace Utility {
+namespace utility {
 
 /**
  * XDG Base Directory Specification
@@ -203,4 +203,4 @@ bool File::remove(const QString &path)
     return false;
 }
 
-} // namespace Utility
+} // namespace utility

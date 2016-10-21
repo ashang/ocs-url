@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-namespace Utility {
+namespace utility {
 
 class Json : public QObject
 {
@@ -17,6 +17,6 @@ public:
     static bool isValid(const QString &json);
 };
 
-} // namespace Utility
+} // namespace utility
 
 #endif // UTILITY_JSON_H

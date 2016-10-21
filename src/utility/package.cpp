@@ -4,7 +4,7 @@
 
 #include "package.h"
 
-namespace Utility {
+namespace utility {
 
 Package::Package(QObject *parent) : QObject(parent)
 {}
@@ -106,4 +106,4 @@ bool Package::process_(const QString &program, const QStringList &arguments)
     return false;
 }
 
-} // namespace Utility
+} // namespace utility

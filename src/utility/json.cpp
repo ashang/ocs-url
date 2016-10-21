@@ -4,7 +4,7 @@
 
 #include "json.h"
 
-namespace Utility {
+namespace utility {
 
 Json::Json(QObject *parent) : QObject(parent)
 {}
@@ -36,4 +36,4 @@ bool Json::isValid(const QString &json)
     return false;
 }
 
-} // namespace Utility
+} // namespace utility

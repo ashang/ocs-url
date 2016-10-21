@@ -11,16 +11,16 @@
 
 #include "xdgurl.h"
 
-namespace Handlers {
+namespace handlers {
 
-XdgUrl::XdgUrl(const QString &xdgUrl, Core::Config *config, Core::Network *network, QObject *parent) :
+XdgUrl::XdgUrl(const QString &xdgUrl, core::Config *config, core::Network *network, QObject *parent) :
     QObject(parent), xdgUrl_(xdgUrl), config_(config), network_(network)
 {
     parse_();
     loadDestinations_();
 
-    connect(network_, &Core::Network::finished, this, &XdgUrl::downloaded_);
-    connect(network_, &Core::Network::downloadProgress, this, &XdgUrl::downloadProgress);
+    connect(network_, &core::Network::finished, this, &XdgUrl::downloaded_);
+    connect(network_, &core::Network::downloadProgress, this, &XdgUrl::downloadProgress);
 }
 
 void XdgUrl::parse_()
@@ -81,13 +81,13 @@ QString XdgUrl::convertPathString_(const QString &path)
     QString newPath = path;
 
     if (newPath.contains("$HOME")) {
-        newPath.replace("$HOME", Utility::File::homePath());
+        newPath.replace("$HOME", utility::File::homePath());
     }
     else if (newPath.contains("$XDG_DATA_HOME")) {
-        newPath.replace("$XDG_DATA_HOME", Utility::File::xdgDataHomePath());
+        newPath.replace("$XDG_DATA_HOME", utility::File::xdgDataHomePath());
     }
     else if (newPath.contains("$KDEHOME")) {
-        newPath.replace("$KDEHOME", Utility::File::kdehomePath());
+        newPath.replace("$KDEHOME", utility::File::kdehomePath());
     }
 
     return newPath;
@@ -110,8 +110,8 @@ void XdgUrl::saveDownloadedFile_(QNetworkReply *reply)
     QString destination = destinations_[type].toString();
     QString path = destination + "/" + metadata_["filename"].toString();
 
-    Utility::File::makeDir(destination);
-    Utility::File::remove(path); // Remove previous downloaded file
+    utility::File::makeDir(destination);
+    utility::File::remove(path); // Remove previous downloaded file
 
     if (!temporaryFile.copy(path)) {
         result["status"] = QString("error_save");
@@ -144,38 +144,38 @@ void XdgUrl::installDownloadedFile_(QNetworkReply *reply)
     QString destination = destinations_[type].toString();
     QString path = destination + "/" + metadata_["filename"].toString();
 
-    Utility::File::makeDir(destination);
-    Utility::File::remove(path); // Remove previous downloaded file
+    utility::File::makeDir(destination);
+    utility::File::remove(path); // Remove previous downloaded file
 
     if (type == "bin"
-            && Utility::Package::installProgram(temporaryFile.fileName(), path)) {
+            && utility::Package::installProgram(temporaryFile.fileName(), path)) {
         result["message"] = QString("The program has been installed into " + destination);
     }
     else if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
-             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "plasmoid")) {
+             && utility::Package::installPlasmapkg(temporaryFile.fileName(), "plasmoid")) {
         result["message"] = QString("The plasmoid has been installed");
     }
     else if ((type == "plasma_look_and_feel" || type == "plasma5_look_and_feel")
-             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "lookandfeel")) {
+             && utility::Package::installPlasmapkg(temporaryFile.fileName(), "lookandfeel")) {
         result["message"] = QString("The plasma look and feel has been installed");
     }
     else if ((type == "plasma_desktopthemes" || type == "plasma5_desktopthemes")
-             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "theme")) {
+             && utility::Package::installPlasmapkg(temporaryFile.fileName(), "theme")) {
         result["message"] = QString("The plasma desktop theme has been installed");
     }
     else if (type == "kwin_effects"
-             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "kwineffect")) {
+             && utility::Package::installPlasmapkg(temporaryFile.fileName(), "kwineffect")) {
         result["message"] = QString("The KWin effect has been installed");
     }
     else if (type == "kwin_scripts"
-             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "kwinscript")) {
+             && utility::Package::installPlasmapkg(temporaryFile.fileName(), "kwinscript")) {
         result["message"] = QString("The KWin script has been installed");
     }
     else if (type == "kwin_tabbox"
-             && Utility::Package::installPlasmapkg(temporaryFile.fileName(), "windowswitcher")) {
+             && utility::Package::installPlasmapkg(temporaryFile.fileName(), "windowswitcher")) {
         result["message"] = QString("The KWin window switcher has been installed");
     }
-    else if (Utility::Package::uncompressArchive(temporaryFile.fileName(), destination)) {
+    else if (utility::Package::uncompressArchive(temporaryFile.fileName(), destination)) {
         result["message"] = QString("The archive file has been uncompressed into " + destination);
     }
     else if (temporaryFile.copy(path)) {
@@ -289,4 +289,4 @@ void XdgUrl::downloaded_(QNetworkReply *reply)
     }
 }
 
-} // namespace Handlers
+} // namespace handlers

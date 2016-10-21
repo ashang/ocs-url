@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QJsonObject>
 
-namespace Core {
+namespace core {
 
 class Config : public QObject
 {
@@ -21,6 +21,6 @@ public:
     bool set(const QString &name, const QJsonObject &jsonObj);
 };
 
-} // namespace Core
+} // namespace core
 
 #endif // CORE_CONFIG_H

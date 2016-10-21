@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
-    Core::Config *config = new Core::Config(":/configs");
-    Core::Network *network = new Core::Network(true);
+    core::Config *config = new core::Config(":/configs");
+    core::Network *network = new core::Network(true);
 
     QJsonObject configApplication = config->get("application");
 
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
     QQmlContext *qmlContext = qmlAppEngine.rootContext();
-    qmlContext->setContextProperty("xdgUrlHandler", new Handlers::XdgUrl(xdgUrl, config, network));
+    qmlContext->setContextProperty("xdgUrlHandler", new handlers::XdgUrl(xdgUrl, config, network));
     qmlAppEngine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();

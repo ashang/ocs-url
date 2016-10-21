@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-namespace Utility {
+namespace utility {
 
 class Package : public QObject
 {
@@ -22,6 +22,6 @@ private:
     static bool process_(const QString &program, const QStringList &arguments);
 };
 
-} // namespace Utility
+} // namespace utility
 
 #endif // UTILITY_PACKAGE_H

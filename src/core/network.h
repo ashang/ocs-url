@@ -7,7 +7,7 @@ class QEventLoop;
 class QNetworkAccessManager;
 class QNetworkReply;
 
-namespace Core {
+namespace core {
 
 class Network : public QObject
 {
@@ -30,6 +30,6 @@ signals:
     void downloadProgress(const qint64 &received, const qint64 &total);
 };
 
-} // namespace Core
+} // namespace core
 
 #endif // CORE_NETWORK_H
