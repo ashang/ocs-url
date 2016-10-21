@@ -1,8 +1,8 @@
+#include "package.h"
+
 #include <QJsonObject>
 #include <QMimeDatabase>
 #include <QProcess>
-
-#include "package.h"
 
 namespace utility {
 

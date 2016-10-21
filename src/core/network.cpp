@@ -1,9 +1,9 @@
+#include "network.h"
+
 #include <QEventLoop>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-
-#include "network.h"
 
 namespace core {
 

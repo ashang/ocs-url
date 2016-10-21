@@ -1,7 +1,7 @@
+#include "config.h"
+
 #include "../utility/file.h"
 #include "../utility/json.h"
-
-#include "config.h"
 
 namespace core {
 

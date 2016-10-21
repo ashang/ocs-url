@@ -1,8 +1,8 @@
+#include "json.h"
+
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
-
-#include "json.h"
 
 namespace utility {
 

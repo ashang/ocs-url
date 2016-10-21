@@ -1,3 +1,5 @@
+#include "xdgurl.h"
+
 #include <QUrl>
 #include <QUrlQuery>
 #include <QTemporaryFile>
@@ -8,8 +10,6 @@
 #include "../core/network.h"
 #include "../utility/file.h"
 #include "../utility/package.h"
-
-#include "xdgurl.h"
 
 namespace handlers {
 

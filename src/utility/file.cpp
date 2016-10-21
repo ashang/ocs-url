@@ -1,10 +1,10 @@
+#include "file.h"
+
 #include <QIODevice>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
-
-#include "file.h"
 
 namespace utility {
 
