@@ -8,7 +8,7 @@
 namespace core {
 
 Network::Network(const bool &async, QObject *parent) :
-    QObject(parent), async_(async)
+    async_(async), QObject(parent)
 {
     manager_ = new QNetworkAccessManager(this);
     connect(manager_, &QNetworkAccessManager::finished,

@@ -6,7 +6,7 @@
 namespace core {
 
 Config::Config(const QString &configsDir, QObject *parent) :
-    QObject(parent), configsDir_(configsDir)
+    configsDir_(configsDir), QObject(parent)
 {}
 
 QJsonObject Config::get(const QString &name)
