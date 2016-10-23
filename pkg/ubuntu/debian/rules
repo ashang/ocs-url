@@ -8,3 +8,6 @@ override_dh_auto_configure:
 
 override_dh_auto_install:
 	make INSTALL_ROOT="$(CURDIR)/debian/tmp" install
+
+override_dh_shlibdeps:
+	# ignore
