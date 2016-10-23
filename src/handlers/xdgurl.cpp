@@ -14,7 +14,7 @@
 namespace handlers {
 
 XdgUrl::XdgUrl(const QString &xdgUrl, core::Config *config, core::Network *network, QObject *parent) :
-    xdgUrl_(xdgUrl), config_(config), network_(network), QObject(parent)
+    QObject(parent), xdgUrl_(xdgUrl), config_(config), network_(network)
 {
     parse();
     loadDestinations();
