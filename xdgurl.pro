@@ -32,9 +32,9 @@ HEADERS += \
     src/utility/package.h
 
 RESOURCES += \
-    src/configs.qrc \
-    src/qml.qrc \
-    src/desktop.qrc
+    src/configs/configs.qrc \
+    src/qml/qml.qrc \
+    src/desktop/desktop.qrc
 
 # Additional RPATH
 #include(rpath.pri)
