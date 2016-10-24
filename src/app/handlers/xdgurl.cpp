@@ -6,10 +6,10 @@
 #include <QNetworkReply>
 #include <QDesktopServices>
 
-#include "../utils/config.h"
-#include "../utils/network.h"
-#include "../utils/file.h"
-#include "../utils/package.h"
+#include "../../libs/utils/config.h"
+#include "../../libs/utils/network.h"
+#include "../../libs/utils/file.h"
+#include "../../libs/utils/package.h"
 
 namespace handlers {
 
@@ -19,8 +19,8 @@ XdgUrl::XdgUrl(const QString &xdgUrl, utils::Config *config, utils::Network *net
     parse();
     loadDestinations();
 
-    connect(network_, &utils::Network::finished, this, &XdgUrl::downloaded);
-    connect(network_, &utils::Network::downloadProgress, this, &XdgUrl::downloadProgress);
+    connect(network_, &utils::Network::finished, this, &handlers::XdgUrl::downloaded);
+    connect(network_, &utils::Network::downloadProgress, this, &handlers::XdgUrl::downloadProgress);
 }
 
 void XdgUrl::process()

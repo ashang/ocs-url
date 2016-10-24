@@ -10,8 +10,9 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "utils/config.h"
-#include "utils/network.h"
+#include "../libs/utils/config.h"
+#include "../libs/utils/network.h"
+
 #include "handlers/xdgurl.h"
 
 int main(int argc, char *argv[])
