@@ -5,7 +5,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
-namespace core {
+namespace utils {
 
 Network::Network(const bool &async, QObject *parent) :
     QObject(parent), async_(async)
@@ -45,4 +45,4 @@ QNetworkReply *Network::get(const QUrl &uri)
     return reply;
 }
 
-} // namespace core
+} // namespace utils

@@ -1,9 +1,9 @@
-#ifndef UTILITY_JSON_H
-#define UTILITY_JSON_H
+#ifndef UTILS_JSON_H
+#define UTILS_JSON_H
 
 #include <QObject>
 
-namespace utility {
+namespace utils {
 
 class Json : public QObject
 {
@@ -17,6 +17,6 @@ public:
     static bool isValid(const QString &json);
 };
 
-} // namespace utility
+} // namespace utils
 
-#endif // UTILITY_JSON_H
+#endif // UTILS_JSON_H

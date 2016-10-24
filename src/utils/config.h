@@ -1,10 +1,10 @@
-#ifndef CORE_CONFIG_H
-#define CORE_CONFIG_H
+#ifndef UTILS_CONFIG_H
+#define UTILS_CONFIG_H
 
 #include <QObject>
 #include <QJsonObject>
 
-namespace core {
+namespace utils {
 
 class Config : public QObject
 {
@@ -21,6 +21,6 @@ private:
     QJsonObject cacheData_;
 };
 
-} // namespace core
+} // namespace utils
 
-#endif // CORE_CONFIG_H
+#endif // UTILS_CONFIG_H

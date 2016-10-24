@@ -6,7 +6,7 @@
 #include <QFileInfo>
 #include <QTextStream>
 
-namespace utility {
+namespace utils {
 
 /**
  * XDG Base Directory Specification
@@ -203,4 +203,4 @@ bool File::remove(const QString &path)
     return false;
 }
 
-} // namespace utility
+} // namespace utils

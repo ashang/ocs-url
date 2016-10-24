@@ -4,7 +4,7 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 
-namespace utility {
+namespace utils {
 
 Json::Json(QObject *parent) : QObject(parent)
 {}
@@ -36,4 +36,4 @@ bool Json::isValid(const QString &json)
     return false;
 }
 
-} // namespace utility
+} // namespace utils

@@ -1,5 +1,5 @@
-#ifndef CORE_NETWORK_H
-#define CORE_NETWORK_H
+#ifndef UTILS_NETWORK_H
+#define UTILS_NETWORK_H
 
 #include <QObject>
 
@@ -7,7 +7,7 @@ class QEventLoop;
 class QNetworkAccessManager;
 class QNetworkReply;
 
-namespace core {
+namespace utils {
 
 class Network : public QObject
 {
@@ -30,6 +30,6 @@ private:
     QEventLoop *eventLoop_;
 };
 
-} // namespace core
+} // namespace utils
 
-#endif // CORE_NETWORK_H
+#endif // UTILS_NETWORK_H

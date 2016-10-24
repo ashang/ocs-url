@@ -1,9 +1,9 @@
-#ifndef UTILITY_PACKAGE_H
-#define UTILITY_PACKAGE_H
+#ifndef UTILS_PACKAGE_H
+#define UTILS_PACKAGE_H
 
 #include <QObject>
 
-namespace utility {
+namespace utils {
 
 class Package : public QObject
 {
@@ -22,6 +22,6 @@ private:
     static bool execute(const QString &program, const QStringList &arguments);
 };
 
-} // namespace utility
+} // namespace utils
 
-#endif // UTILITY_PACKAGE_H
+#endif // UTILS_PACKAGE_H

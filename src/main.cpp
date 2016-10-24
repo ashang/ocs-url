@@ -10,8 +10,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "core/config.h"
-#include "core/network.h"
+#include "utils/config.h"
+#include "utils/network.h"
 #include "handlers/xdgurl.h"
 
 int main(int argc, char *argv[])
@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
-    core::Config *config = new core::Config(":/configs");
-    core::Network *network = new core::Network(true);
+    utils::Config *config = new utils::Config(":/configs");
+    utils::Network *network = new utils::Network(true);
 
     QJsonObject configApplication = config->get("application");
 

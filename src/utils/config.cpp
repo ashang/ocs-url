@@ -1,9 +1,9 @@
 #include "config.h"
 
-#include "../utility/file.h"
-#include "../utility/json.h"
+#include "file.h"
+#include "json.h"
 
-namespace core {
+namespace utils {
 
 Config::Config(const QString &configsDir, QObject *parent) :
     QObject(parent), configsDir_(configsDir)
@@ -14,11 +14,11 @@ QJsonObject Config::get(const QString &name)
     QString configFile = configsDir_ + "/" + name + ".json";
 
     if (!cacheData_.contains(name)) {
-        QString json = utility::File::readText(configFile);
+        QString json = utils::File::readText(configFile);
         if (json.isEmpty()) {
             json = "{}"; // Blank JSON data as default
         }
-        cacheData_[name] = utility::Json::convertStrToObj(json);
+        cacheData_[name] = utils::Json::convertStrToObj(json);
     }
     return cacheData_[name].toObject();
 }
@@ -26,14 +26,14 @@ QJsonObject Config::get(const QString &name)
 bool Config::set(const QString &name, const QJsonObject &jsonObj)
 {
     QString configFile = configsDir_ + "/" + name + ".json";
-    QString json = utility::Json::convertObjToStr(jsonObj);
+    QString json = utils::Json::convertObjToStr(jsonObj);
 
-    utility::File::makeDir(configsDir_);
-    if (utility::File::writeText(configFile, json)) {
+    utils::File::makeDir(configsDir_);
+    if (utils::File::writeText(configFile, json)) {
         cacheData_[name] = jsonObj;
         return true;
     }
     return false;
 }
 
-} // namespace core
+} // namespace utils

@@ -6,7 +6,7 @@
 
 class QNetworkReply;
 
-namespace core {
+namespace utils {
 class Config;
 class Network;
 }
@@ -18,7 +18,7 @@ class XdgUrl : public QObject
     Q_OBJECT
 
 public:
-    explicit XdgUrl(const QString &xdgUrl, core::Config *config, core::Network *network, QObject *parent = 0);
+    explicit XdgUrl(const QString &xdgUrl, utils::Config *config, utils::Network *network, QObject *parent = 0);
 
 signals:
     void started();
@@ -44,8 +44,8 @@ private:
     void installDownloadedFile(QNetworkReply *reply);
 
     QString xdgUrl_;
-    core::Config *config_;
-    core::Network *network_;
+    utils::Config *config_;
+    utils::Network *network_;
 
     QJsonObject metadata_;
     QJsonObject destinations_;

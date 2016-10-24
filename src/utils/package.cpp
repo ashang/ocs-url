@@ -4,7 +4,7 @@
 #include <QMimeDatabase>
 #include <QProcess>
 
-namespace utility {
+namespace utils {
 
 Package::Package(QObject *parent) : QObject(parent)
 {}
@@ -106,4 +106,4 @@ bool Package::execute(const QString &program, const QStringList &arguments)
     return false;
 }
 
-} // namespace utility
+} // namespace utils
