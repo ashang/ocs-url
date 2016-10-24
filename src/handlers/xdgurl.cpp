@@ -87,8 +87,7 @@ void XdgUrl::downloaded(QNetworkReply *reply)
         emit error(result);
         return;
     }
-
-    if (reply->hasRawHeader("Location")) {
+    else if (reply->hasRawHeader("Location")) {
         QString redirectUrl = QString(reply->rawHeader("Location"));
         if (redirectUrl.startsWith("/")) {
             redirectUrl = reply->url().authority() + redirectUrl;
@@ -96,8 +95,7 @@ void XdgUrl::downloaded(QNetworkReply *reply)
         network_->get(QUrl(redirectUrl));
         return;
     }
-
-    if (reply->hasRawHeader("Refresh")) {
+    else if (reply->hasRawHeader("Refresh")) {
         QString refreshUrl = QString(reply->rawHeader("Refresh")).split("url=").last();
         if (refreshUrl.startsWith("/")) {
             refreshUrl = reply->url().authority() + refreshUrl;
