@@ -1,5 +1,4 @@
-#ifndef HANDLERS_XDGURL_H
-#define HANDLERS_XDGURL_H
+#pragma once
 
 #include <QObject>
 #include <QJsonObject>
@@ -53,5 +52,3 @@ private:
 };
 
 } // namespace handlers
-
-#endif // HANDLERS_XDGURL_H
