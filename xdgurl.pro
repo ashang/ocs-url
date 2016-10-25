@@ -36,6 +36,18 @@ RESOURCES += \
     src/app/qml/qml.qrc \
     src/desktop/desktop.qrc
 
+DISTFILES += \
+    README.md \
+    pkg/build.sh \
+    pkg/ubuntu/debian/changelog \
+    pkg/ubuntu/debian/compat \
+    pkg/ubuntu/debian/control \
+    pkg/ubuntu/debian/copyright \
+    pkg/ubuntu/debian/rules \
+    pkg/ubuntu/debian/xdgurl.install \
+    pkg/fedora/xdgurl.spec \
+    pkg/arch/PKGBUILD
+
 # Additional RPATH
 include(rpath.pri)
 
