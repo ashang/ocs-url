@@ -49,7 +49,7 @@ DISTFILES += \
     pkg/arch/PKGBUILD
 
 # Additional RPATH
-include(rpath.pri)
+#include(rpath.pri)
 
 # Deployment rules
 include(deployment.pri)
