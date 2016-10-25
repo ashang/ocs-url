@@ -37,7 +37,7 @@ RESOURCES += \
     src/desktop/desktop.qrc
 
 # Additional RPATH
-#include(rpath.pri)
+include(rpath.pri)
 
 # Deployment rules
 include(deployment.pri)
