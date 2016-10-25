@@ -11,8 +11,7 @@ QT += \
     svg \
     network
 
-CONFIG += \
-    c++11
+CONFIG += c++11
 
 SOURCES += \
     src/app/main.cpp \
