@@ -12,20 +12,13 @@
 #include "file.h"
 
 #include <QIODevice>
+#include <QStandardPaths>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
 
 namespace utils {
-
-/**
- * XDG Base Directory Specification
- * http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
- *
- * KDE System Administration/Environment Variables
- * https://userbase.kde.org/KDE_System_Administration/Environment_Variables
- */
 
 File::File(QObject *parent) : QObject(parent)
 {}
@@ -45,35 +38,26 @@ QString File::homePath()
     return QDir::homePath();
 }
 
-QString File::xdgDataHomePath()
+QString File::genericDataPath()
 {
-    QString path = QString::fromLocal8Bit(qgetenv("XDG_DATA_HOME").constData());
-    if (path.isEmpty()) {
-        path = homePath() + "/.local/share";
-    }
-    return path;
+    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
 }
 
-QString File::xdgConfigHomePath()
+QString File::genericConfigPath()
 {
-    QString path = QString::fromLocal8Bit(qgetenv("XDG_CONFIG_HOME").constData());
-    if (path.isEmpty()) {
-        path = homePath() + "/.config";
-    }
-    return path;
+    return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation);
 }
 
-QString File::xdgCacheHomePath()
+QString File::genericCachePath()
 {
-    QString path = QString::fromLocal8Bit(qgetenv("XDG_CACHE_HOME").constData());
-    if (path.isEmpty()) {
-        path = homePath() + "/.cache";
-    }
-    return path;
+    return QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
 }
 
 QString File::kdehomePath()
 {
+    // KDE System Administration/Environment Variables
+    // https://userbase.kde.org/KDE_System_Administration/Environment_Variables
+
     // KDE 4 maybe uses $KDEHOME
     QString path = QString::fromLocal8Bit(qgetenv("KDEHOME").constData());
     if (path.isEmpty()) {

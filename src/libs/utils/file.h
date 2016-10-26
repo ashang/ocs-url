@@ -28,9 +28,9 @@ public:
     static QString rootPath();
     static QString tempPath();
     static QString homePath();
-    static QString xdgDataHomePath();
-    static QString xdgConfigHomePath();
-    static QString xdgCacheHomePath();
+    static QString genericDataPath();
+    static QString genericConfigPath();
+    static QString genericCachePath();
     static QString kdehomePath();
     static QFileInfoList readDir(const QString &path);
     static bool makeDir(const QString &path);
