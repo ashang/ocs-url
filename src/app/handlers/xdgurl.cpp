@@ -173,7 +173,7 @@ QString XdgUrl::convertPathString(const QString &path)
         newPath.replace("$HOME", utils::File::homePath());
     }
     else if (newPath.contains("$XDG_DATA_HOME")) {
-        newPath.replace("$XDG_DATA_HOME", utils::File::xdgDataHomePath());
+        newPath.replace("$XDG_DATA_HOME", utils::File::genericDataPath());
     }
     else if (newPath.contains("$KDEHOME")) {
         newPath.replace("$KDEHOME", utils::File::kdehomePath());
