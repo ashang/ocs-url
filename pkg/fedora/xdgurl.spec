@@ -1,6 +1,6 @@
 Summary: An install helper program for desktop stuff
 Name: xdgurl
-Version: 2.0.0beta
+Version: 2.0.0
 Release: 1%{?dist}
 License: GPLv3+
 Group: Applications/Internet
@@ -37,7 +37,7 @@ make INSTALL_ROOT="%{buildroot}" install
 rm -rf %{buildroot}
 
 %changelog
-* Mon Oct 17 2016 Akira Ohgaki <akiraohgaki@gmail.com> - 2.0.0beta-1
+* Fri Oct 28 2016 Akira Ohgaki <akiraohgaki@gmail.com> - 2.0.0-1
 - Re-implemented xdgurl as Qt program
 - Download progress bar
 - Add install-type "bin"
