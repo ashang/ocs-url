@@ -2,11 +2,11 @@ Source: xdgurl
 Section: web
 Priority: optional
 Maintainer: Akira Ohgaki <akiraohgaki@gmail.com>
-Build-Depends: build-essential (>= 11), devscripts (>= 2.14), debhelper (>= 9), fakeroot (>= 1.20)
+Build-Depends: build-essential (>= 11), qt5-default (>= 5.3.0), libqt5svg5-dev (>= 5.3.0), qtdeclarative5-dev (>= 5.3.0), devscripts (>= 2.14), debhelper (>= 9), fakeroot (>= 1.20)
 Standards-Version: 3.9.4
 
 Package: xdgurl
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-tk (>= 2.7.0), python3-tk (>= 3.2.0)
-Description: xdgurl
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5svg5 (>= 5.3.0), qtdeclarative5-qtquick2-plugin (>= 5.3.0), qtdeclarative5-window-plugin (>= 5.3.0), qtdeclarative5-controls-plugin (>= 5.3.0), qtdeclarative5-dialogs-plugin (>= 5.3.0)
+Description: An install helper program for desktop stuff
  An install helper program for desktop stuff.

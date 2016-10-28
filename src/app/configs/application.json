@@ -1,0 +1,13 @@
+{
+    "id": "xdgurl",
+    "name": "xdgurl",
+    "version": "2.0.0",
+    "organization": "xdgurl",
+    "domain": "com.xdgurl.xdgurl",
+    "icon": ":/desktop/xdgurl.svg",
+    "description": "An install helper program for desktop stuff.",
+    "license": "GPL-3+",
+    "author": "Akira Ohgaki",
+    "contact": "akiraohgaki@gmail.com",
+    "homepage": "https://github.com/xdgurl/xdgurl"
+}

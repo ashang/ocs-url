@@ -1,31 +1,56 @@
 #!/bin/sh
 
-cd `dirname $0`
+TMPDIR=/tmp
+PKGDIR=`cd $(dirname $0) && pwd`
+BUILDDIR=$PKGDIR/build
+PROJDIR=`dirname $PKGDIR`
+PROJNAME=`basename $PROJDIR`
+PARENTDIR=`dirname $PROJDIR`
 
 build_ubuntu() {
-    mkdir ./build
-    cp -r ../src ./build/
-    cp ../Makefile ./build/
-    cp -r ./ubuntu/debian ./build/
-    cd ./build
+    #sudo apt install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev devscripts debhelper fakeroot
+
+    cd $PARENTDIR
+    tar -czvf $TMPDIR/$PROJNAME.tar.gz --exclude ".git" $PROJNAME
+
+    mkdir $BUILDDIR
+
+    mv $TMPDIR/$PROJNAME.tar.gz $BUILDDIR
+    tar -xzvf $BUILDDIR/$PROJNAME.tar.gz -C $BUILDDIR
+    cp -r $PKGDIR/ubuntu/debian $BUILDDIR/$PROJNAME
+
+    cd $BUILDDIR/$PROJNAME
     debuild -uc -us -b
 }
 
 build_fedora() {
-    tar -czvf /tmp/xdgurl.tar.gz ../../xdgurl
-    mkdir -p ./build/SOURCES
-    mkdir -p ./build/SPECS
-    mv /tmp/xdgurl.tar.gz ./build/SOURCES/
-    cp ./fedora/xdgurl.spec ./build/SPECS/
-    rpmbuild --define '_topdir '`pwd`'/build' -bb ./build/SPECS/xdgurl.spec
+    #sudo dnf install make automake gcc gcc-c++ libtool qt5-qtbase-devel qt5-qtsvg-devel qt5-qtdeclarative-devel rpm-build
+
+    cd $PARENTDIR
+    tar -czvf $TMPDIR/$PROJNAME.tar.gz --exclude ".git" $PROJNAME
+
+    mkdir $BUILDDIR
+    mkdir $BUILDDIR/SOURCES
+    mkdir $BUILDDIR/SPECS
+
+    mv $TMPDIR/$PROJNAME.tar.gz $BUILDDIR/SOURCES
+    cp $PKGDIR/fedora/xdgurl.spec $BUILDDIR/SPECS
+
+    rpmbuild --define "_topdir $BUILDDIR" -bb $BUILDDIR/SPECS/xdgurl.spec
 }
 
 build_arch() {
-    tar -czvf /tmp/xdgurl.tar.gz ../../xdgurl
-    mkdir ./build
-    mv /tmp/xdgurl.tar.gz ./build/
-    cp ./arch/PKGBUILD ./build/
-    cd ./build
+    #sudo pacman -S base-devel qt5-base qt5-svg qt5-declarative qt5-quickcontrols
+
+    cd $PARENTDIR
+    tar -czvf $TMPDIR/$PROJNAME.tar.gz --exclude ".git" $PROJNAME
+
+    mkdir $BUILDDIR
+
+    mv $TMPDIR/$PROJNAME.tar.gz $BUILDDIR
+    cp $PKGDIR/arch/PKGBUILD $BUILDDIR
+
+    cd $BUILDDIR
     updpkgsums
     makepkg -s
 }

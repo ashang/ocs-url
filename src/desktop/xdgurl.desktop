@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=xdgurl
 Exec=xdgurl %u
+Icon=xdgurl
 Type=Application
 Terminal=false
 NoDisplay=true

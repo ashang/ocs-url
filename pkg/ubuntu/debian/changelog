@@ -1,3 +1,11 @@
+xdgurl (2.0.0-0ubuntu1) xenial; urgency=low
+
+  * Re-implemented xdgurl as Qt program
+  * Download progress bar
+  * Add install-type "bin"
+
+ -- Akira Ohgaki <akiraohgaki@gmail.com>  Fri, 28 Oct 2016 08:53:57 +0000
+
 xdgurl (1.0.1-0ubuntu1) xenial; urgency=low
 
   * Clean successfull message
