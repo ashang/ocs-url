@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TMPDIR=$HOME/tmp
+TMPDIR=/tmp
 PKGDIR=`cd $(dirname $0) && pwd`
 BUILDDIR=$PKGDIR/build
 PROJDIR=`dirname $PKGDIR`
