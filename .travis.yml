@@ -25,7 +25,7 @@ script:
   - ./linuxdeployqt-*.appimage ./xdgurl.AppDir/xdgurl -qmldir=./src/app/qml -verbose=2 -bundle-non-qt-libs # https://github.com/probonopd/linuxdeployqt/issues/25
   - ./linuxdeployqt-*.appimage ./xdgurl.AppDir/xdgurl -qmldir=./src/app/qml -verbose=2 -bundle-non-qt-libs # twice because of #25
   - ./linuxdeployqt-*.appimage --appimage-extract # So that we can do the next line manually
-  - rm ./xdgurl.AppDir/AppRun && mv ./xdgurl.AppDir/desktopintegration ./xdgurl.AppDir/AppRun
+  - rm ./xdgurl.AppDir/AppRun && mv ./xdgurl.AppDir/desktopintegration ./xdgurl.AppDir/AppRun && chmod a+x ./xdgurl.AppDir/AppRun
   - ./squashfs-root/usr/bin/appimagetool ./xdgurl.AppDir/
   - AI=$(ls xdgurl-release-*.AppImage)
   - curl --upload-file "$AI" "https://transfer.sh/$AI"
