@@ -104,7 +104,7 @@ check_dep()
   fi
 }
 
-DIRNAME=$(dirname $FILENAME)
+DIRNAME="$APPDIR"
 
 # Check whether dependencies are present in base system (we do not bundle these)
 # http://cgit.freedesktop.org/xdg/desktop-file-utils/
