@@ -15,9 +15,12 @@ script:
   - source /opt/qt57/bin/qt57-env.sh
   - /opt/qt57/bin/qmake xdgurl.pro
   - make -j7
-  - mkdir -p xdgurl.AppDir/usr/bin/
-  - cp /usr/local/bin/xdgurl xdgurl.AppDir/usr/bin/
+  - mkdir -p xdgurl.AppDir/
+  - strip ./xdgurl
+  - cp ./xdgurl xdgurl.AppDir/
+  - wget https://transfer.sh/DHN4B/linuxdeployqt-799f704-x86-64.appimage
+  - chmod a+x linuxdeployqt-799f704-x86-64.appimage
   - export VERSION=$(git describe --always)
-  - # ./linuxdeployqt -verbose=3 -appimage
+  - ./linuxdeployqt-799f704-x86-64.appimage ./xdgurl.AppDir/ -verbose=2 -appimage
   - ls -lh
   - # curl --upload-file ./xdgurl-*.AppImage https://transfer.sh/xdgurl-$VERSION-x86_64.appimage
