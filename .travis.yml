@@ -20,6 +20,6 @@ script:
   - wget https://transfer.sh/DHN4B/linuxdeployqt-799f704-x86-64.appimage
   - chmod a+x linuxdeployqt-799f704-x86-64.appimage
   - export VERSION=$(git describe --always)
-  - ./linuxdeployqt-799f704-x86-64.appimage ./xdgurl.AppDir/ -verbose=2 -appimage
+  - ./linuxdeployqt-799f704-x86-64.appimage ./xdgurl.AppDir/xdgurl -verbose=2 -appimage
   - ls -lh
   - # curl --upload-file ./xdgurl-*.AppImage https://transfer.sh/xdgurl-$VERSION-x86_64.appimage
