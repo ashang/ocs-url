@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=xdgurl
+Exec=xdgurl
+Icon=xdgurl
+Comment=An install helper program for desktop stuff
+Categories=System;
+Terminal=false
