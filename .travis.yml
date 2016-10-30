@@ -15,7 +15,6 @@ script:
   - source /opt/qt57/bin/qt57-env.sh
   - /opt/qt57/bin/qmake xdgurl.pro
   - make -j7
-  - mkdir -p xdgurl.AppDir/
   - strip ./xdgurl
   - cp ./xdgurl xdgurl.AppDir/
   - wget https://transfer.sh/DHN4B/linuxdeployqt-799f704-x86-64.appimage
