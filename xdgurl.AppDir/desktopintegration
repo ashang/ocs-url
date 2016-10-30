@@ -26,6 +26,7 @@ VENDORPREFIX=appimagekit
 APPDIR="$(dirname "$(readlink -f "${THIS}")")"
 
 BIN="${APPDIR}/xdgurl"
+export PATH="${APPDIR}/usr/bin:$PATH"
 
 trap atexit EXIT
 
