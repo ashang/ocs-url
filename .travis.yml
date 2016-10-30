@@ -9,7 +9,7 @@ before_install:
   - sudo apt-get update -qq
   
 install:
-  - sudo apt-get -y install qt57base binutils
+  - sudo apt-get -y install binutils qt57base qt57quickcontrols qt57quickcontrols2 qt57svg 
 
 script:
   - source /opt/qt57/bin/qt57-env.sh
