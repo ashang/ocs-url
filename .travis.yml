@@ -20,6 +20,7 @@ script:
   - wget https://transfer.sh/DHN4B/linuxdeployqt-799f704-x86-64.appimage
   - chmod a+x linuxdeployqt-799f704-x86-64.appimage
   - export VERSION=$(git describe --always)
+  - ./linuxdeployqt-799f704-x86-64.appimage ./xdgurl.AppDir/xdgurl -qmldir=./src/app/qml -verbose=2 -bundle-non-qt-libs # https://github.com/probonopd/linuxdeployqt/issues/25
   - ./linuxdeployqt-799f704-x86-64.appimage ./xdgurl.AppDir/xdgurl -qmldir=./src/app/qml -verbose=2 -appimage
   - AI=$(ls xdgurl-release-*.AppImage)
   - curl --upload-file "$AI" "https://transfer.sh/$AI"
