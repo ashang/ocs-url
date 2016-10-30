@@ -1,4 +1,4 @@
-# xdgurl
+# xdgurl [![Build Status](https://travis-ci.org/xdgurl/xdgurl.svg?branch=master)](https://travis-ci.org/xdgurl/xdgurl)
 
 An install helper program for desktop stuff.
 
