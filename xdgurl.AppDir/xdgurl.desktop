@@ -1,8 +1,9 @@
 [Desktop Entry]
-Type=Application
 Name=xdgurl
-Exec=xdgurl
+Exec=xdgurl %u
 Icon=xdgurl
-Comment=An install helper program for desktop stuff
-Categories=System;
+Type=Application
 Terminal=false
+NoDisplay=true
+Categories=Network;Utility;
+MimeType=x-scheme-handler/xdg;x-scheme-handler/xdgs;
