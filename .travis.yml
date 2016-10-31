@@ -1,0 +1,31 @@
+language: cpp
+sudo: required
+dist: trusty
+
+os: linux
+
+before_install:
+  - sudo add-apt-repository --yes ppa:beineri/opt-qt57-trusty
+  - sudo apt-get update -qq
+  
+install:
+  - sudo apt-get -y install binutils qt57base qt57quickcontrols qt57quickcontrols2 qt57svg desktop-file-utils
+
+script:
+  - source /opt/qt57/bin/qt57-env.sh
+  - /opt/qt57/bin/qmake xdgurl.pro
+  - make -j7
+  - strip ./xdgurl
+  - mkdir -p xdgurl.AppDir/usr/bin
+  - cp ./xdgurl xdgurl.AppDir/
+  - cp /usr/bin/{update-desktop-database,desktop-file-validate,desktop-file-install} xdgurl.AppDir/usr/bin
+  - wget https://transfer.sh/DHN4B/linuxdeployqt-799f704-x86-64.appimage
+  - chmod a+x linuxdeployqt-799f704-x86-64.appimage
+  - export VERSION=$(git describe --always)
+  - ./linuxdeployqt-*.appimage ./xdgurl.AppDir/xdgurl -qmldir=./src/app/qml -verbose=2 -bundle-non-qt-libs # https://github.com/probonopd/linuxdeployqt/issues/25
+  - ./linuxdeployqt-*.appimage ./xdgurl.AppDir/xdgurl -qmldir=./src/app/qml -verbose=2 -bundle-non-qt-libs # twice because of #25
+  - ./linuxdeployqt-*.appimage --appimage-extract # So that we can do the next line manually
+  - rm ./xdgurl.AppDir/AppRun && mv ./xdgurl.AppDir/desktopintegration ./xdgurl.AppDir/AppRun && chmod a+x ./xdgurl.AppDir/AppRun
+  - ./squashfs-root/usr/bin/appimagetool ./xdgurl.AppDir/
+  - AI=$(ls xdgurl-release-*.AppImage)
+  - curl --upload-file "$AI" "https://transfer.sh/$AI"

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=xdgurl
+Exec=xdgurl %u
+Icon=xdgurl
+Type=Application
+Terminal=false
+NoDisplay=true
+Categories=Network;Utility;
+MimeType=x-scheme-handler/xdg;x-scheme-handler/xdgs;
