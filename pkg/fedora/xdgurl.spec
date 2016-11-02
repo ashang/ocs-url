@@ -21,7 +21,7 @@ An install helper program for desktop stuff.
 
 %build
 %define debug_package %{nil}
-qmake-qt5 PREFIX="/usr"
+qmake-qt5 PREFIX='/usr'
 make
 
 %install

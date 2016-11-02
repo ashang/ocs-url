@@ -4,7 +4,7 @@
 	dh $@
 
 override_dh_auto_configure:
-	qmake PREFIX="/usr"
+	qmake PREFIX='/usr'
 
 override_dh_auto_install:
 	make INSTALL_ROOT="$(CURDIR)/debian/tmp" install
