@@ -5,7 +5,6 @@ TEMPLATE = app
 QT += \
     core \
     gui \
-    widgets \
     qml \
     quick \
     svg \
@@ -37,6 +36,8 @@ RESOURCES += \
 
 DISTFILES += \
     README.md \
+    src/desktop/xdgurl.desktop \
+    src/desktop/appimage-desktopintegration \
     pkg/build.sh \
     pkg/ubuntu/debian/changelog \
     pkg/ubuntu/debian/compat \

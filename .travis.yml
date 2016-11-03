@@ -2,20 +2,25 @@ language: cpp
 sudo: required
 dist: trusty
 
-os: linux
-
 before_install:
-  - sudo add-apt-repository --yes ppa:beineri/opt-qt57-trusty
+  - sudo add-apt-repository -y ppa:beineri/opt-qt57-trusty
   - sudo apt-get update -qq
-  - curl https://transfer.sh/DHN4B/linuxdeployqt-799f704-x86-64.appimage -o linuxdeployqt.appimage
 
 install:
-  - sudo apt-get -y install binutils qt57base qt57quickcontrols qt57quickcontrols2 qt57svg desktop-file-utils
-  - sudo install -m 755 -p linuxdeployqt.appimage /usr/local/bin/linuxdeployqt.appimage
-  - rm linuxdeployqt.appimage
+  - sudo apt-get -y install build-essential fuse zsync desktop-file-utils
+  - sudo apt-get -y install qt57base qt57svg qt57quickcontrols qt57quickcontrols2
+  # Replace linuxdeployqt download URL to official download URL when the stable version released
+  - curl -L -o linuxdeployqt https://dl.dropboxusercontent.com/u/150776/temp/linuxdeployqt-799f704-x86-64.appimage
+  - sudo install -m 755 -p linuxdeployqt /usr/local/bin/linuxdeployqt
+  - rm linuxdeployqt
+
+before_script:
+  - sudo modprobe fuse
+  - source /opt/qt57/bin/qt57-env.sh
 
 script:
-  - source /opt/qt57/bin/qt57-env.sh
-  - sh pkg/build.sh appimage
-  - AI=$(ls pkg/build/xdgurl-release-*.AppImage)
-  - curl --upload-file "$AI" "https://transfer.sh/$AI"
+  - sh ./pkg/build.sh appimage
+
+after_script:
+  - appimage_file="$(ls ./pkg/build/*.AppImage)"
+  - [ -f "${appimage_file}" ] && curl -T "${appimage_file}" "https://transfer.sh/${appimage_file}"
