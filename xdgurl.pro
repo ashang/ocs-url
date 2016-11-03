@@ -13,40 +13,40 @@ QT += \
 CONFIG += c++11
 
 SOURCES += \
-    src/app/main.cpp \
-    src/app/handlers/xdgurl.cpp \
-    src/libs/utils/config.cpp \
-    src/libs/utils/network.cpp \
-    src/libs/utils/file.cpp \
-    src/libs/utils/json.cpp \
-    src/libs/utils/package.cpp
+    $${PWD}/src/app/main.cpp \
+    $${PWD}/src/app/handlers/xdgurl.cpp \
+    $${PWD}/src/libs/utils/config.cpp \
+    $${PWD}/src/libs/utils/network.cpp \
+    $${PWD}/src/libs/utils/file.cpp \
+    $${PWD}/src/libs/utils/json.cpp \
+    $${PWD}/src/libs/utils/package.cpp
 
 HEADERS += \
-    src/app/handlers/xdgurl.h \
-    src/libs/utils/config.h \
-    src/libs/utils/network.h \
-    src/libs/utils/file.h \
-    src/libs/utils/json.h \
-    src/libs/utils/package.h
+    $${PWD}/src/app/handlers/xdgurl.h \
+    $${PWD}/src/libs/utils/config.h \
+    $${PWD}/src/libs/utils/network.h \
+    $${PWD}/src/libs/utils/file.h \
+    $${PWD}/src/libs/utils/json.h \
+    $${PWD}/src/libs/utils/package.h
 
 RESOURCES += \
-    src/app/configs/configs.qrc \
-    src/app/qml/qml.qrc \
-    src/desktop/desktop.qrc
+    $${PWD}/src/app/configs/configs.qrc \
+    $${PWD}/src/app/qml/qml.qrc \
+    $${PWD}/src/desktop/desktop.qrc
 
 DISTFILES += \
-    README.md \
-    src/desktop/xdgurl.desktop \
-    src/desktop/appimage-desktopintegration \
-    pkg/build.sh \
-    pkg/ubuntu/debian/changelog \
-    pkg/ubuntu/debian/compat \
-    pkg/ubuntu/debian/control \
-    pkg/ubuntu/debian/copyright \
-    pkg/ubuntu/debian/rules \
-    pkg/ubuntu/debian/xdgurl.install \
-    pkg/fedora/xdgurl.spec \
-    pkg/arch/PKGBUILD
+    $${PWD}/README.md \
+    $${PWD}/src/desktop/xdgurl.desktop \
+    $${PWD}/src/desktop/appimage-desktopintegration \
+    $${PWD}/pkg/build.sh \
+    $${PWD}/pkg/ubuntu/debian/changelog \
+    $${PWD}/pkg/ubuntu/debian/compat \
+    $${PWD}/pkg/ubuntu/debian/control \
+    $${PWD}/pkg/ubuntu/debian/copyright \
+    $${PWD}/pkg/ubuntu/debian/rules \
+    $${PWD}/pkg/ubuntu/debian/xdgurl.install \
+    $${PWD}/pkg/fedora/xdgurl.spec \
+    $${PWD}/pkg/arch/PKGBUILD
 
 # Additional RPATH
 #include(rpath.pri)
