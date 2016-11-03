@@ -87,6 +87,7 @@ build_appimage() {
     tar -xzvf "${BUILDDIR}/${PKGNAME}.tar.gz" -C "${BUILDDIR}"
 
     cd "${BUILDDIR}/${PKGNAME}"
+    #qmake
     /opt/qt57/bin/qmake
     make
     strip ./xdgurl
