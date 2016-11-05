@@ -1,4 +1,4 @@
-unix:!android {
+unix:!ios:!android {
     isEmpty(PREFIX) {
         PREFIX = /usr/local
     }
