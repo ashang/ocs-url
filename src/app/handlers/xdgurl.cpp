@@ -66,7 +66,6 @@ bool XdgUrl::isValid()
             && !filename.isEmpty()) {
         return true;
     }
-
     return false;
 }
 
@@ -194,13 +193,7 @@ void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
 {
     QJsonObject result;
 
-    QString type = metadata_["type"].toString();
-    QString destination = destinations_[type].toString();
-    QString path = destination + "/" + metadata_["filename"].toString();
     QString tempPath = qtlibs::Dir::tempPath() + "/" + metadata_["filename"].toString();
-
-    qtlibs::Dir(destination).make();
-    qtlibs::File(path).remove(); // Remove previous downloaded file
 
     if (!resource->saveData(tempPath)) {
         result["status"] = QString("error_save");
@@ -210,6 +203,13 @@ void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
     }
 
     qtlibs::Package package(tempPath);
+
+    QString type = metadata_["type"].toString();
+    QString destination = destinations_[type].toString();
+    QString path = destination + "/" + metadata_["filename"].toString();
+
+    qtlibs::Dir(destination).make();
+    qtlibs::File(path).remove(); // Remove previous downloaded file
 
     if (type == "bin"
             && package.installAsProgram(path)) {
