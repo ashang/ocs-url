@@ -43,7 +43,6 @@ private:
 
     QString xdgUrl_;
     qtlibs::Config *config_;
-
     QJsonObject metadata_;
     QJsonObject destinations_;
     QString destination_;

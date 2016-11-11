@@ -1,7 +1,6 @@
 #include "xdgurl.h"
 
 #include <QUrlQuery>
-//#include <QTemporaryFile>
 #include <QDesktopServices>
 
 #include "qtlibs/file.h"
