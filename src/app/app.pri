@@ -1,15 +1,9 @@
-TARGET = xdgurl
-
-TEMPLATE = app
-
 QT += \
     core \
     gui \
     qml \
     quick \
     svg
-
-CONFIG += c++11
 
 HEADERS += \
     $${PWD}/handlers/xdgurl.h

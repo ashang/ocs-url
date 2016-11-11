@@ -18,12 +18,10 @@ SOURCES += \
     $${PWD}/networkresource.cpp \
     $${PWD}/package.cpp
 
-# Unix
 unix:!ios:!android {
     DEFINES += QTLIBS_UNIX
 }
 
-# Android
 android {
     QT += androidextras
 }
