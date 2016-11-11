@@ -130,12 +130,12 @@ Window {
             errorDialog.open();
         });
 
-        xdgUrlHandler.downloadProgress.connect(function(received, total) {
+        xdgUrlHandler.downloadProgress.connect(function(bytesReceived, bytesTotal) {
             progressDialog.primaryLabel.text = 'Downloading... ';
             progressDialog.informativeLabel.text = metadata.filename;
-            progressDialog.progressBar.value = received / total;
-            progressDialog.progressLabel.text = Utility.convertByteToHumanReadable(received)
-                    + ' / ' + Utility.convertByteToHumanReadable(total)
+            progressDialog.progressBar.value = bytesReceived / bytesTotal;
+            progressDialog.progressLabel.text = Utility.convertByteToHumanReadable(bytesReceived)
+                    + ' / ' + Utility.convertByteToHumanReadable(bytesTotal)
         });
 
         if (xdgUrlHandler.isValid()) {

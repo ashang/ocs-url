@@ -1,26 +1,32 @@
 #include "xdgurl.h"
 
-#include <QUrl>
 #include <QUrlQuery>
-#include <QTemporaryFile>
-#include <QNetworkReply>
+//#include <QTemporaryFile>
 #include <QDesktopServices>
 
-#include "../../libs/utils/config.h"
-#include "../../libs/utils/network.h"
-#include "../../libs/utils/file.h"
-#include "../../libs/utils/package.h"
+#include "qtlibs/file.h"
+#include "qtlibs/dir.h"
+#include "qtlibs/config.h"
+#include "qtlibs/networkresource.h"
+#include "qtlibs/package.h"
 
 namespace handlers {
 
-XdgUrl::XdgUrl(const QString &xdgUrl, utils::Config *config, utils::Network *network, QObject *parent) :
-    QObject(parent), xdgUrl_(xdgUrl), config_(config), network_(network)
+XdgUrl::XdgUrl(const QString &xdgUrl, qtlibs::Config *config, QObject *parent) :
+    QObject(parent), xdgUrl_(xdgUrl), config_(config)
 {
     parse();
     loadDestinations();
+}
 
-    connect(network_, &utils::Network::finished, this, &handlers::XdgUrl::downloaded);
-    connect(network_, &utils::Network::downloadProgress, this, &handlers::XdgUrl::downloadProgress);
+QString XdgUrl::xdgUrl() const
+{
+    return xdgUrl_;
+}
+
+QJsonObject XdgUrl::metadata() const
+{
+    return metadata_;
 }
 
 void XdgUrl::process()
@@ -38,7 +44,11 @@ void XdgUrl::process()
         return;
     }
 
-    network_->get(QUrl(metadata_["url"].toString()));
+    QString url = metadata_["url"].toString();
+    qtlibs::NetworkResource *resource = new qtlibs::NetworkResource(url, QUrl(url));
+    connect(resource, &qtlibs::NetworkResource::downloadProgress, this, &XdgUrl::downloadProgress);
+    connect(resource, &qtlibs::NetworkResource::finished, this, &XdgUrl::downloaded);
+    resource->get();
     emit started();
 }
 
@@ -68,47 +78,21 @@ void XdgUrl::openDestination()
     }
 }
 
-QString XdgUrl::xdgUrl() const
+void XdgUrl::downloaded(qtlibs::NetworkResource *resource)
 {
-    return xdgUrl_;
-}
-
-QJsonObject XdgUrl::metadata() const
-{
-    return metadata_;
-}
-
-void XdgUrl::downloaded(QNetworkReply *reply)
-{
-    if (reply->error() != QNetworkReply::NoError) {
+    if (resource->reply()->error() != QNetworkReply::NoError) {
         QJsonObject result;
         result["status"] = QString("error_network");
-        result["message"] = reply->errorString();
+        result["message"] = resource->reply()->errorString();
         emit error(result);
-        return;
-    }
-    else if (reply->hasRawHeader("Location")) {
-        QString redirectUrl = QString(reply->rawHeader("Location"));
-        if (redirectUrl.startsWith("/")) {
-            redirectUrl = reply->url().authority() + redirectUrl;
-        }
-        network_->get(QUrl(redirectUrl));
-        return;
-    }
-    else if (reply->hasRawHeader("Refresh")) {
-        QString refreshUrl = QString(reply->rawHeader("Refresh")).split("url=").last();
-        if (refreshUrl.startsWith("/")) {
-            refreshUrl = reply->url().authority() + refreshUrl;
-        }
-        network_->get(QUrl(refreshUrl));
         return;
     }
 
     if (metadata_["command"].toString() == "download") {
-        saveDownloadedFile(reply);
+        saveDownloadedFile(resource);
     }
     else if (metadata_["command"].toString() == "install") {
-        installDownloadedFile(reply);
+        installDownloadedFile(resource);
     }
 }
 
@@ -170,41 +154,32 @@ QString XdgUrl::convertPathString(const QString &path)
     QString newPath = path;
 
     if (newPath.contains("$HOME")) {
-        newPath.replace("$HOME", utils::File::homePath());
+        newPath.replace("$HOME", qtlibs::Dir::homePath());
     }
     else if (newPath.contains("$XDG_DATA_HOME")) {
-        newPath.replace("$XDG_DATA_HOME", utils::File::genericDataPath());
+        newPath.replace("$XDG_DATA_HOME", qtlibs::Dir::genericDataPath());
     }
     else if (newPath.contains("$KDEHOME")) {
-        newPath.replace("$KDEHOME", utils::File::kdehomePath());
+        newPath.replace("$KDEHOME", qtlibs::Dir::kdehomePath());
     }
 
     return newPath;
 }
 
-void XdgUrl::saveDownloadedFile(QNetworkReply *reply)
+void XdgUrl::saveDownloadedFile(qtlibs::NetworkResource *resource)
 {
     QJsonObject result;
-
-    QTemporaryFile temporaryFile;
-
-    if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
-        result["status"] = QString("error_save");
-        result["message"] = temporaryFile.errorString();
-        emit error(result);
-        return;
-    }
 
     QString type = metadata_["type"].toString();
     QString destination = destinations_[type].toString();
     QString path = destination + "/" + metadata_["filename"].toString();
 
-    utils::File::makeDir(destination);
-    utils::File::remove(path); // Remove previous downloaded file
+    qtlibs::Dir(destination).make();
+    qtlibs::File(path).remove(); // Remove previous downloaded file
 
-    if (!temporaryFile.copy(path)) {
+    if (!resource->saveData(path)) {
         result["status"] = QString("error_save");
-        result["message"] = temporaryFile.errorString();
+        result["message"] = QString("Failed to save data as " + path);
         emit error(result);
         return;
     }
@@ -216,63 +191,64 @@ void XdgUrl::saveDownloadedFile(QNetworkReply *reply)
     emit finished(result);
 }
 
-void XdgUrl::installDownloadedFile(QNetworkReply *reply)
+void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
 {
     QJsonObject result;
-
-    QTemporaryFile temporaryFile;
-
-    if (!temporaryFile.open() || temporaryFile.write(reply->readAll()) == -1) {
-        result["status"] = QString("error_save");
-        result["message"] = temporaryFile.errorString();
-        emit error(result);
-        return;
-    }
 
     QString type = metadata_["type"].toString();
     QString destination = destinations_[type].toString();
     QString path = destination + "/" + metadata_["filename"].toString();
+    QString tempPath = qtlibs::Dir::tempPath() + "/" + metadata_["filename"].toString();
 
-    utils::File::makeDir(destination);
-    utils::File::remove(path); // Remove previous downloaded file
+    qtlibs::Dir(destination).make();
+    qtlibs::File(path).remove(); // Remove previous downloaded file
+
+    if (!resource->saveData(tempPath)) {
+        result["status"] = QString("error_save");
+        result["message"] = QString("Failed to save data as " + tempPath);
+        emit error(result);
+        return;
+    }
+
+    qtlibs::Package package(tempPath);
 
     if (type == "bin"
-            && utils::Package::installProgram(temporaryFile.fileName(), path)) {
-        result["message"] = QString("The program has been installed into " + destination);
+            && package.installAsProgram(path)) {
+        result["message"] = QString("The file has been installed into " + destination);
     }
     else if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
-             && utils::Package::installPlasmapkg(temporaryFile.fileName(), "plasmoid")) {
+             && package.installAsPlasmapkg("plasmoid")) {
         result["message"] = QString("The plasmoid has been installed");
     }
     else if ((type == "plasma_look_and_feel" || type == "plasma5_look_and_feel")
-             && utils::Package::installPlasmapkg(temporaryFile.fileName(), "lookandfeel")) {
+             && package.installAsPlasmapkg("lookandfeel")) {
         result["message"] = QString("The plasma look and feel has been installed");
     }
     else if ((type == "plasma_desktopthemes" || type == "plasma5_desktopthemes")
-             && utils::Package::installPlasmapkg(temporaryFile.fileName(), "theme")) {
+             && package.installAsPlasmapkg("theme")) {
         result["message"] = QString("The plasma desktop theme has been installed");
     }
     else if (type == "kwin_effects"
-             && utils::Package::installPlasmapkg(temporaryFile.fileName(), "kwineffect")) {
+             && package.installAsPlasmapkg("kwineffect")) {
         result["message"] = QString("The KWin effect has been installed");
     }
     else if (type == "kwin_scripts"
-             && utils::Package::installPlasmapkg(temporaryFile.fileName(), "kwinscript")) {
+             && package.installAsPlasmapkg("kwinscript")) {
         result["message"] = QString("The KWin script has been installed");
     }
     else if (type == "kwin_tabbox"
-             && utils::Package::installPlasmapkg(temporaryFile.fileName(), "windowswitcher")) {
+             && package.installAsPlasmapkg("windowswitcher")) {
         result["message"] = QString("The KWin window switcher has been installed");
     }
-    else if (utils::Package::uncompressArchive(temporaryFile.fileName(), destination)) {
-        result["message"] = QString("The archive file has been uncompressed into " + destination);
+    else if (package.installAsArchive(destination)) {
+        result["message"] = QString("The archive file has been extracted into " + destination);
     }
-    else if (temporaryFile.copy(path)) {
-        result["message"] = QString("The file has been stored into " + destination);
+    else if (package.installAsFile(path)) {
+        result["message"] = QString("The file has been installed into " + destination);
     }
     else {
         result["status"] = QString("error_install");
-        result["message"] = temporaryFile.errorString();
+        result["message"] = QString("Failed to installation");
         emit error(result);
         return;
     }
