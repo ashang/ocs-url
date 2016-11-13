@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
     QQmlContext *qmlContext = qmlAppEngine.rootContext();
-    qmlContext->setContextProperty("xdgUrlHandler", new handlers::XdgUrl(xdgUrl, config));
+    qmlContext->setContextProperty("xdgUrlHandler", new handlers::XdgUrl(xdgUrl, config, qmlAppEngine));
     qmlAppEngine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();
