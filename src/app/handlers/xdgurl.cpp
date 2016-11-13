@@ -5,14 +5,13 @@
 
 #include "qtlibs/file.h"
 #include "qtlibs/dir.h"
-#include "qtlibs/config.h"
 #include "qtlibs/networkresource.h"
 #include "qtlibs/package.h"
 
 namespace handlers {
 
-XdgUrl::XdgUrl(const QString &xdgUrl, qtlibs::Config *config, QObject *parent) :
-    QObject(parent), xdgUrl_(xdgUrl), config_(config)
+XdgUrl::XdgUrl(const QString &xdgUrl, const qtlibs::Config &config, QObject *parent)
+    : QObject(parent), xdgUrl_(xdgUrl), config_(config)
 {
     parse();
     loadDestinations();
@@ -132,8 +131,8 @@ void XdgUrl::parse()
 
 void XdgUrl::loadDestinations()
 {
-    QJsonObject configDestinations = config_->get("destinations");
-    QJsonObject configDestinationsAlias = config_->get("destinations_alias");
+    QJsonObject configDestinations = config_.get("destinations");
+    QJsonObject configDestinationsAlias = config_.get("destinations_alias");
 
     foreach (const QString key, configDestinations.keys()) {
         destinations_[key] = convertPathString(configDestinations[key].toString());

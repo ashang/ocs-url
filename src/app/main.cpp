@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
 #endif
     QGuiApplication app(argc, argv);
 
-    qtlibs::Config *config = new qtlibs::Config(":/configs");
-    QJsonObject configApplication = config->get("application");
+    qtlibs::Config config(":/configs");
+    QJsonObject configApplication = config.get("application");
 
     app.setApplicationName(configApplication["name"].toString());
     app.setApplicationVersion(configApplication["version"].toString());
