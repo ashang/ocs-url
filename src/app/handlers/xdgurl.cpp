@@ -45,7 +45,7 @@ void XdgUrl::process()
     QString url = metadata_["url"].toString();
     qtlibs::NetworkResource *resource = new qtlibs::NetworkResource(url, QUrl(url), true, this);
     connect(resource, &qtlibs::NetworkResource::downloadProgress, this, &XdgUrl::downloadProgress);
-    connect(resource, &qtlibs::NetworkResource::finished, this, &XdgUrl::downloaded);
+    connect(resource, &qtlibs::NetworkResource::finished, this, &XdgUrl::networkResourceFinished);
     resource->get();
     emit started();
 }
@@ -75,7 +75,7 @@ void XdgUrl::openDestination()
     }
 }
 
-void XdgUrl::downloaded(qtlibs::NetworkResource *resource)
+void XdgUrl::networkResourceFinished(qtlibs::NetworkResource *resource)
 {
     if (resource->reply()->error() != QNetworkReply::NoError) {
         QJsonObject result;

@@ -33,7 +33,7 @@ public slots:
     void openDestination();
 
 private slots:
-    void downloaded(qtlibs::NetworkResource *resource);
+    void networkResourceFinished(qtlibs::NetworkResource *resource);
 
 private:
     void parse();
