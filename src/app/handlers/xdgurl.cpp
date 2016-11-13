@@ -201,14 +201,15 @@ void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
         return;
     }
 
-    qtlibs::Package package(tempPath);
-
     QString type = metadata_["type"].toString();
     QString destination = destinations_[type].toString();
     QString path = destination + "/" + metadata_["filename"].toString();
 
     qtlibs::Dir(destination).make();
     qtlibs::File(path).remove(); // Remove previous downloaded file
+
+    qtlibs::File tempFile(tempPath);
+    qtlibs::Package package(tempPath);
 
     if (type == "bin"
             && package.installAsProgram(path)) {
@@ -245,11 +246,14 @@ void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
         result["message"] = QString("The file has been installed into " + destination);
     }
     else {
+        tempFile.remove();
         result["status"] = QString("error_install");
         result["message"] = QString("Failed to installation");
         emit error(result);
         return;
     }
+
+    tempFile.remove();
 
     destination_ = destination;
 
