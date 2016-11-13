@@ -18,9 +18,22 @@
 
 namespace qtlibs {
 
-Dir::Dir(const QString &path, QObject *parent) :
-    QObject(parent), path_(path)
+Dir::Dir(const QString &path, QObject *parent)
+    : QObject(parent), path_(path)
 {}
+
+Dir::Dir(const Dir &other)
+{
+    this->setParent(other.parent());
+    setPath(other.path());
+}
+
+Dir &Dir::operator =(const Dir &other)
+{
+    this->setParent(other.parent());
+    setPath(other.path());
+    return *this;
+}
 
 QString Dir::path() const
 {

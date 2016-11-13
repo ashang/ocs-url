@@ -16,28 +16,33 @@
 
 namespace qtlibs {
 
-Json::Json(const QByteArray &json, QObject *parent) :
-    QObject(parent), json_(json)
+Json::Json(const QByteArray &json, QObject *parent)
+    : QObject(parent), json_(json)
 {}
 
-Json::Json(const QString &string, QObject *parent) :
-    QObject(parent)
+Json::Json(const QJsonObject &object, QObject *parent)
+    : QObject(parent)
 {
-    setJson(string.toUtf8());
+    fromObject(object);
 }
 
-Json::Json(const QJsonObject &object, QObject *parent) :
-    QObject(parent)
+Json::Json(const QJsonArray &array, QObject *parent)
+    : QObject(parent)
 {
-    QJsonDocument doc(object);
-    setJson(doc.toJson());
+    fromArray(array);
 }
 
-Json::Json(const QJsonArray &array, QObject *parent) :
-    QObject(parent)
+Json::Json(const Json &other)
 {
-    QJsonDocument doc(array);
-    setJson(doc.toJson());
+    this->setParent(other.parent());
+    setJson(other.json());
+}
+
+Json &Json::operator =(const Json &other)
+{
+    this->setParent(other.parent());
+    setJson(other.json());
+    return *this;
 }
 
 QByteArray Json::json() const
@@ -48,6 +53,36 @@ QByteArray Json::json() const
 void Json::setJson(const QByteArray &json)
 {
     json_ = json;
+}
+
+void Json::fromObject(const QJsonObject &object)
+{
+    QJsonDocument doc(object);
+    setJson(doc.toJson());
+}
+
+void Json::fromArray(const QJsonArray &array)
+{
+    QJsonDocument doc(array);
+    setJson(doc.toJson());
+}
+
+QByteArray Json::toJson()
+{
+    QJsonDocument doc = QJsonDocument::fromJson(json());
+    return doc.toJson();
+}
+
+QJsonObject Json::toObject()
+{
+    QJsonDocument doc = QJsonDocument::fromJson(json());
+    return doc.object();
+}
+
+QJsonArray Json::toArray()
+{
+    QJsonDocument doc = QJsonDocument::fromJson(json());
+    return doc.array();
 }
 
 bool Json::isValid()
@@ -70,24 +105,6 @@ bool Json::isArray()
 {
     QJsonDocument doc = QJsonDocument::fromJson(json());
     return doc.isArray();
-}
-
-QByteArray Json::toJson()
-{
-    QJsonDocument doc = QJsonDocument::fromJson(json());
-    return doc.toJson();
-}
-
-QJsonObject Json::toObject()
-{
-    QJsonDocument doc = QJsonDocument::fromJson(json());
-    return doc.object();
-}
-
-QJsonArray Json::toArray()
-{
-    QJsonDocument doc = QJsonDocument::fromJson(json());
-    return doc.array();
 }
 
 } // namespace qtlibs

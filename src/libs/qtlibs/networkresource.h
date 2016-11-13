@@ -24,8 +24,11 @@ class NetworkResource : public QObject
     Q_OBJECT
 
 public:
-    explicit NetworkResource(const QString &name, const QUrl &url, const bool &async = true, QObject *parent = 0);
+    explicit NetworkResource(const QString &name = QString(), const QUrl &url = QUrl(), const bool &async = true, QObject *parent = 0);
     ~NetworkResource();
+
+    NetworkResource(const NetworkResource &other);
+    NetworkResource &operator =(const NetworkResource &other);
 
     QString name() const;
     void setName(const QString &name);

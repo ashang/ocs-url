@@ -17,8 +17,8 @@
 
 namespace qtlibs {
 
-NetworkResource::NetworkResource(const QString &name, const QUrl &url, const bool &async, QObject *parent) :
-    QObject(parent), name_(name), url_(url), async_(async)
+NetworkResource::NetworkResource(const QString &name, const QUrl &url, const bool &async, QObject *parent)
+    : QObject(parent), name_(name), url_(url), async_(async)
 {
     setManager(new QNetworkAccessManager(this));
 }
@@ -26,6 +26,33 @@ NetworkResource::NetworkResource(const QString &name, const QUrl &url, const boo
 NetworkResource::~NetworkResource()
 {
     manager()->deleteLater();
+}
+
+NetworkResource::NetworkResource(const NetworkResource &other)
+{
+    this->setParent(other.parent());
+    setName(other.name());
+    setUrl(other.url());
+    setAsync(other.async());
+    setRequest(other.request());
+    setManager(other.manager());
+    setReply(other.reply());
+    setMethod(other.method());
+}
+
+NetworkResource &NetworkResource::operator =(const NetworkResource &other)
+{
+    manager()->deleteLater();
+
+    this->setParent(other.parent());
+    setName(other.name());
+    setUrl(other.url());
+    setAsync(other.async());
+    setRequest(other.request());
+    setManager(other.manager());
+    setReply(other.reply());
+    setMethod(other.method());
+    return *this;
 }
 
 QString NetworkResource::name() const

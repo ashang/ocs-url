@@ -17,9 +17,22 @@
 
 namespace qtlibs {
 
-Config::Config(const QString &configDirPath, QObject *parent) :
-    QObject(parent), configDirPath_(configDirPath)
+Config::Config(const QString &configDirPath, QObject *parent)
+    : QObject(parent), configDirPath_(configDirPath)
 {}
+
+Config::Config(const Config &other)
+{
+    this->setParent(other.parent());
+    setConfigDirPath(other.configDirPath());
+}
+
+Config &Config::operator =(const Config &other)
+{
+    this->setParent(other.parent());
+    setConfigDirPath(other.configDirPath());
+    return *this;
+}
 
 QString Config::configDirPath() const
 {
