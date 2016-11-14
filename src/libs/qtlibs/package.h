@@ -22,7 +22,7 @@ class Package : public QObject
 public:
     explicit Package(const QString &path = QString(), QObject *parent = 0);
 
-    Package(const Package &other);
+    Package(const Package &other, QObject *parent = 0);
     Package &operator =(const Package &other);
 
     QString path() const;

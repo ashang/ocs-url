@@ -23,7 +23,7 @@ class Config : public QObject
 public:
     explicit Config(const QString &configDirPath = QString(), QObject *parent = 0);
 
-    Config(const Config &other);
+    Config(const Config &other, QObject *parent = 0);
     Config &operator =(const Config &other);
 
     QString configDirPath() const;

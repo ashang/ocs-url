@@ -28,30 +28,22 @@ NetworkResource::~NetworkResource()
     manager()->deleteLater();
 }
 
-NetworkResource::NetworkResource(const NetworkResource &other)
+NetworkResource::NetworkResource(const NetworkResource &other, QObject *parent)
+    : QObject(parent)
 {
-    this->setParent(other.parent());
     setName(other.name());
     setUrl(other.url());
     setAsync(other.async());
     setRequest(other.request());
-    setManager(other.manager());
-    setReply(other.reply());
-    setMethod(other.method());
+    setManager(new QNetworkAccessManager(this));
 }
 
 NetworkResource &NetworkResource::operator =(const NetworkResource &other)
 {
-    manager()->deleteLater();
-
-    this->setParent(other.parent());
     setName(other.name());
     setUrl(other.url());
     setAsync(other.async());
     setRequest(other.request());
-    setManager(other.manager());
-    setReply(other.reply());
-    setMethod(other.method());
     return *this;
 }
 
