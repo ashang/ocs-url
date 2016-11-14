@@ -172,7 +172,6 @@ void XdgUrl::saveDownloadedFile(qtlibs::NetworkResource *resource)
     QString path = destination + "/" + metadata_["filename"].toString();
 
     qtlibs::Dir(destination).make();
-    qtlibs::File(path).remove(); // Remove previous downloaded file
 
     if (!resource->saveData(path)) {
         result["status"] = QString("error_save");
@@ -201,15 +200,14 @@ void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
         return;
     }
 
+    qtlibs::Package package(tempPath);
+    qtlibs::File tempFile(tempPath);
+
     QString type = metadata_["type"].toString();
     QString destination = destinations_[type].toString();
     QString path = destination + "/" + metadata_["filename"].toString();
 
     qtlibs::Dir(destination).make();
-    qtlibs::File(path).remove(); // Remove previous downloaded file
-
-    qtlibs::File tempFile(tempPath);
-    qtlibs::Package package(tempPath);
 
     if (type == "bin"
             && package.installAsProgram(path)) {
