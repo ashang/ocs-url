@@ -114,7 +114,7 @@ Window {
             progressDialog.open();
         });
 
-        xdgUrlHandler.finished.connect(function(result) {
+        xdgUrlHandler.finishedWithSuccess.connect(function(result) {
             progressDialog.close();
             infoDialog.text = primaryMessages[result.status];
             infoDialog.informativeText = metadata.filename;
@@ -122,7 +122,7 @@ Window {
             infoDialog.open();
         });
 
-        xdgUrlHandler.error.connect(function(result) {
+        xdgUrlHandler.finishedWithError.connect(function(result) {
             progressDialog.close();
             errorDialog.text = primaryMessages[result.status];
             errorDialog.informativeText = metadata.filename;
@@ -130,12 +130,12 @@ Window {
             errorDialog.open();
         });
 
-        xdgUrlHandler.downloadProgress.connect(function(received, total) {
+        xdgUrlHandler.downloadProgress.connect(function(bytesReceived, bytesTotal) {
             progressDialog.primaryLabel.text = 'Downloading... ';
             progressDialog.informativeLabel.text = metadata.filename;
-            progressDialog.progressBar.value = received / total;
-            progressDialog.progressLabel.text = Utility.convertByteToHumanReadable(received)
-                    + ' / ' + Utility.convertByteToHumanReadable(total)
+            progressDialog.progressBar.value = bytesReceived / bytesTotal;
+            progressDialog.progressLabel.text = Utility.convertByteToHumanReadable(bytesReceived)
+                    + ' / ' + Utility.convertByteToHumanReadable(bytesTotal)
         });
 
         if (xdgUrlHandler.isValid()) {

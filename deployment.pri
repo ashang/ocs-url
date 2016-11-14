@@ -1,9 +1,9 @@
-unix:!android {
+unix:!ios:!android {
     isEmpty(PREFIX) {
         PREFIX = /usr/local
     }
 
-    SRCDIR = src
+    SRCDIR = $${PWD}/src
     BINDIR = $${PREFIX}/bin
     DATADIR = $${PREFIX}/share
 

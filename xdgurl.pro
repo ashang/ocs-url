@@ -2,37 +2,13 @@ TARGET = xdgurl
 
 TEMPLATE = app
 
-QT += \
-    core \
-    gui \
-    qml \
-    quick \
-    svg \
-    network
-
 CONFIG += c++11
 
-SOURCES += \
-    src/app/main.cpp \
-    src/app/handlers/xdgurl.cpp \
-    src/libs/utils/config.cpp \
-    src/libs/utils/network.cpp \
-    src/libs/utils/file.cpp \
-    src/libs/utils/json.cpp \
-    src/libs/utils/package.cpp
+INCLUDEPATH += \
+    src/app \
+    src/libs
 
-HEADERS += \
-    src/app/handlers/xdgurl.h \
-    src/libs/utils/config.h \
-    src/libs/utils/network.h \
-    src/libs/utils/file.h \
-    src/libs/utils/json.h \
-    src/libs/utils/package.h
-
-RESOURCES += \
-    src/app/configs/configs.qrc \
-    src/app/qml/qml.qrc \
-    src/desktop/desktop.qrc
+RESOURCES += src/desktop/desktop.qrc
 
 DISTFILES += \
     README.md \
@@ -48,8 +24,8 @@ DISTFILES += \
     pkg/fedora/xdgurl.spec \
     pkg/arch/PKGBUILD
 
-# Additional RPATH
-#include(rpath.pri)
+include(src/app/app.pri)
 
-# Deployment rules
+include(src/libs/qtlibs/qtlibs.pri)
+
 include(deployment.pri)

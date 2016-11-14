@@ -1,3 +1,11 @@
+xdgurl (2.0.1-0ubuntu1) xenial; urgency=low
+
+  * Update library
+  * Fix download/installation process
+  * Package depends for xenial and later
+
+ -- Akira Ohgaki <akiraohgaki@gmail.com>  Mon, 14 Nov 2016 01:40:41 +0000
+
 xdgurl (2.0.0-0ubuntu1) xenial; urgency=low
 
   * Re-implemented xdgurl as Qt program

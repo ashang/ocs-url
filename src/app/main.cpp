@@ -10,8 +10,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "../libs/utils/config.h"
-#include "../libs/utils/network.h"
+#include "qtlibs/config.h"
 
 #include "handlers/xdgurl.h"
 
@@ -22,10 +21,9 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
-    utils::Config *config = new utils::Config(":/configs");
-    utils::Network *network = new utils::Network(true);
 
-    QJsonObject configApplication = config->get("application");
+    qtlibs::Config config(":/configs");
+    QJsonObject configApplication = config.get("application");
 
     app.setApplicationName(configApplication["name"].toString());
     app.setApplicationVersion(configApplication["version"].toString());
@@ -52,7 +50,7 @@ int main(int argc, char *argv[])
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
     QQmlContext *qmlContext = qmlAppEngine.rootContext();
-    qmlContext->setContextProperty("xdgUrlHandler", new handlers::XdgUrl(xdgUrl, config, network));
+    qmlContext->setContextProperty("xdgUrlHandler", new handlers::XdgUrl(xdgUrl, config, &qmlAppEngine));
     qmlAppEngine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();

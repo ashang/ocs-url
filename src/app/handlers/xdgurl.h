@@ -3,11 +3,10 @@
 #include <QObject>
 #include <QJsonObject>
 
-class QNetworkReply;
+#include "qtlibs/config.h"
 
-namespace utils {
-class Config;
-class Network;
+namespace qtlibs {
+class NetworkResource;
 }
 
 namespace handlers {
@@ -17,35 +16,34 @@ class XdgUrl : public QObject
     Q_OBJECT
 
 public:
-    explicit XdgUrl(const QString &xdgUrl, utils::Config *config, utils::Network *network, QObject *parent = 0);
+    explicit XdgUrl(const QString &xdgUrl, const qtlibs::Config &config, QObject *parent = 0);
 
 signals:
     void started();
-    void finished(const QJsonObject &result);
-    void error(const QJsonObject &result);
-    void downloadProgress(const qint64 &received, const qint64 &total);
+    void finishedWithSuccess(const QJsonObject &result);
+    void finishedWithError(const QJsonObject &result);
+    void downloadProgress(const qint64 &bytesReceived, const qint64 &bytesTotal);
 
 public slots:
-    void process();
-    bool isValid();
-    void openDestination();
     QString xdgUrl() const;
     QJsonObject metadata() const;
 
+    void process();
+    bool isValid();
+    void openDestination();
+
 private slots:
-    void downloaded(QNetworkReply *reply);
+    void networkResourceFinished(qtlibs::NetworkResource *resource);
 
 private:
     void parse();
     void loadDestinations();
     QString convertPathString(const QString &path);
-    void saveDownloadedFile(QNetworkReply *reply);
-    void installDownloadedFile(QNetworkReply *reply);
+    void saveDownloadedFile(qtlibs::NetworkResource *resource);
+    void installDownloadedFile(qtlibs::NetworkResource *resource);
 
     QString xdgUrl_;
-    utils::Config *config_;
-    utils::Network *network_;
-
+    qtlibs::Config config_;
     QJsonObject metadata_;
     QJsonObject destinations_;
     QString destination_;
