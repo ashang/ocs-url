@@ -38,7 +38,7 @@ void XdgUrl::process()
         QJsonObject result;
         result["status"] = QString("error_validation");
         result["message"] = QString("Invalid XDG-URL " + xdgUrl_);
-        emit error(result);
+        emit finishedWithError(result);
         return;
     }
 
@@ -81,7 +81,7 @@ void XdgUrl::networkResourceFinished(qtlibs::NetworkResource *resource)
         QJsonObject result;
         result["status"] = QString("error_network");
         result["message"] = resource->reply()->errorString();
-        emit error(result);
+        emit finishedWithError(result);
         return;
     }
 
@@ -177,7 +177,7 @@ void XdgUrl::saveDownloadedFile(qtlibs::NetworkResource *resource)
     if (!resource->saveData(path)) {
         result["status"] = QString("error_save");
         result["message"] = QString("Failed to save data as " + path);
-        emit error(result);
+        emit finishedWithError(result);
         return;
     }
 
@@ -185,7 +185,7 @@ void XdgUrl::saveDownloadedFile(qtlibs::NetworkResource *resource)
 
     result["status"] = QString("success_download");
     result["message"] = QString("The file has been stored into " + destination);
-    emit finished(result);
+    emit finishedWithSuccess(result);
 }
 
 void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
@@ -197,7 +197,7 @@ void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
     if (!resource->saveData(tempPath)) {
         result["status"] = QString("error_save");
         result["message"] = QString("Failed to save data as " + tempPath);
-        emit error(result);
+        emit finishedWithError(result);
         return;
     }
 
@@ -249,7 +249,7 @@ void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
         tempFile.remove();
         result["status"] = QString("error_install");
         result["message"] = QString("Failed to installation");
-        emit error(result);
+        emit finishedWithError(result);
         return;
     }
 
@@ -258,7 +258,7 @@ void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
     destination_ = destination;
 
     result["status"] = QString("success_install");
-    emit finished(result);
+    emit finishedWithSuccess(result);
 }
 
 } // namespace handlers
