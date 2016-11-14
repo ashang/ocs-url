@@ -114,7 +114,7 @@ Window {
             progressDialog.open();
         });
 
-        xdgUrlHandler.finished.connect(function(result) {
+        xdgUrlHandler.finishedWithSuccess.connect(function(result) {
             progressDialog.close();
             infoDialog.text = primaryMessages[result.status];
             infoDialog.informativeText = metadata.filename;
@@ -122,7 +122,7 @@ Window {
             infoDialog.open();
         });
 
-        xdgUrlHandler.error.connect(function(result) {
+        xdgUrlHandler.finishedWithError.connect(function(result) {
             progressDialog.close();
             errorDialog.text = primaryMessages[result.status];
             errorDialog.informativeText = metadata.filename;

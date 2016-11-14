@@ -20,8 +20,8 @@ public:
 
 signals:
     void started();
-    void finished(const QJsonObject &result);
-    void error(const QJsonObject &result);
+    void finishedWithSuccess(const QJsonObject &result);
+    void finishedWithError(const QJsonObject &result);
     void downloadProgress(const qint64 &bytesReceived, const qint64 &bytesTotal);
 
 public slots:
