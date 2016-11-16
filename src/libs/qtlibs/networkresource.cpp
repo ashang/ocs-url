@@ -17,7 +17,7 @@
 
 namespace qtlibs {
 
-NetworkResource::NetworkResource(const QString &name, const QUrl &url, const bool &async, QObject *parent)
+NetworkResource::NetworkResource(const QString &name, const QUrl &url, bool async, QObject *parent)
     : QObject(parent), name_(name), url_(url), async_(async)
 {
     setManager(new QNetworkAccessManager(this));
@@ -72,7 +72,7 @@ bool NetworkResource::async() const
     return async_;
 }
 
-void NetworkResource::setAsync(const bool &async)
+void NetworkResource::setAsync(bool async)
 {
     async_ = async;
 }
@@ -182,7 +182,7 @@ void NetworkResource::setMethod(const QString &method)
     method_ = method;
 }
 
-NetworkResource *NetworkResource::send(const bool &async, const QNetworkRequest &request)
+NetworkResource *NetworkResource::send(bool async, const QNetworkRequest &request)
 {
     if (method() == "HEAD") {
         setReply(manager()->head(request));

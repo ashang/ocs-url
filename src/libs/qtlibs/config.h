@@ -21,7 +21,7 @@ class Config : public QObject
     Q_OBJECT
 
 public:
-    explicit Config(const QString &configDirPath = QString(), QObject *parent = 0);
+    explicit Config(const QString &configDirPath = "", QObject *parent = 0);
 
     Config(const Config &other, QObject *parent = 0);
     Config &operator =(const Config &other);
