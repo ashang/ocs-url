@@ -134,11 +134,11 @@ void XdgUrl::loadDestinations()
     QJsonObject configDestinations = config_.get("destinations");
     QJsonObject configDestinationsAlias = config_.get("destinations_alias");
 
-    foreach (const QString key, configDestinations.keys()) {
+    foreach (const QString &key, configDestinations.keys()) {
         destinations_[key] = convertPathString(configDestinations[key].toString());
     }
 
-    foreach (const QString key, configDestinationsAlias.keys()) {
+    foreach (const QString &key, configDestinationsAlias.keys()) {
         QString value = configDestinationsAlias[key].toString();
         if (destinations_.contains(value)) {
             destinations_[key] = destinations_.value(value);
