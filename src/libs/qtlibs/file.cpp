@@ -21,15 +21,14 @@ File::File(const QString &path, QObject *parent)
     : QObject(parent), path_(path)
 {}
 
-File::File(const File &other)
+File::File(const File &other, QObject *parent)
+    : QObject(parent)
 {
-    this->setParent(other.parent());
     setPath(other.path());
 }
 
 File &File::operator =(const File &other)
 {
-    this->setParent(other.parent());
     setPath(other.path());
     return *this;
 }

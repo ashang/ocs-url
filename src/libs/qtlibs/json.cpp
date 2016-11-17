@@ -32,15 +32,14 @@ Json::Json(const QJsonArray &array, QObject *parent)
     fromArray(array);
 }
 
-Json::Json(const Json &other)
+Json::Json(const Json &other, QObject *parent)
+    : QObject(parent)
 {
-    this->setParent(other.parent());
     setJson(other.json());
 }
 
 Json &Json::operator =(const Json &other)
 {
-    this->setParent(other.parent());
     setJson(other.json());
     return *this;
 }

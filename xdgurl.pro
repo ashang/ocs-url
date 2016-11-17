@@ -24,8 +24,8 @@ DISTFILES += \
     pkg/fedora/xdgurl.spec \
     pkg/arch/PKGBUILD
 
-include(src/app/app.pri)
-
 include(src/libs/qtlibs/qtlibs.pri)
+
+include(src/app/app.pri)
 
 include(deployment.pri)

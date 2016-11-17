@@ -21,9 +21,9 @@ class Dir : public QObject
     Q_OBJECT
 
 public:
-    explicit Dir(const QString &path = QString(), QObject *parent = 0);
+    explicit Dir(const QString &path = "", QObject *parent = 0);
 
-    Dir(const Dir &other);
+    Dir(const Dir &other, QObject *parent = 0);
     Dir &operator =(const Dir &other);
 
     QString path() const;

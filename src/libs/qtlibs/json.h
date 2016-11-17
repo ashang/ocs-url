@@ -26,7 +26,7 @@ public:
     explicit Json(const QJsonObject &object, QObject *parent = 0);
     explicit Json(const QJsonArray &array, QObject *parent = 0);
 
-    Json(const Json &other);
+    Json(const Json &other, QObject *parent = 0);
     Json &operator =(const Json &other);
 
     QByteArray json() const;

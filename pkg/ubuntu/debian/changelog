@@ -1,3 +1,10 @@
+xdgurl (2.0.2-0ubuntu1) xenial; urgency=low
+
+  * Update qtlibs
+  * Small fix
+
+ -- Akira Ohgaki <akiraohgaki@gmail.com>  Thu, 17 Nov 2016 17:30:24 +0000
+
 xdgurl (2.0.1-0ubuntu1) xenial; urgency=low
 
   * Update library

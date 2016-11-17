@@ -27,15 +27,14 @@ Package::Package(const QString &path, QObject *parent)
     : QObject(parent), path_(path)
 {}
 
-Package::Package(const Package &other)
+Package::Package(const Package &other, QObject *parent)
+    : QObject(parent)
 {
-    this->setParent(other.parent());
     setPath(other.path());
 }
 
 Package &Package::operator =(const Package &other)
 {
-    this->setParent(other.parent());
     setPath(other.path());
     return *this;
 }

@@ -22,15 +22,14 @@ Dir::Dir(const QString &path, QObject *parent)
     : QObject(parent), path_(path)
 {}
 
-Dir::Dir(const Dir &other)
+Dir::Dir(const Dir &other, QObject *parent)
+    : QObject(parent)
 {
-    this->setParent(other.parent());
     setPath(other.path());
 }
 
 Dir &Dir::operator =(const Dir &other)
 {
-    this->setParent(other.parent());
     setPath(other.path());
     return *this;
 }

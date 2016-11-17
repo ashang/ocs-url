@@ -20,9 +20,9 @@ class File : public QObject
     Q_OBJECT
 
 public:
-    explicit File(const QString &path = QString(), QObject *parent = 0);
+    explicit File(const QString &path = "", QObject *parent = 0);
 
-    File(const File &other);
+    File(const File &other, QObject *parent = 0);
     File &operator =(const File &other);
 
     QString path() const;
