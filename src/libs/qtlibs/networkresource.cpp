@@ -118,10 +118,18 @@ NetworkResource *NetworkResource::get()
     return send(async(), networkRequest);
 }
 
+bool NetworkResource::isFinishedWithNoError()
+{
+    if (reply()->isFinished() && reply()->error() == QNetworkReply::NoError) {
+        return true;
+    }
+    return false;
+}
+
 QByteArray NetworkResource::readData()
 {
     QByteArray data;
-    if (reply()->isFinished()) {
+    if (isFinishedWithNoError()) {
         data = reply()->readAll();
     }
     return data;
@@ -129,7 +137,7 @@ QByteArray NetworkResource::readData()
 
 bool NetworkResource::saveData(const QString &path)
 {
-    if (reply()->isFinished()) {
+    if (isFinishedWithNoError()) {
         return qtlibs::File(path).writeData(reply()->readAll());
     }
     return false;
@@ -144,7 +152,7 @@ void NetworkResource::abort()
 
 void NetworkResource::replyFinished()
 {
-    if (reply()->error() == QNetworkReply::NoError) {
+    if (isFinishedWithNoError()) {
         // Check if redirection
         // Note: An auto redirection option is available since Qt 5.6
         QString newUrl;

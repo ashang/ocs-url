@@ -77,7 +77,7 @@ void XdgUrl::openDestination()
 
 void XdgUrl::networkResourceFinished(qtlibs::NetworkResource *resource)
 {
-    if (resource->reply()->error() != QNetworkReply::NoError) {
+    if (!resource->isFinishedWithNoError()) {
         QJsonObject result;
         result["status"] = QString("error_network");
         result["message"] = resource->reply()->errorString();
