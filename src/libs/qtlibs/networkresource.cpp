@@ -130,7 +130,7 @@ QByteArray NetworkResource::readData()
 bool NetworkResource::saveData(const QString &path)
 {
     if (reply()->isFinished()) {
-        return qtlibs::File(path).writeData(readData());
+        return qtlibs::File(path).writeData(reply()->readAll());
     }
     return false;
 }
@@ -160,6 +160,7 @@ void NetworkResource::replyFinished()
             }
             QNetworkRequest networkRequest = request();
             networkRequest.setUrl(QUrl(newUrl));
+            reply()->deleteLater();
             send(true, networkRequest);
             return;
         }
