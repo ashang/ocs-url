@@ -81,6 +81,7 @@ void XdgUrl::networkResourceFinished(qtlibs::NetworkResource *resource)
         QJsonObject result;
         result["status"] = QString("error_network");
         result["message"] = resource->reply()->errorString();
+        resource->deleteLater();
         emit finishedWithError(result);
         return;
     }
@@ -176,9 +177,12 @@ void XdgUrl::saveDownloadedFile(qtlibs::NetworkResource *resource)
     if (!resource->saveData(path)) {
         result["status"] = QString("error_save");
         result["message"] = QString("Failed to save data as " + path);
+        resource->deleteLater();
         emit finishedWithError(result);
         return;
     }
+
+    resource->deleteLater();
 
     destination_ = destination;
 
@@ -196,9 +200,12 @@ void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
     if (!resource->saveData(tempPath)) {
         result["status"] = QString("error_save");
         result["message"] = QString("Failed to save data as " + tempPath);
+        resource->deleteLater();
         emit finishedWithError(result);
         return;
     }
+
+    resource->deleteLater();
 
     qtlibs::Package package(tempPath);
     qtlibs::File tempFile(tempPath);
