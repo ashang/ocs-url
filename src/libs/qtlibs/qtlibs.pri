@@ -8,6 +8,7 @@ HEADERS += \
     $${PWD}/json.h \
     $${PWD}/config.h \
     $${PWD}/networkresource.h \
+    $${PWD}/ocsapi.h \
     $${PWD}/package.h
 
 SOURCES += \
@@ -16,6 +17,7 @@ SOURCES += \
     $${PWD}/json.cpp \
     $${PWD}/config.cpp \
     $${PWD}/networkresource.cpp \
+    $${PWD}/ocsapi.cpp \
     $${PWD}/package.cpp
 
 unix:!ios:!android {

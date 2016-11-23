@@ -17,8 +17,8 @@
 
 namespace qtlibs {
 
-NetworkResource::NetworkResource(const QString &name, const QUrl &url, bool async, QObject *parent)
-    : QObject(parent), name_(name), url_(url), async_(async)
+NetworkResource::NetworkResource(const QString &id, const QUrl &url, bool async, QObject *parent)
+    : QObject(parent), id_(id), url_(url), async_(async)
 {
     setManager(new QNetworkAccessManager(this));
 }
@@ -31,7 +31,7 @@ NetworkResource::~NetworkResource()
 NetworkResource::NetworkResource(const NetworkResource &other, QObject *parent)
     : QObject(parent)
 {
-    setName(other.name());
+    setId(other.id());
     setUrl(other.url());
     setAsync(other.async());
     setRequest(other.request());
@@ -40,21 +40,21 @@ NetworkResource::NetworkResource(const NetworkResource &other, QObject *parent)
 
 NetworkResource &NetworkResource::operator =(const NetworkResource &other)
 {
-    setName(other.name());
+    setId(other.id());
     setUrl(other.url());
     setAsync(other.async());
     setRequest(other.request());
     return *this;
 }
 
-QString NetworkResource::name() const
+QString NetworkResource::id() const
 {
-    return name_;
+    return id_;
 }
 
-void NetworkResource::setName(const QString &name)
+void NetworkResource::setId(const QString &id)
 {
-    name_ = name;
+    id_ = id;
 }
 
 QUrl NetworkResource::url() const
@@ -102,20 +102,64 @@ QString NetworkResource::method() const
     return method_;
 }
 
+QString NetworkResource::contentType() const
+{
+    return contentType_;
+}
+
+QByteArray NetworkResource::contentData() const
+{
+    return contentData_;
+}
+
 NetworkResource *NetworkResource::head()
 {
     setMethod("HEAD");
-    QNetworkRequest networkRequest = request();
-    networkRequest.setUrl(url());
-    return send(async(), networkRequest);
+    return send(url(), async());
 }
 
 NetworkResource *NetworkResource::get()
 {
     setMethod("GET");
-    QNetworkRequest networkRequest = request();
-    networkRequest.setUrl(url());
-    return send(async(), networkRequest);
+    return send(url(), async());
+}
+
+NetworkResource *NetworkResource::post(const QByteArray &contentData, const QString &contentType)
+{
+    setMethod("POST");
+    setContentType(contentType);
+    setContentData(contentData);
+    return send(url(), async());
+}
+
+NetworkResource *NetworkResource::post(const QUrlQuery &contentData)
+{
+    setMethod("POST");
+    setContentType("application/x-www-form-urlencoded");
+    setContentData(contentData.toString(QUrl::FullyEncoded).toUtf8());
+    return send(url(), async());
+}
+
+NetworkResource *NetworkResource::put(const QByteArray &contentData, const QString &contentType)
+{
+    setMethod("PUT");
+    setContentType(contentType);
+    setContentData(contentData);
+    return send(url(), async());
+}
+
+NetworkResource *NetworkResource::put(const QUrlQuery &contentData)
+{
+    setMethod("PUT");
+    setContentType("application/x-www-form-urlencoded");
+    setContentData(contentData.toString(QUrl::FullyEncoded).toUtf8());
+    return send(url(), async());
+}
+
+NetworkResource *NetworkResource::deleteResource()
+{
+    setMethod("DELETE");
+    return send(url(), async());
 }
 
 bool NetworkResource::isFinishedWithNoError()
@@ -155,21 +199,19 @@ void NetworkResource::replyFinished()
     if (isFinishedWithNoError()) {
         // Check if redirection
         // Note: An auto redirection option is available since Qt 5.6
-        QString newUrl;
+        QUrl redirectUrl;
         if (reply()->hasRawHeader("Location")) {
-            newUrl = QString(reply()->rawHeader("Location"));
+            redirectUrl.setUrl(QString(reply()->rawHeader("Location")));
         }
         else if (reply()->hasRawHeader("Refresh")) {
-            newUrl = QString(reply()->rawHeader("Refresh")).split("url=").last();
+            redirectUrl.setUrl(QString(reply()->rawHeader("Refresh")).split("url=").last());
         }
-        if (!newUrl.isEmpty()) {
-            if (newUrl.startsWith("/")) {
-                newUrl = reply()->url().authority() + newUrl;
+        if (!redirectUrl.isEmpty()) {
+            if (redirectUrl.isRelative()) {
+                redirectUrl = reply()->url().resolved(redirectUrl);
             }
-            QNetworkRequest networkRequest = request();
-            networkRequest.setUrl(QUrl(newUrl));
             reply()->deleteLater();
-            send(true, networkRequest);
+            send(redirectUrl, true);
             return;
         }
     }
@@ -191,16 +233,43 @@ void NetworkResource::setMethod(const QString &method)
     method_ = method;
 }
 
-NetworkResource *NetworkResource::send(bool async, const QNetworkRequest &request)
+void NetworkResource::setContentType(const QString &contentType)
 {
+    contentType_ = contentType;
+}
+
+void NetworkResource::setContentData(const QByteArray &contentData)
+{
+    contentData_ = contentData;
+}
+
+NetworkResource *NetworkResource::send(const QUrl &url, bool async)
+{
+    QNetworkRequest networkRequest = request();
+    networkRequest.setUrl(url);
     if (method() == "HEAD") {
-        setReply(manager()->head(request));
+        setReply(manager()->head(networkRequest));
     }
     else if (method() == "GET") {
-        setReply(manager()->get(request));
-        connect(reply(), &QNetworkReply::downloadProgress, this, &NetworkResource::downloadProgress);
+        setReply(manager()->get(networkRequest));
+    }
+    else if (method() == "POST") {
+        networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, QVariant(contentType()));
+        setReply(manager()->post(networkRequest, contentData()));
+    }
+    else if (method() == "PUT") {
+        networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, QVariant(contentType()));
+        setReply(manager()->put(networkRequest, contentData()));
+    }
+    else if (method() == "DELETE") {
+        setReply(manager()->deleteResource(networkRequest));
+    }
+    else {
+        Q_ASSERT(false);
     }
     connect(reply(), &QNetworkReply::finished, this, &NetworkResource::replyFinished);
+    connect(reply(), &QNetworkReply::downloadProgress, this, &NetworkResource::downloadProgress);
+    connect(reply(), &QNetworkReply::uploadProgress, this, &NetworkResource::uploadProgress);
     if (!async) {
         QEventLoop eventLoop;
         connect(this, &NetworkResource::finished, &eventLoop, &QEventLoop::quit);
