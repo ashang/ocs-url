@@ -29,10 +29,8 @@ QJsonObject XdgUrl::metadata() const
 
 void XdgUrl::process()
 {
-    /**
-     * xdgs scheme is a reserved name, so the process of xdgs
-     * is the same process of the xdg scheme currently.
-     */
+    // xdgs scheme is a reserved name, so the process of xdgs
+    // is the same process of the xdg scheme currently.
 
     if (!isValid()) {
         QJsonObject result;
