@@ -1,12 +1,12 @@
+include(src/lib/qtlib/qtlib.pri)
+
+include(src/app/app.pri)
+
 TARGET = xdgurl
 
 TEMPLATE = app
 
 CONFIG += c++11
-
-INCLUDEPATH += \
-    src/app \
-    src/libs
 
 RESOURCES += src/desktop/desktop.qrc
 
@@ -23,9 +23,5 @@ DISTFILES += \
     pkg/ubuntu/debian/xdgurl.install \
     pkg/fedora/xdgurl.spec \
     pkg/arch/PKGBUILD
-
-include(src/libs/qtlibs/qtlibs.pri)
-
-include(src/app/app.pri)
 
 include(deployment.pri)

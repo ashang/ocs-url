@@ -10,7 +10,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "qtlibs/config.h"
+#include "qtlib_config.h"
 
 #include "handlers/xdgurl.h"
 
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 #endif
     QGuiApplication app(argc, argv);
 
-    qtlibs::Config config(":/configs");
+    qtlib::Config config(":/configs");
     QJsonObject configApplication = config.get("application");
 
     app.setApplicationName(configApplication["name"].toString());

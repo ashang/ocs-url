@@ -6,14 +6,14 @@
  * @author      Akira Ohgaki <akiraohgaki@gmail.com>
  * @copyright   Akira Ohgaki
  * @license     https://opensource.org/licenses/LGPL-3.0  The GNU Lesser General Public License, version 3.0
- * @link        https://github.com/akiraohgaki/qtlibs
+ * @link        https://github.com/akiraohgaki/qtlib
  */
 
 #pragma once
 
 #include <QObject>
 
-namespace qtlibs {
+namespace qtlib {
 
 class Package : public QObject
 {
@@ -28,7 +28,7 @@ public:
     QString path() const;
     void setPath(const QString &path);
 
-#ifdef QTLIBS_UNIX
+#ifdef QTLIB_UNIX
     bool installAsProgram(const QString &newPath);
     bool installAsFile(const QString &newPath);
     bool installAsArchive(const QString &destinationDirPath);
@@ -41,11 +41,11 @@ public:
 #endif
 
 private:
-#ifdef QTLIBS_UNIX
+#ifdef QTLIB_UNIX
     bool execute(const QString &program, const QStringList &arguments);
 #endif
 
     QString path_;
 };
 
-} // namespace qtlibs
+} // namespace qtlib

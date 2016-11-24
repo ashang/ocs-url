@@ -6,7 +6,7 @@
  * @author      Akira Ohgaki <akiraohgaki@gmail.com>
  * @copyright   Akira Ohgaki
  * @license     https://opensource.org/licenses/LGPL-3.0  The GNU Lesser General Public License, version 3.0
- * @link        https://github.com/akiraohgaki/qtlibs
+ * @link        https://github.com/akiraohgaki/qtlib
  */
 
 #pragma once
@@ -14,7 +14,7 @@
 #include <QObject>
 #include <QFileInfoList>
 
-namespace qtlibs {
+namespace qtlib {
 
 class Dir : public QObject
 {
@@ -50,4 +50,4 @@ private:
     QString path_;
 };
 
-} // namespace qtlibs
+} // namespace qtlib

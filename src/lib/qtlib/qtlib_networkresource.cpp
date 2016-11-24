@@ -6,16 +6,16 @@
  * @author      Akira Ohgaki <akiraohgaki@gmail.com>
  * @copyright   Akira Ohgaki
  * @license     https://opensource.org/licenses/LGPL-3.0  The GNU Lesser General Public License, version 3.0
- * @link        https://github.com/akiraohgaki/qtlibs
+ * @link        https://github.com/akiraohgaki/qtlib
  */
 
-#include "networkresource.h"
+#include "qtlib_networkresource.h"
 
 #include <QEventLoop>
 
-#include "file.h"
+#include "qtlib_file.h"
 
-namespace qtlibs {
+namespace qtlib {
 
 NetworkResource::NetworkResource(const QString &id, const QUrl &url, bool async, QObject *parent)
     : QObject(parent), id_(id), url_(url), async_(async)
@@ -182,7 +182,7 @@ QByteArray NetworkResource::readData()
 bool NetworkResource::saveData(const QString &path)
 {
     if (isFinishedWithNoError()) {
-        return qtlibs::File(path).writeData(reply()->readAll());
+        return qtlib::File(path).writeData(reply()->readAll());
     }
     return false;
 }
@@ -278,4 +278,4 @@ NetworkResource *NetworkResource::send(const QUrl &url, bool async)
     return this;
 }
 
-} // namespace qtlibs
+} // namespace qtlib

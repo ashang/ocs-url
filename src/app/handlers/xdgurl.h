@@ -3,9 +3,9 @@
 #include <QObject>
 #include <QJsonObject>
 
-#include "qtlibs/config.h"
+#include "qtlib_config.h"
 
-namespace qtlibs {
+namespace qtlib {
 class NetworkResource;
 }
 
@@ -16,7 +16,7 @@ class XdgUrl : public QObject
     Q_OBJECT
 
 public:
-    explicit XdgUrl(const QString &xdgUrl, const qtlibs::Config &config, QObject *parent = 0);
+    explicit XdgUrl(const QString &xdgUrl, const qtlib::Config &config, QObject *parent = 0);
 
 signals:
     void started();
@@ -33,17 +33,17 @@ public slots:
     void openDestination();
 
 private slots:
-    void networkResourceFinished(qtlibs::NetworkResource *resource);
+    void networkResourceFinished(qtlib::NetworkResource *resource);
 
 private:
     void parse();
     void loadDestinations();
     QString convertPathString(const QString &path);
-    void saveDownloadedFile(qtlibs::NetworkResource *resource);
-    void installDownloadedFile(qtlibs::NetworkResource *resource);
+    void saveDownloadedFile(qtlib::NetworkResource *resource);
+    void installDownloadedFile(qtlib::NetworkResource *resource);
 
     QString xdgUrl_;
-    qtlibs::Config config_;
+    qtlib::Config config_;
     QJsonObject metadata_;
     QJsonObject destinations_;
     QString destination_;

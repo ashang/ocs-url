@@ -6,15 +6,15 @@
  * @author      Akira Ohgaki <akiraohgaki@gmail.com>
  * @copyright   Akira Ohgaki
  * @license     https://opensource.org/licenses/LGPL-3.0  The GNU Lesser General Public License, version 3.0
- * @link        https://github.com/akiraohgaki/qtlibs
+ * @link        https://github.com/akiraohgaki/qtlib
  */
 
-#include "json.h"
+#include "qtlib_json.h"
 
 #include <QJsonDocument>
 #include <QJsonParseError>
 
-namespace qtlibs {
+namespace qtlib {
 
 Json::Json(const QByteArray &json, QObject *parent)
     : QObject(parent), json_(json)
@@ -106,4 +106,4 @@ bool Json::isArray()
     return doc.isArray();
 }
 
-} // namespace qtlibs
+} // namespace qtlib

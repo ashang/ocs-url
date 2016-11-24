@@ -6,7 +6,7 @@
  * @author      Akira Ohgaki <akiraohgaki@gmail.com>
  * @copyright   Akira Ohgaki
  * @license     https://opensource.org/licenses/LGPL-3.0  The GNU Lesser General Public License, version 3.0
- * @link        https://github.com/akiraohgaki/qtlibs
+ * @link        https://github.com/akiraohgaki/qtlib
  */
 
 #pragma once
@@ -18,7 +18,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
-namespace qtlibs {
+namespace qtlib {
 
 class NetworkResource : public QObject
 {
@@ -87,4 +87,4 @@ private:
     QByteArray contentData_;
 };
 
-} // namespace qtlibs
+} // namespace qtlib

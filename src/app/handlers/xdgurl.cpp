@@ -3,14 +3,14 @@
 #include <QUrlQuery>
 #include <QDesktopServices>
 
-#include "qtlibs/file.h"
-#include "qtlibs/dir.h"
-#include "qtlibs/networkresource.h"
-#include "qtlibs/package.h"
+#include "qtlib_file.h"
+#include "qtlib_dir.h"
+#include "qtlib_networkresource.h"
+#include "qtlib_package.h"
 
 namespace handlers {
 
-XdgUrl::XdgUrl(const QString &xdgUrl, const qtlibs::Config &config, QObject *parent)
+XdgUrl::XdgUrl(const QString &xdgUrl, const qtlib::Config &config, QObject *parent)
     : QObject(parent), xdgUrl_(xdgUrl), config_(config)
 {
     parse();
@@ -41,9 +41,9 @@ void XdgUrl::process()
     }
 
     QString url = metadata_["url"].toString();
-    qtlibs::NetworkResource *resource = new qtlibs::NetworkResource(url, QUrl(url), true, this);
-    connect(resource, &qtlibs::NetworkResource::downloadProgress, this, &XdgUrl::downloadProgress);
-    connect(resource, &qtlibs::NetworkResource::finished, this, &XdgUrl::networkResourceFinished);
+    qtlib::NetworkResource *resource = new qtlib::NetworkResource(url, QUrl(url), true, this);
+    connect(resource, &qtlib::NetworkResource::downloadProgress, this, &XdgUrl::downloadProgress);
+    connect(resource, &qtlib::NetworkResource::finished, this, &XdgUrl::networkResourceFinished);
     resource->get();
     emit started();
 }
@@ -73,7 +73,7 @@ void XdgUrl::openDestination()
     }
 }
 
-void XdgUrl::networkResourceFinished(qtlibs::NetworkResource *resource)
+void XdgUrl::networkResourceFinished(qtlib::NetworkResource *resource)
 {
     if (!resource->isFinishedWithNoError()) {
         QJsonObject result;
@@ -150,19 +150,19 @@ QString XdgUrl::convertPathString(const QString &path)
     QString newPath = path;
 
     if (newPath.contains("$HOME")) {
-        newPath.replace("$HOME", qtlibs::Dir::homePath());
+        newPath.replace("$HOME", qtlib::Dir::homePath());
     }
     else if (newPath.contains("$XDG_DATA_HOME")) {
-        newPath.replace("$XDG_DATA_HOME", qtlibs::Dir::genericDataPath());
+        newPath.replace("$XDG_DATA_HOME", qtlib::Dir::genericDataPath());
     }
     else if (newPath.contains("$KDEHOME")) {
-        newPath.replace("$KDEHOME", qtlibs::Dir::kdehomePath());
+        newPath.replace("$KDEHOME", qtlib::Dir::kdehomePath());
     }
 
     return newPath;
 }
 
-void XdgUrl::saveDownloadedFile(qtlibs::NetworkResource *resource)
+void XdgUrl::saveDownloadedFile(qtlib::NetworkResource *resource)
 {
     QJsonObject result;
 
@@ -170,7 +170,7 @@ void XdgUrl::saveDownloadedFile(qtlibs::NetworkResource *resource)
     QString destination = destinations_[type].toString();
     QString path = destination + "/" + metadata_["filename"].toString();
 
-    qtlibs::Dir(destination).make();
+    qtlib::Dir(destination).make();
 
     if (!resource->saveData(path)) {
         result["status"] = QString("error_save");
@@ -189,11 +189,11 @@ void XdgUrl::saveDownloadedFile(qtlibs::NetworkResource *resource)
     emit finishedWithSuccess(result);
 }
 
-void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
+void XdgUrl::installDownloadedFile(qtlib::NetworkResource *resource)
 {
     QJsonObject result;
 
-    QString tempPath = qtlibs::Dir::tempPath() + "/" + metadata_["filename"].toString();
+    QString tempPath = qtlib::Dir::tempPath() + "/" + metadata_["filename"].toString();
 
     if (!resource->saveData(tempPath)) {
         result["status"] = QString("error_save");
@@ -205,14 +205,14 @@ void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
 
     resource->deleteLater();
 
-    qtlibs::Package package(tempPath);
-    qtlibs::File tempFile(tempPath);
+    qtlib::Package package(tempPath);
+    qtlib::File tempFile(tempPath);
 
     QString type = metadata_["type"].toString();
     QString destination = destinations_[type].toString();
     QString path = destination + "/" + metadata_["filename"].toString();
 
-    qtlibs::Dir(destination).make();
+    qtlib::Dir(destination).make();
 
     if (type == "bin"
             && package.installAsProgram(path)) {
