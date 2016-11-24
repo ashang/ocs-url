@@ -1,4 +1,4 @@
-#include "xdgurl.h"
+#include "xdgurlhandler.h"
 
 #include <QUrlQuery>
 #include <QDesktopServices>
@@ -8,26 +8,24 @@
 #include "qtlib_networkresource.h"
 #include "qtlib_package.h"
 
-namespace handlers {
-
-XdgUrl::XdgUrl(const QString &xdgUrl, const qtlib::Config &config, QObject *parent)
+XdgUrlHandler::XdgUrlHandler(const QString &xdgUrl, const qtlib::Config &config, QObject *parent)
     : QObject(parent), xdgUrl_(xdgUrl), config_(config)
 {
     parse();
     loadDestinations();
 }
 
-QString XdgUrl::xdgUrl() const
+QString XdgUrlHandler::xdgUrl() const
 {
     return xdgUrl_;
 }
 
-QJsonObject XdgUrl::metadata() const
+QJsonObject XdgUrlHandler::metadata() const
 {
     return metadata_;
 }
 
-void XdgUrl::process()
+void XdgUrlHandler::process()
 {
     // xdgs scheme is a reserved name, so the process of xdgs
     // is the same process of the xdg scheme currently.
@@ -42,13 +40,13 @@ void XdgUrl::process()
 
     QString url = metadata_["url"].toString();
     qtlib::NetworkResource *resource = new qtlib::NetworkResource(url, QUrl(url), true, this);
-    connect(resource, &qtlib::NetworkResource::downloadProgress, this, &XdgUrl::downloadProgress);
-    connect(resource, &qtlib::NetworkResource::finished, this, &XdgUrl::networkResourceFinished);
+    connect(resource, &qtlib::NetworkResource::downloadProgress, this, &XdgUrlHandler::downloadProgress);
+    connect(resource, &qtlib::NetworkResource::finished, this, &XdgUrlHandler::networkResourceFinished);
     resource->get();
     emit started();
 }
 
-bool XdgUrl::isValid()
+bool XdgUrlHandler::isValid()
 {
     QString scheme = metadata_["scheme"].toString();
     QString command = metadata_["command"].toString();
@@ -66,14 +64,14 @@ bool XdgUrl::isValid()
     return false;
 }
 
-void XdgUrl::openDestination()
+void XdgUrlHandler::openDestination()
 {
     if (!destination_.isEmpty()) {
         QDesktopServices::openUrl(QUrl("file://" + destination_));
     }
 }
 
-void XdgUrl::networkResourceFinished(qtlib::NetworkResource *resource)
+void XdgUrlHandler::networkResourceFinished(qtlib::NetworkResource *resource)
 {
     if (!resource->isFinishedWithNoError()) {
         QJsonObject result;
@@ -92,7 +90,7 @@ void XdgUrl::networkResourceFinished(qtlib::NetworkResource *resource)
     }
 }
 
-void XdgUrl::parse()
+void XdgUrlHandler::parse()
 {
     QUrl url(xdgUrl_);
     QUrlQuery query(url);
@@ -128,7 +126,7 @@ void XdgUrl::parse()
     }
 }
 
-void XdgUrl::loadDestinations()
+void XdgUrlHandler::loadDestinations()
 {
     QJsonObject configDestinations = config_.get("destinations");
     QJsonObject configDestinationsAlias = config_.get("destinations_alias");
@@ -145,7 +143,7 @@ void XdgUrl::loadDestinations()
     }
 }
 
-QString XdgUrl::convertPathString(const QString &path)
+QString XdgUrlHandler::convertPathString(const QString &path)
 {
     QString newPath = path;
 
@@ -162,7 +160,7 @@ QString XdgUrl::convertPathString(const QString &path)
     return newPath;
 }
 
-void XdgUrl::saveDownloadedFile(qtlib::NetworkResource *resource)
+void XdgUrlHandler::saveDownloadedFile(qtlib::NetworkResource *resource)
 {
     QJsonObject result;
 
@@ -189,7 +187,7 @@ void XdgUrl::saveDownloadedFile(qtlib::NetworkResource *resource)
     emit finishedWithSuccess(result);
 }
 
-void XdgUrl::installDownloadedFile(qtlib::NetworkResource *resource)
+void XdgUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
 {
     QJsonObject result;
 
@@ -263,5 +261,3 @@ void XdgUrl::installDownloadedFile(qtlib::NetworkResource *resource)
     result["status"] = QString("success_install");
     emit finishedWithSuccess(result);
 }
-
-} // namespace handlers

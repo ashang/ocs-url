@@ -9,14 +9,12 @@ namespace qtlib {
 class NetworkResource;
 }
 
-namespace handlers {
-
-class XdgUrl : public QObject
+class XdgUrlHandler : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit XdgUrl(const QString &xdgUrl, const qtlib::Config &config, QObject *parent = 0);
+    explicit XdgUrlHandler(const QString &xdgUrl, const qtlib::Config &config, QObject *parent = 0);
 
 signals:
     void started();
@@ -48,5 +46,3 @@ private:
     QJsonObject destinations_;
     QString destination_;
 };
-
-} // namespace handlers

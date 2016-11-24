@@ -12,7 +12,7 @@
 
 #include "qtlib_config.h"
 
-#include "handlers/xdgurl.h"
+#include "handlers/xdgurlhandler.h"
 
 int main(int argc, char *argv[])
 {
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
     QQmlContext *qmlContext = qmlAppEngine.rootContext();
-    qmlContext->setContextProperty("xdgUrlHandler", new handlers::XdgUrl(xdgUrl, config, &qmlAppEngine));
+    qmlContext->setContextProperty("xdgUrlHandler", new XdgUrlHandler(xdgUrl, config, &qmlAppEngine));
     qmlAppEngine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();
