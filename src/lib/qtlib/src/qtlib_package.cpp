@@ -132,6 +132,13 @@ bool Package::uninstallAsPlasmapkg(const QString &type)
 #ifdef Q_OS_ANDROID
 bool Package::installAsApk()
 {
+    /*
+    String apkFile = "/path/to/package.apk";
+    Intent intent = new Intent(Intent.ACTION_VIEW);
+    intent.setDataAndType(Uri.fromFile(new File(apkFile)), "application/vnd.android.package-archive");
+    startActivity(intent);
+    */
+
     QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
     if (activity.isValid()) {
         QAndroidJniObject fileUri = QAndroidJniObject::fromString(path());

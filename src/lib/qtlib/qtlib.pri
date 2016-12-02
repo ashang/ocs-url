@@ -3,24 +3,24 @@ QT += \
     network
 
 HEADERS += \
-    $${PWD}/qtlib_file.h \
-    $${PWD}/qtlib_dir.h \
-    $${PWD}/qtlib_json.h \
-    $${PWD}/qtlib_config.h \
-    $${PWD}/qtlib_networkresource.h \
-    $${PWD}/qtlib_ocsapi.h \
-    $${PWD}/qtlib_package.h
+    $${PWD}/src/qtlib_file.h \
+    $${PWD}/src/qtlib_dir.h \
+    $${PWD}/src/qtlib_json.h \
+    $${PWD}/src/qtlib_config.h \
+    $${PWD}/src/qtlib_networkresource.h \
+    $${PWD}/src/qtlib_ocsapi.h \
+    $${PWD}/src/qtlib_package.h
 
 SOURCES += \
-    $${PWD}/qtlib_file.cpp \
-    $${PWD}/qtlib_dir.cpp \
-    $${PWD}/qtlib_json.cpp \
-    $${PWD}/qtlib_config.cpp \
-    $${PWD}/qtlib_networkresource.cpp \
-    $${PWD}/qtlib_ocsapi.cpp \
-    $${PWD}/qtlib_package.cpp
+    $${PWD}/src/qtlib_file.cpp \
+    $${PWD}/src/qtlib_dir.cpp \
+    $${PWD}/src/qtlib_json.cpp \
+    $${PWD}/src/qtlib_config.cpp \
+    $${PWD}/src/qtlib_networkresource.cpp \
+    $${PWD}/src/qtlib_ocsapi.cpp \
+    $${PWD}/src/qtlib_package.cpp
 
-INCLUDEPATH += $${PWD}
+INCLUDEPATH += $${PWD}/src
 
 unix:!ios:!android {
     DEFINES += QTLIB_UNIX
