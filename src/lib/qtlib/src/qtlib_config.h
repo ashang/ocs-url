@@ -1,11 +1,9 @@
 /**
- * A library for Qt app
- *
- * LICENSE: The GNU Lesser General Public License, version 3.0
+ * qtlib
  *
  * @author      Akira Ohgaki <akiraohgaki@gmail.com>
  * @copyright   Akira Ohgaki
- * @license     https://opensource.org/licenses/LGPL-3.0  The GNU Lesser General Public License, version 3.0
+ * @license     https://opensource.org/licenses/LGPL-3.0
  * @link        https://github.com/akiraohgaki/qtlib
  */
 

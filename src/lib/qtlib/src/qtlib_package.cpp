@@ -1,11 +1,9 @@
 /**
- * A library for Qt app
- *
- * LICENSE: The GNU Lesser General Public License, version 3.0
+ * qtlib
  *
  * @author      Akira Ohgaki <akiraohgaki@gmail.com>
  * @copyright   Akira Ohgaki
- * @license     https://opensource.org/licenses/LGPL-3.0  The GNU Lesser General Public License, version 3.0
+ * @license     https://opensource.org/licenses/LGPL-3.0
  * @link        https://github.com/akiraohgaki/qtlib
  */
 
@@ -86,8 +84,7 @@ bool Package::installAsArchive(const QString &destinationDirPath)
     archiveTypes["application/x-rar"] = QString("rar");
     archiveTypes["application/x-rar-compressed"] = QString("rar");
 
-    QMimeDatabase mimeDb;
-    QString mimeType = mimeDb.mimeTypeForFile(path()).name();
+    QString mimeType = QMimeDatabase().mimeTypeForFile(path()).name();
 
     if (archiveTypes.contains(mimeType)) {
         QString archiveType = archiveTypes[mimeType].toString();
@@ -132,23 +129,26 @@ bool Package::uninstallAsPlasmapkg(const QString &type)
 #ifdef Q_OS_ANDROID
 bool Package::installAsApk()
 {
-    /*
-    String apkFile = "/path/to/package.apk";
-    Intent intent = new Intent(Intent.ACTION_VIEW);
-    intent.setDataAndType(Uri.fromFile(new File(apkFile)), "application/vnd.android.package-archive");
-    startActivity(intent);
-    */
-
     QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative", "activity", "()Landroid/app/Activity;");
     if (activity.isValid()) {
-        QAndroidJniObject fileUri = QAndroidJniObject::fromString(path());
-        QAndroidJniObject parsedUri = QAndroidJniObject::callStaticObjectMethod("android/net/Uri", "parse", "(Ljava/lang/String;)Landroid/net/Uri;", fileUri.object());
+        QString filePath = path();
+        if (filePath.startsWith("file://", Qt::CaseInsensitive)) {
+            filePath.replace("file://localhost", "", Qt::CaseInsensitive);
+            filePath.replace("file://", "", Qt::CaseInsensitive);
+        }
+
+        QAndroidJniObject fileUri = QAndroidJniObject::fromString("file://" + filePath);
+        QAndroidJniObject uri = QAndroidJniObject::callStaticObjectMethod("android/net/Uri", "parse", "(Ljava/lang/String;)Landroid/net/Uri;", fileUri.object());
         QAndroidJniObject mimeType = QAndroidJniObject::fromString("application/vnd.android.package-archive");
-        QAndroidJniObject activityKind = QAndroidJniObject::fromString("android.intent.action.VIEW");
-        QAndroidJniObject intent("android/content/Intent", "(Ljava/lang/String;)V", activityKind.object());
-        intent = intent.callObjectMethod("setDataAndType", "(Landroid/net/Uri;Ljava/lang/String;)Landroid/content/Intent;", parsedUri.object(), mimeType.object());
-        intent = intent.callObjectMethod("setFlags", "(I)Landroid/content/Intent;", 0x10000000); // 0x10000000 = FLAG_ACTIVITY_NEW_TASK
-        activity.callObjectMethod("startActivity", "(Landroid/content/Intent;)V", intent.object());
+
+        QAndroidJniObject ACTION_VIEW = QAndroidJniObject::getStaticObjectField("android/content/Intent", "ACTION_VIEW", "Ljava/lang/String");
+        QAndroidJniObject FLAG_ACTIVITY_NEW_TASK = QAndroidJniObject::getStaticObjectField("android/content/Intent", "FLAG_ACTIVITY_NEW_TASK", "Ljava/lang/Integer");
+
+        QAndroidJniObject intent("android/content/Intent", "(Ljava/lang/String;)V", ACTION_VIEW.object());
+        intent = intent.callObjectMethod("setDataAndType", "(Landroid/net/Uri;Ljava/lang/String;)Landroid/content/Intent;", uri.object(), mimeType.object());
+        intent = intent.callObjectMethod("setFlags", "(I)Landroid/content/Intent;", FLAG_ACTIVITY_NEW_TASK.object());
+
+        activity.callMethod<void>("startActivity", "(Landroid/content/Intent;)V", intent.object());
         return true;
     }
     return false;

@@ -10,4 +10,4 @@ QT += core
 
 SOURCES += test/main.cpp
 
-DISTFILES += README.txt
+DISTFILES += README.md
