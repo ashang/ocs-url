@@ -44,5 +44,4 @@ private:
     qtlib::Config config_;
     QJsonObject metadata_;
     QJsonObject destinations_;
-    QString destination_;
 };

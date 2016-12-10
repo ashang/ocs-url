@@ -66,9 +66,7 @@ bool XdgUrlHandler::isValid()
 
 void XdgUrlHandler::openDestination()
 {
-    if (!destination_.isEmpty()) {
-        QDesktopServices::openUrl(QUrl("file://" + destination_));
-    }
+    QDesktopServices::openUrl(QUrl("file://" + destinations_[metadata_["type"].toString()].toString()));
 }
 
 void XdgUrlHandler::networkResourceFinished(qtlib::NetworkResource *resource)
@@ -77,8 +75,8 @@ void XdgUrlHandler::networkResourceFinished(qtlib::NetworkResource *resource)
         QJsonObject result;
         result["status"] = QString("error_network");
         result["message"] = resource->reply()->errorString();
-        resource->deleteLater();
         emit finishedWithError(result);
+        resource->deleteLater();
         return;
     }
 
@@ -173,18 +171,16 @@ void XdgUrlHandler::saveDownloadedFile(qtlib::NetworkResource *resource)
     if (!resource->saveData(path)) {
         result["status"] = QString("error_save");
         result["message"] = QString("Failed to save data as " + path);
-        resource->deleteLater();
         emit finishedWithError(result);
+        resource->deleteLater();
         return;
     }
-
-    resource->deleteLater();
-
-    destination_ = destination;
 
     result["status"] = QString("success_download");
     result["message"] = QString("The file has been stored into " + destination);
     emit finishedWithSuccess(result);
+
+    resource->deleteLater();
 }
 
 void XdgUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
@@ -196,15 +192,13 @@ void XdgUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
     if (!resource->saveData(tempPath)) {
         result["status"] = QString("error_save");
         result["message"] = QString("Failed to save data as " + tempPath);
-        resource->deleteLater();
         emit finishedWithError(result);
+        resource->deleteLater();
         return;
     }
 
-    resource->deleteLater();
-
-    qtlib::Package package(tempPath);
     qtlib::File tempFile(tempPath);
+    qtlib::Package package(tempPath);
 
     QString type = metadata_["type"].toString();
     QString destination = destinations_[type].toString();
@@ -247,17 +241,16 @@ void XdgUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
         result["message"] = QString("The file has been installed into " + destination);
     }
     else {
-        tempFile.remove();
         result["status"] = QString("error_install");
         result["message"] = QString("Failed to installation");
         emit finishedWithError(result);
+        tempFile.remove();
         return;
     }
 
-    tempFile.remove();
-
-    destination_ = destination;
-
     result["status"] = QString("success_install");
     emit finishedWithSuccess(result);
+
+    tempFile.remove();
+    resource->deleteLater();
 }
