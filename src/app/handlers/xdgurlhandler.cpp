@@ -66,7 +66,8 @@ bool XdgUrlHandler::isValid()
 
 void XdgUrlHandler::openDestination()
 {
-    QDesktopServices::openUrl(QUrl("file://" + destinations_[metadata_["type"].toString()].toString()));
+    QString type = metadata_["type"].toString();
+    QDesktopServices::openUrl(QUrl("file://" + destinations_[type].toString()));
 }
 
 void XdgUrlHandler::networkResourceFinished(qtlib::NetworkResource *resource)
