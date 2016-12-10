@@ -164,21 +164,20 @@ void XdgUrlHandler::saveDownloadedFile(qtlib::NetworkResource *resource)
     QJsonObject result;
 
     QString type = metadata_["type"].toString();
-    QString destination = destinations_[type].toString();
-    QString path = destination + "/" + metadata_["filename"].toString();
+    qtlib::Dir destDir(destinations_[type].toString());
+    destDir.make();
+    qtlib::File destFile(destDir.path() + "/" + metadata_["filename"].toString());
 
-    qtlib::Dir(destination).make();
-
-    if (!resource->saveData(path)) {
+    if (!resource->saveData(destFile.path())) {
         result["status"] = QString("error_save");
-        result["message"] = QString("Failed to save data as " + path);
+        result["message"] = QString("Failed to save data as " + destFile.path());
         emit finishedWithError(result);
         resource->deleteLater();
         return;
     }
 
     result["status"] = QString("success_download");
-    result["message"] = QString("The file has been stored into " + destination);
+    result["message"] = QString("The file has been stored into " + destDir.path());
     emit finishedWithSuccess(result);
 
     resource->deleteLater();
@@ -188,28 +187,25 @@ void XdgUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
 {
     QJsonObject result;
 
-    QString tempPath = qtlib::Dir::tempPath() + "/" + metadata_["filename"].toString();
+    qtlib::File tempFile(qtlib::Dir::tempPath() + "/" + metadata_["filename"].toString());
 
-    if (!resource->saveData(tempPath)) {
+    if (!resource->saveData(tempFile.path())) {
         result["status"] = QString("error_save");
-        result["message"] = QString("Failed to save data as " + tempPath);
+        result["message"] = QString("Failed to save data as " + tempFile.path());
         emit finishedWithError(result);
         resource->deleteLater();
         return;
     }
 
-    qtlib::File tempFile(tempPath);
-    qtlib::Package package(tempPath);
-
+    qtlib::Package package(tempFile.path());
     QString type = metadata_["type"].toString();
-    QString destination = destinations_[type].toString();
-    QString path = destination + "/" + metadata_["filename"].toString();
-
-    qtlib::Dir(destination).make();
+    qtlib::Dir destDir(destinations_[type].toString());
+    destDir.make();
+    qtlib::File destFile(destDir.path() + "/" + metadata_["filename"].toString());
 
     if (type == "bin"
-            && package.installAsProgram(path)) {
-        result["message"] = QString("The file has been installed into " + destination);
+            && package.installAsProgram(destFile.path())) {
+        result["message"] = QString("The file has been installed into " + destDir.path());
     }
     else if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
              && package.installAsPlasmapkg("plasmoid")) {
@@ -235,11 +231,11 @@ void XdgUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
              && package.installAsPlasmapkg("windowswitcher")) {
         result["message"] = QString("The KWin window switcher has been installed");
     }
-    else if (package.installAsArchive(destination)) {
-        result["message"] = QString("The archive file has been extracted into " + destination);
+    else if (package.installAsArchive(destDir.path())) {
+        result["message"] = QString("The archive file has been extracted into " + destDir.path());
     }
-    else if (package.installAsFile(path)) {
-        result["message"] = QString("The file has been installed into " + destination);
+    else if (package.installAsFile(destFile.path())) {
+        result["message"] = QString("The file has been installed into " + destDir.path());
     }
     else {
         result["status"] = QString("error_install");
