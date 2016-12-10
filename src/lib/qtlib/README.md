@@ -1,6 +1,6 @@
 # qtlib
 
-A library for Qt app
+A library for Qt app.
 
 Copyright: Akira Ohgaki
 
