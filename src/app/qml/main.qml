@@ -56,6 +56,10 @@ Window {
     Dialog {
         id: progressDialog
         title: root.title
+        property alias primaryLabel: primaryLabel
+        property alias informativeLabel: informativeLabel
+        property alias progressBar: progressBar
+        property alias progressLabel: progressLabel
         contentItem: Item {
             implicitWidth: 400
             implicitHeight: 150
@@ -65,12 +69,12 @@ Window {
                 spacing: 8
                 Label {
                     id: primaryLabel
-                    text: ""
+                    text: " "
                     font.bold: true
                 }
                 Label {
                     id: informativeLabel
-                    text: ""
+                    text: " "
                 }
                 ProgressBar {
                     id: progressBar
@@ -82,7 +86,7 @@ Window {
                 }
                 Label {
                     id: progressLabel
-                    text: ""
+                    text: " "
                     anchors.right: parent.right
                 }
                 Button {
@@ -93,10 +97,6 @@ Window {
                 }
             }
         }
-        property alias primaryLabel: primaryLabel
-        property alias informativeLabel: informativeLabel
-        property alias progressBar: progressBar
-        property alias progressLabel: progressLabel
     }
 
     Component.onCompleted: {
