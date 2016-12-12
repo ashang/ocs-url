@@ -216,6 +216,16 @@ void NetworkResource::replyFinished()
     emit finished(this);
 }
 
+void NetworkResource::replyDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+{
+    emit downloadProgress(id(), bytesReceived, bytesTotal);
+}
+
+void NetworkResource::replyUploadProgress(qint64 bytesSent, qint64 bytesTotal)
+{
+    emit uploadProgress(id(), bytesSent, bytesTotal);
+}
+
 void NetworkResource::setManager(QNetworkAccessManager *manager)
 {
     manager_ = manager;
@@ -266,8 +276,8 @@ NetworkResource *NetworkResource::send(const QUrl &url, bool async)
         Q_ASSERT(false);
     }
     connect(reply(), &QNetworkReply::finished, this, &NetworkResource::replyFinished);
-    connect(reply(), &QNetworkReply::downloadProgress, this, &NetworkResource::downloadProgress);
-    connect(reply(), &QNetworkReply::uploadProgress, this, &NetworkResource::uploadProgress);
+    connect(reply(), &QNetworkReply::downloadProgress, this, &NetworkResource::replyDownloadProgress);
+    connect(reply(), &QNetworkReply::uploadProgress, this, &NetworkResource::replyUploadProgress);
     if (!async) {
         QEventLoop eventLoop;
         connect(this, &NetworkResource::finished, &eventLoop, &QEventLoop::quit);

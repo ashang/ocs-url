@@ -16,7 +16,8 @@ public:
     Test() {}
     virtual ~Test() {}
 
-    void start() {
+    void start()
+    {
         qDebug() << "Start";
 
         qtlib::NetworkResource *resource = new qtlib::NetworkResource(
@@ -24,26 +25,34 @@ public:
                     QUrl("https://api.opensource.org/license/LGPL-3.0"),
                     false,
                     this);
+        connect(resource, &qtlib::NetworkResource::downloadProgress, this, &Test::downloadProgress);
         QJsonObject result = qtlib::Json(resource->get()->readData()).toObject();
 
         qDebug() << resource->id() << ":" << result["name"].toString();
 
+        connect(resource, &qtlib::NetworkResource::finished, this, &Test::finished);
+        resource->setId(result["name"].toString());
         resource->setUrl(QUrl(result["text"].toArray()[0].toObject()["url"].toString()));
         resource->setAsync(true);
-        connect(resource, &qtlib::NetworkResource::finished, this, &Test::finished);
         resource->get();
     }
 
 public slots:
-    void finished(qtlib::NetworkResource *resource) {
+    void finished(qtlib::NetworkResource *resource)
+    {
         QString path = qtlib::Dir::tempPath() + "/" + resource->url().fileName();
         resource->saveData(path);
-        resource->deleteLater();
 
         qDebug() << "Downloaded" << resource->id() << ":" << path;
         qDebug() << "Finished";
 
+        resource->deleteLater();
         QCoreApplication::exit();
+    }
+
+    void downloadProgress(QString id, qint64 bytesReceived, qint64 bytesTotal)
+    {
+        qDebug() << "Progress" << id << ":" << bytesReceived << "/" << bytesTotal;
     }
 };
 

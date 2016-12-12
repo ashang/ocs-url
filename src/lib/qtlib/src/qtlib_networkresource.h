@@ -56,14 +56,16 @@ public:
 
 signals:
     void finished(NetworkResource *resource);
-    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
-    void uploadProgress(qint64 bytesSent, qint64 bytesTotal);
+    void downloadProgress(QString id, qint64 bytesReceived, qint64 bytesTotal);
+    void uploadProgress(QString id, qint64 bytesSent, qint64 bytesTotal);
 
 public slots:
     void abort();
 
 private slots:
     void replyFinished();
+    void replyDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void replyUploadProgress(qint64 bytesSent, qint64 bytesTotal);
 
 private:
     void setManager(QNetworkAccessManager *manager);
