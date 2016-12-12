@@ -20,7 +20,7 @@ signals:
     void started();
     void finishedWithSuccess(QJsonObject result);
     void finishedWithError(QJsonObject result);
-    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void downloadProgress(QString id, qint64 bytesReceived, qint64 bytesTotal);
 
 public slots:
     QString xdgUrl() const;

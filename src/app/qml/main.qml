@@ -130,7 +130,7 @@ Window {
             errorDialog.open();
         });
 
-        xdgUrlHandler.downloadProgress.connect(function(bytesReceived, bytesTotal) {
+        xdgUrlHandler.downloadProgress.connect(function(id, bytesReceived, bytesTotal) {
             progressDialog.primaryLabel.text = "Downloading... ";
             progressDialog.informativeLabel.text = metadata.filename;
             progressDialog.progressBar.value = bytesReceived / bytesTotal;
