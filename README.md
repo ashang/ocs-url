@@ -2,7 +2,7 @@
 
 An install helper program for desktop stuff.
 
-Copyright: 2016, Akira Ohgaki
+Copyright: 2016-2017, Akira Ohgaki
 
 License: GPL-3+
 
