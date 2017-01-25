@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 import "scripts/Utility.js" as Utility
 
 Window {
-    id: root
+    id: app
     title: Qt.application.name
     width: 400
     height: 200
@@ -17,7 +17,7 @@ Window {
 
     MessageDialog {
         id: confirmDialog
-        title: root.title
+        title: app.title
         icon: StandardIcon.Question
         text: ""
         informativeText: ""
@@ -29,7 +29,7 @@ Window {
 
     MessageDialog {
         id: infoDialog
-        title: root.title
+        title: app.title
         icon: StandardIcon.Information
         text: ""
         informativeText: ""
@@ -44,7 +44,7 @@ Window {
 
     MessageDialog {
         id: errorDialog
-        title: root.title
+        title: app.title
         icon: StandardIcon.Warning
         text: ""
         informativeText: ""
@@ -55,7 +55,7 @@ Window {
 
     Dialog {
         id: progressDialog
-        title: root.title
+        title: app.title
         property alias primaryLabel: primaryLabel
         property alias informativeLabel: informativeLabel
         property alias progressBar: progressBar
