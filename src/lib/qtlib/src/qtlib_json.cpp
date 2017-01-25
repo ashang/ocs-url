@@ -1,20 +1,18 @@
 /**
- * A library for Qt app
- *
- * LICENSE: The GNU Lesser General Public License, version 3.0
+ * qtlib
  *
  * @author      Akira Ohgaki <akiraohgaki@gmail.com>
  * @copyright   Akira Ohgaki
- * @license     https://opensource.org/licenses/LGPL-3.0  The GNU Lesser General Public License, version 3.0
- * @link        https://github.com/akiraohgaki/qtlibs
+ * @license     https://opensource.org/licenses/LGPL-3.0
+ * @link        https://github.com/akiraohgaki/qtlib
  */
 
-#include "json.h"
+#include "qtlib_json.h"
 
 #include <QJsonDocument>
 #include <QJsonParseError>
 
-namespace qtlibs {
+namespace qtlib {
 
 Json::Json(const QByteArray &json, QObject *parent)
     : QObject(parent), json_(json)
@@ -56,32 +54,27 @@ void Json::setJson(const QByteArray &json)
 
 void Json::fromObject(const QJsonObject &object)
 {
-    QJsonDocument doc(object);
-    setJson(doc.toJson());
+    setJson(QJsonDocument(object).toJson());
 }
 
 void Json::fromArray(const QJsonArray &array)
 {
-    QJsonDocument doc(array);
-    setJson(doc.toJson());
+    setJson(QJsonDocument(array).toJson());
 }
 
 QByteArray Json::toJson()
 {
-    QJsonDocument doc = QJsonDocument::fromJson(json());
-    return doc.toJson();
+    return QJsonDocument::fromJson(json()).toJson();
 }
 
 QJsonObject Json::toObject()
 {
-    QJsonDocument doc = QJsonDocument::fromJson(json());
-    return doc.object();
+    return QJsonDocument::fromJson(json()).object();
 }
 
 QJsonArray Json::toArray()
 {
-    QJsonDocument doc = QJsonDocument::fromJson(json());
-    return doc.array();
+    return QJsonDocument::fromJson(json()).array();
 }
 
 bool Json::isValid()
@@ -96,14 +89,12 @@ bool Json::isValid()
 
 bool Json::isObject()
 {
-    QJsonDocument doc = QJsonDocument::fromJson(json());
-    return doc.isObject();
+    return QJsonDocument::fromJson(json()).isObject();
 }
 
 bool Json::isArray()
 {
-    QJsonDocument doc = QJsonDocument::fromJson(json());
-    return doc.isArray();
+    return QJsonDocument::fromJson(json()).isArray();
 }
 
-} // namespace qtlibs
+} // namespace qtlib

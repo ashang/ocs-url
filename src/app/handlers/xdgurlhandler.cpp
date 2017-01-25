@@ -1,38 +1,34 @@
-#include "xdgurl.h"
+#include "xdgurlhandler.h"
 
 #include <QUrlQuery>
 #include <QDesktopServices>
 
-#include "qtlibs/file.h"
-#include "qtlibs/dir.h"
-#include "qtlibs/networkresource.h"
-#include "qtlibs/package.h"
+#include "qtlib_file.h"
+#include "qtlib_dir.h"
+#include "qtlib_networkresource.h"
+#include "qtlib_package.h"
 
-namespace handlers {
-
-XdgUrl::XdgUrl(const QString &xdgUrl, const qtlibs::Config &config, QObject *parent)
+XdgUrlHandler::XdgUrlHandler(const QString &xdgUrl, const qtlib::Config &config, QObject *parent)
     : QObject(parent), xdgUrl_(xdgUrl), config_(config)
 {
     parse();
     loadDestinations();
 }
 
-QString XdgUrl::xdgUrl() const
+QString XdgUrlHandler::xdgUrl() const
 {
     return xdgUrl_;
 }
 
-QJsonObject XdgUrl::metadata() const
+QJsonObject XdgUrlHandler::metadata() const
 {
     return metadata_;
 }
 
-void XdgUrl::process()
+void XdgUrlHandler::process()
 {
-    /**
-     * xdgs scheme is a reserved name, so the process of xdgs
-     * is the same process of the xdg scheme currently.
-     */
+    // xdgs scheme is a reserved name, so the process of xdgs
+    // is the same process of the xdg scheme currently.
 
     if (!isValid()) {
         QJsonObject result;
@@ -43,14 +39,14 @@ void XdgUrl::process()
     }
 
     QString url = metadata_["url"].toString();
-    qtlibs::NetworkResource *resource = new qtlibs::NetworkResource(url, QUrl(url), true, this);
-    connect(resource, &qtlibs::NetworkResource::downloadProgress, this, &XdgUrl::downloadProgress);
-    connect(resource, &qtlibs::NetworkResource::finished, this, &XdgUrl::networkResourceFinished);
+    qtlib::NetworkResource *resource = new qtlib::NetworkResource(url, QUrl(url), true, this);
+    connect(resource, &qtlib::NetworkResource::downloadProgress, this, &XdgUrlHandler::downloadProgress);
+    connect(resource, &qtlib::NetworkResource::finished, this, &XdgUrlHandler::networkResourceFinished);
     resource->get();
     emit started();
 }
 
-bool XdgUrl::isValid()
+bool XdgUrlHandler::isValid()
 {
     QString scheme = metadata_["scheme"].toString();
     QString command = metadata_["command"].toString();
@@ -68,20 +64,20 @@ bool XdgUrl::isValid()
     return false;
 }
 
-void XdgUrl::openDestination()
+void XdgUrlHandler::openDestination()
 {
-    if (!destination_.isEmpty()) {
-        QDesktopServices::openUrl(QUrl("file://" + destination_));
-    }
+    QString type = metadata_["type"].toString();
+    QDesktopServices::openUrl(QUrl("file://" + destinations_[type].toString()));
 }
 
-void XdgUrl::networkResourceFinished(qtlibs::NetworkResource *resource)
+void XdgUrlHandler::networkResourceFinished(qtlib::NetworkResource *resource)
 {
-    if (resource->reply()->error() != QNetworkReply::NoError) {
+    if (!resource->isFinishedWithNoError()) {
         QJsonObject result;
         result["status"] = QString("error_network");
         result["message"] = resource->reply()->errorString();
         emit finishedWithError(result);
+        resource->deleteLater();
         return;
     }
 
@@ -93,7 +89,7 @@ void XdgUrl::networkResourceFinished(qtlibs::NetworkResource *resource)
     }
 }
 
-void XdgUrl::parse()
+void XdgUrlHandler::parse()
 {
     QUrl url(xdgUrl_);
     QUrlQuery query(url);
@@ -129,7 +125,7 @@ void XdgUrl::parse()
     }
 }
 
-void XdgUrl::loadDestinations()
+void XdgUrlHandler::loadDestinations()
 {
     QJsonObject configDestinations = config_.get("destinations");
     QJsonObject configDestinationsAlias = config_.get("destinations_alias");
@@ -146,72 +142,70 @@ void XdgUrl::loadDestinations()
     }
 }
 
-QString XdgUrl::convertPathString(const QString &path)
+QString XdgUrlHandler::convertPathString(const QString &path)
 {
     QString newPath = path;
 
     if (newPath.contains("$HOME")) {
-        newPath.replace("$HOME", qtlibs::Dir::homePath());
+        newPath.replace("$HOME", qtlib::Dir::homePath());
     }
     else if (newPath.contains("$XDG_DATA_HOME")) {
-        newPath.replace("$XDG_DATA_HOME", qtlibs::Dir::genericDataPath());
+        newPath.replace("$XDG_DATA_HOME", qtlib::Dir::genericDataPath());
     }
     else if (newPath.contains("$KDEHOME")) {
-        newPath.replace("$KDEHOME", qtlibs::Dir::kdehomePath());
+        newPath.replace("$KDEHOME", qtlib::Dir::kdehomePath());
     }
 
     return newPath;
 }
 
-void XdgUrl::saveDownloadedFile(qtlibs::NetworkResource *resource)
+void XdgUrlHandler::saveDownloadedFile(qtlib::NetworkResource *resource)
 {
     QJsonObject result;
 
     QString type = metadata_["type"].toString();
-    QString destination = destinations_[type].toString();
-    QString path = destination + "/" + metadata_["filename"].toString();
+    qtlib::Dir destDir(destinations_[type].toString());
+    destDir.make();
+    qtlib::File destFile(destDir.path() + "/" + metadata_["filename"].toString());
 
-    qtlibs::Dir(destination).make();
-
-    if (!resource->saveData(path)) {
+    if (!resource->saveData(destFile.path())) {
         result["status"] = QString("error_save");
-        result["message"] = QString("Failed to save data as " + path);
+        result["message"] = QString("Failed to save data as " + destFile.path());
         emit finishedWithError(result);
+        resource->deleteLater();
         return;
     }
-
-    destination_ = destination;
 
     result["status"] = QString("success_download");
-    result["message"] = QString("The file has been stored into " + destination);
+    result["message"] = QString("The file has been stored into " + destDir.path());
     emit finishedWithSuccess(result);
+
+    resource->deleteLater();
 }
 
-void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
+void XdgUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
 {
     QJsonObject result;
 
-    QString tempPath = qtlibs::Dir::tempPath() + "/" + metadata_["filename"].toString();
+    qtlib::File tempFile(qtlib::Dir::tempPath() + "/" + metadata_["filename"].toString());
 
-    if (!resource->saveData(tempPath)) {
+    if (!resource->saveData(tempFile.path())) {
         result["status"] = QString("error_save");
-        result["message"] = QString("Failed to save data as " + tempPath);
+        result["message"] = QString("Failed to save data as " + tempFile.path());
         emit finishedWithError(result);
+        resource->deleteLater();
         return;
     }
 
-    qtlibs::Package package(tempPath);
-    qtlibs::File tempFile(tempPath);
-
+    qtlib::Package package(tempFile.path());
     QString type = metadata_["type"].toString();
-    QString destination = destinations_[type].toString();
-    QString path = destination + "/" + metadata_["filename"].toString();
-
-    qtlibs::Dir(destination).make();
+    qtlib::Dir destDir(destinations_[type].toString());
+    destDir.make();
+    qtlib::File destFile(destDir.path() + "/" + metadata_["filename"].toString());
 
     if (type == "bin"
-            && package.installAsProgram(path)) {
-        result["message"] = QString("The file has been installed into " + destination);
+            && package.installAsProgram(destFile.path())) {
+        result["message"] = QString("The file has been installed into " + destDir.path());
     }
     else if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
              && package.installAsPlasmapkg("plasmoid")) {
@@ -237,26 +231,23 @@ void XdgUrl::installDownloadedFile(qtlibs::NetworkResource *resource)
              && package.installAsPlasmapkg("windowswitcher")) {
         result["message"] = QString("The KWin window switcher has been installed");
     }
-    else if (package.installAsArchive(destination)) {
-        result["message"] = QString("The archive file has been extracted into " + destination);
+    else if (package.installAsArchive(destDir.path())) {
+        result["message"] = QString("The archive file has been extracted into " + destDir.path());
     }
-    else if (package.installAsFile(path)) {
-        result["message"] = QString("The file has been installed into " + destination);
+    else if (package.installAsFile(destFile.path())) {
+        result["message"] = QString("The file has been installed into " + destDir.path());
     }
     else {
-        tempFile.remove();
         result["status"] = QString("error_install");
         result["message"] = QString("Failed to installation");
         emit finishedWithError(result);
+        tempFile.remove();
         return;
     }
 
-    tempFile.remove();
-
-    destination_ = destination;
-
     result["status"] = QString("success_install");
     emit finishedWithSuccess(result);
-}
 
-} // namespace handlers
+    tempFile.remove();
+    resource->deleteLater();
+}

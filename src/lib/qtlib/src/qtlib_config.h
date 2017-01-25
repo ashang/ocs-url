@@ -1,12 +1,10 @@
 /**
- * A library for Qt app
- *
- * LICENSE: The GNU Lesser General Public License, version 3.0
+ * qtlib
  *
  * @author      Akira Ohgaki <akiraohgaki@gmail.com>
  * @copyright   Akira Ohgaki
- * @license     https://opensource.org/licenses/LGPL-3.0  The GNU Lesser General Public License, version 3.0
- * @link        https://github.com/akiraohgaki/qtlibs
+ * @license     https://opensource.org/licenses/LGPL-3.0
+ * @link        https://github.com/akiraohgaki/qtlib
  */
 
 #pragma once
@@ -14,7 +12,7 @@
 #include <QObject>
 #include <QJsonObject>
 
-namespace qtlibs {
+namespace qtlib {
 
 class Config : public QObject
 {
@@ -36,4 +34,4 @@ private:
     QString configDirPath_;
 };
 
-} // namespace qtlibs
+} // namespace qtlib

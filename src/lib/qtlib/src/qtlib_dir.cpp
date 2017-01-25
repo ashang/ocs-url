@@ -1,22 +1,20 @@
 /**
- * A library for Qt app
- *
- * LICENSE: The GNU Lesser General Public License, version 3.0
+ * qtlib
  *
  * @author      Akira Ohgaki <akiraohgaki@gmail.com>
  * @copyright   Akira Ohgaki
- * @license     https://opensource.org/licenses/LGPL-3.0  The GNU Lesser General Public License, version 3.0
- * @link        https://github.com/akiraohgaki/qtlibs
+ * @license     https://opensource.org/licenses/LGPL-3.0
+ * @link        https://github.com/akiraohgaki/qtlib
  */
 
-#include "dir.h"
+#include "qtlib_dir.h"
 
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QStandardPaths>
 
-namespace qtlibs {
+namespace qtlib {
 
 Dir::Dir(const QString &path, QObject *parent)
     : QObject(parent), path_(path)
@@ -46,8 +44,7 @@ void Dir::setPath(const QString &path)
 
 bool Dir::exists()
 {
-    QDir dir(path());
-    return dir.exists();
+    return QDir(path()).exists();
 }
 
 QFileInfoList Dir::list()
@@ -76,15 +73,13 @@ bool Dir::copy(const QString &newPath)
 
 bool Dir::move(const QString &newPath)
 {
-    QDir dir(path());
-    return dir.rename(path(), newPath);
+    return QDir(path()).rename(path(), newPath);
 }
 
 bool Dir::remove()
 {
     // This function will remove files recursively
-    QDir dir(path());
-    return dir.removeRecursively();
+    return QDir(path()).removeRecursively();
 }
 
 QString Dir::rootPath()
@@ -133,11 +128,12 @@ QString Dir::kdehomePath()
 bool Dir::copyRecursively(const QString &srcPath, const QString &newPath)
 {
     QFileInfo fileInfo(srcPath);
-    if (fileInfo.isFile()) {
-        QFile file(srcPath);
-        if (file.copy(newPath)) {
-            return true;
-        }
+    if (fileInfo.isSymLink() && !fileInfo.exists()) {
+        // Ignore broken symlink
+        return true;
+    }
+    else if (fileInfo.isFile()) {
+        return QFile(srcPath).copy(newPath);
     }
     else if (fileInfo.isDir()) {
         QDir newDir(newPath);
@@ -158,4 +154,4 @@ bool Dir::copyRecursively(const QString &srcPath, const QString &newPath)
     return false;
 }
 
-} // namespace qtlibs
+} // namespace qtlib

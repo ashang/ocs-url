@@ -1,21 +1,19 @@
 /**
- * A library for Qt app
- *
- * LICENSE: The GNU Lesser General Public License, version 3.0
+ * qtlib
  *
  * @author      Akira Ohgaki <akiraohgaki@gmail.com>
  * @copyright   Akira Ohgaki
- * @license     https://opensource.org/licenses/LGPL-3.0  The GNU Lesser General Public License, version 3.0
- * @link        https://github.com/akiraohgaki/qtlibs
+ * @license     https://opensource.org/licenses/LGPL-3.0
+ * @link        https://github.com/akiraohgaki/qtlib
  */
 
-#include "file.h"
+#include "qtlib_file.h"
 
 #include <QIODevice>
 #include <QTextStream>
 #include <QFile>
 
-namespace qtlibs {
+namespace qtlib {
 
 File::File(const QString &path, QObject *parent)
     : QObject(parent), path_(path)
@@ -45,8 +43,7 @@ void File::setPath(const QString &path)
 
 bool File::exists()
 {
-    QFile file(path());
-    return file.exists();
+    return QFile(path()).exists();
 }
 
 QByteArray File::readData()
@@ -99,20 +96,17 @@ bool File::writeText(const QString &data)
 
 bool File::copy(const QString &newPath)
 {
-    QFile file(path());
-    return file.copy(newPath);
+    return QFile(path()).copy(newPath);
 }
 
 bool File::move(const QString &newPath)
 {
-    QFile file(path());
-    return file.rename(newPath);
+    return QFile(path()).rename(newPath);
 }
 
 bool File::remove()
 {
-    QFile file(path());
-    return file.remove();
+    return QFile(path()).remove();
 }
 
-} // namespace qtlibs
+} // namespace qtlib

@@ -1,3 +1,11 @@
+xdgurl (2.0.3-0ubuntu1) xenial; urgency=low
+
+  * Change installation destination of type bin
+  * Update qtlib
+  * Fix for dialog
+
+ -- Akira Ohgaki <akiraohgaki@gmail.com>  Wed, 25 Jan 2017 19:58:44 +0000
+
 xdgurl (2.0.2-0ubuntu1) xenial; urgency=low
 
   * Update qtlibs

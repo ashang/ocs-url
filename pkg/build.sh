@@ -71,7 +71,7 @@ build_appimage() {
     #sudo apt update
 
     #sudo apt install build-essential fuse zsync desktop-file-utils
-    #sudo apt install qt57base qt57svg qt57quickcontrols qt57quickcontrols2
+    #sudo apt install qt57base qt57svg qt57declarative qt57quickcontrols
     # Replace linuxdeployqt download URL to official download URL when the stable version released
     #curl -L -o linuxdeployqt https://dl.dropboxusercontent.com/u/150776/temp/linuxdeployqt-799f704-x86-64.appimage
     #sudo install -m 755 -p linuxdeployqt /usr/local/bin/linuxdeployqt

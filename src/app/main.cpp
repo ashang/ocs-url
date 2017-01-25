@@ -1,28 +1,28 @@
-#include <QtGlobal>
+//#include <QtGlobal>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QJsonObject>
 #include <QCommandLineParser>
-#include <QCoreApplication>
+//#include <QCoreApplication>
 #include <QGuiApplication>
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "qtlibs/config.h"
+#include "qtlib_config.h"
 
-#include "handlers/xdgurl.h"
+#include "handlers/xdgurlhandler.h"
 
 int main(int argc, char *argv[])
 {
     // Init
-#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
+//#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+//    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+//#endif
     QGuiApplication app(argc, argv);
 
-    qtlibs::Config config(":/configs");
+    qtlib::Config config(":/configs");
     QJsonObject configApplication = config.get("application");
 
     app.setApplicationName(configApplication["name"].toString());
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
     QQmlContext *qmlContext = qmlAppEngine.rootContext();
-    qmlContext->setContextProperty("xdgUrlHandler", new handlers::XdgUrl(xdgUrl, config, &qmlAppEngine));
+    qmlContext->setContextProperty("xdgUrlHandler", new XdgUrlHandler(xdgUrl, config, &qmlAppEngine));
     qmlAppEngine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();
