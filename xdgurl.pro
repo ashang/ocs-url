@@ -1,7 +1,3 @@
-include(src/lib/qtlib/qtlib.pri)
-
-include(src/app/app.pri)
-
 TARGET = xdgurl
 
 TEMPLATE = app
@@ -15,7 +11,6 @@ RESOURCES += src/desktop/desktop.qrc
 DISTFILES += \
     README.md \
     src/desktop/xdgurl.desktop \
-    src/desktop/appimage-desktopintegration \
     pkg/build.sh \
     pkg/ubuntu/debian/changelog \
     pkg/ubuntu/debian/compat \
@@ -24,6 +19,11 @@ DISTFILES += \
     pkg/ubuntu/debian/rules \
     pkg/ubuntu/debian/xdgurl.install \
     pkg/fedora/xdgurl.spec \
-    pkg/arch/PKGBUILD
+    pkg/arch/PKGBUILD \
+    pkg/appimage/appimage-desktopintegration
 
 include(deployment.pri)
+
+include(src/lib/qtlib/qtlib.pri)
+
+include(src/app/app.pri)
