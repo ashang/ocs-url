@@ -66,6 +66,19 @@ build_arch() {
     makepkg -s
 }
 
+build_snap() {
+    #sudo apt install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev snapcraft
+
+    cd "${PROJDIR}"
+
+    mkdir -p "${BUILDDIR}"
+    export_source "${BUILDDIR}"
+    tar -xzvf "${BUILDDIR}/${PKGNAME}.tar.gz" -C "${BUILDDIR}"
+
+    cd "${BUILDDIR}/${PKGNAME}/pkg/snap"
+    snapcraft
+}
+
 build_appimage() {
     #sudo add-apt-repository ppa:beineri/opt-qt57-xenial
     #sudo apt update
@@ -114,8 +127,10 @@ elif [ "${BUILDTYPE}" = 'fedora' ]; then
     build_fedora
 elif [ "${BUILDTYPE}" = 'arch' ]; then
     build_arch
+elif [ "${BUILDTYPE}" = 'snap' ]; then
+    build_snap
 elif [ "${BUILDTYPE}" = 'appimage' ]; then
     build_appimage
 else
-    echo "sh $(basename "${0}") [ubuntu|fedora|arch|appimage] [tree_ish]"
+    echo "sh $(basename "${0}") [ubuntu|fedora|arch|snap|appimage] [tree_ish]"
 fi

@@ -20,6 +20,8 @@ DISTFILES += \
     pkg/ubuntu/debian/xdgurl.install \
     pkg/fedora/xdgurl.spec \
     pkg/arch/PKGBUILD \
+    pkg/snap/snapcraft.yaml \
+    pkg/snap/setup/gui/xdgurl.desktop \
     pkg/appimage/appimage-desktopintegration
 
 include(deployment.pri)

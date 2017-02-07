@@ -1,0 +1,40 @@
+name: xdgurl
+version: '2.0.3'
+summary: An install helper program for desktop stuff
+description: |
+  An install helper program for desktop stuff.
+
+grade: devel
+confinement: strict
+
+#icon: ../../src/desktop/xdgurl.svg
+
+parts:
+  xdgurl:
+    plugin: qmake
+    source: ../../
+    qt-version: qt5
+    options:
+      - PREFIX='/usr'
+    build-packages:
+      - build-essential
+      - qt5-default
+      - libqt5svg5-dev
+      - qtdeclarative5-dev
+      - snapcraft
+    stage-packages:
+      - libqt5svg5
+      - qml-module-qtquick-controls
+      - qml-module-qtquick-dialogs
+    after:
+      - desktop-qt5
+
+apps:
+  xdgurl:
+    command: usr/bin/xdgurl
+    plugs:
+      - home
+      - network
+      - opengl
+      - x11
+      - unity7
