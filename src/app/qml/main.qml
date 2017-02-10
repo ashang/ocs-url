@@ -91,7 +91,7 @@ Window {
                 }
                 Button {
                     id: cancelButton
-                    text: "Cancel"
+                    text: qsTr("Cancel")
                     anchors.right: parent.right
                     onClicked: Qt.quit()
                 }
@@ -102,12 +102,12 @@ Window {
     Component.onCompleted: {
         var metadata = xdgUrlHandler.metadata();
         var primaryMessages = {
-            "success_download": "Download successfull",
-            "success_install": "Installation successfull",
-            "error_validation": "Validation error",
-            "error_network": "Network error",
-            "error_save": "Saving file failed",
-            "error_install": "Installation failed"
+            "success_download": qsTr("Download successfull"),
+            "success_install": qsTr("Installation successfull"),
+            "error_validation": qsTr("Validation error"),
+            "error_network": qsTr("Network error"),
+            "error_save": qsTr("Saving file failed"),
+            "error_install": qsTr("Installation failed")
         };
 
         xdgUrlHandler.started.connect(function() {
@@ -131,7 +131,7 @@ Window {
         });
 
         xdgUrlHandler.downloadProgress.connect(function(id, bytesReceived, bytesTotal) {
-            progressDialog.primaryLabel.text = "Downloading... ";
+            progressDialog.primaryLabel.text = qsTr("Downloading");
             progressDialog.informativeLabel.text = metadata.filename;
             progressDialog.progressBar.value = bytesReceived / bytesTotal;
             progressDialog.progressLabel.text = Utility.convertByteToHumanReadable(bytesReceived)
@@ -139,16 +139,21 @@ Window {
         });
 
         if (xdgUrlHandler.isValid()) {
-            confirmDialog.text = "Do you want to " + metadata.command + "?";
+            if (metadata.command === "download") {
+                confirmDialog.text = qsTr("Do you want to download?");
+            }
+            else if (metadata.command === "install") {
+                confirmDialog.text = qsTr("Do you want to install?");
+            }
             confirmDialog.informativeText = metadata.filename;
-            confirmDialog.detailedText = "URL: " + metadata.url + "\n\n"
-                    + "File: " + metadata.filename + "\n\n"
-                    + "Type: " + metadata.type;
+            confirmDialog.detailedText = qsTr("URL") + ": " + metadata.url + "\n\n"
+                    + qsTr("File") + ": " + metadata.filename + "\n\n"
+                    + qsTr("Type") + ": " + metadata.type;
             confirmDialog.open();
         }
         else {
-            errorDialog.text = "Validation error";
-            errorDialog.detailedText = "Invalid XDG-URL " + xdgUrlHandler.xdgUrl();
+            errorDialog.text = qsTr("Validation error");
+            errorDialog.detailedText = qsTr("Invalid XDG-URL") + " " + xdgUrlHandler.xdgUrl();
             errorDialog.open();
         }
     }
