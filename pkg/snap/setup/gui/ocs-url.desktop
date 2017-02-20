@@ -6,4 +6,4 @@ Type=Application
 Terminal=false
 NoDisplay=true
 Categories=Network;Utility;
-MimeType=x-scheme-handler/ocs;x-scheme-handler/ocss;
+MimeType=x-scheme-handler/ocs;x-scheme-handler/ocss;x-scheme-handler/xdg;x-scheme-handler/xdgs;

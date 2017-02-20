@@ -54,7 +54,8 @@ bool OcsUrlHandler::isValid()
     QString type = metadata_["type"].toString();
     QString filename = metadata_["filename"].toString();
 
-    if ((scheme == "ocs" || scheme == "ocss")
+    // Still support xdg and xdgs schemes for backward compatibility
+    if ((scheme == "ocs" || scheme == "ocss" || scheme == "xdg" || scheme == "xdgs")
             && (command == "download" || command == "install")
             && QUrl(url).isValid()
             && destinations_.contains(type)
