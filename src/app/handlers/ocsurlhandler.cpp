@@ -1,4 +1,4 @@
-#include "xdgurlhandler.h"
+#include "ocsurlhandler.h"
 
 #include <QUrlQuery>
 #include <QDesktopServices>
@@ -8,45 +8,45 @@
 #include "qtlib_networkresource.h"
 #include "qtlib_package.h"
 
-XdgUrlHandler::XdgUrlHandler(const QString &xdgUrl, const qtlib::Config &config, QObject *parent)
-    : QObject(parent), xdgUrl_(xdgUrl), config_(config)
+OcsUrlHandler::OcsUrlHandler(const QString &ocsUrl, const qtlib::Config &config, QObject *parent)
+    : QObject(parent), ocsUrl_(ocsUrl), config_(config)
 {
     parse();
     loadDestinations();
 }
 
-QString XdgUrlHandler::xdgUrl() const
+QString OcsUrlHandler::ocsUrl() const
 {
-    return xdgUrl_;
+    return ocsUrl_;
 }
 
-QJsonObject XdgUrlHandler::metadata() const
+QJsonObject OcsUrlHandler::metadata() const
 {
     return metadata_;
 }
 
-void XdgUrlHandler::process()
+void OcsUrlHandler::process()
 {
-    // xdgs scheme is a reserved name, so the process of xdgs
-    // is the same process of the xdg scheme currently.
+    // ocss scheme is a reserved name, so the process of ocss
+    // is the same process of the ocs scheme currently.
 
     if (!isValid()) {
         QJsonObject result;
         result["status"] = QString("error_validation");
-        result["message"] = QString("Invalid XDG-URL " + xdgUrl_);
+        result["message"] = QString("Invalid OCS-URL " + ocsUrl_);
         emit finishedWithError(result);
         return;
     }
 
     QString url = metadata_["url"].toString();
     qtlib::NetworkResource *resource = new qtlib::NetworkResource(url, QUrl(url), true, this);
-    connect(resource, &qtlib::NetworkResource::downloadProgress, this, &XdgUrlHandler::downloadProgress);
-    connect(resource, &qtlib::NetworkResource::finished, this, &XdgUrlHandler::networkResourceFinished);
+    connect(resource, &qtlib::NetworkResource::downloadProgress, this, &OcsUrlHandler::downloadProgress);
+    connect(resource, &qtlib::NetworkResource::finished, this, &OcsUrlHandler::networkResourceFinished);
     resource->get();
     emit started();
 }
 
-bool XdgUrlHandler::isValid()
+bool OcsUrlHandler::isValid()
 {
     QString scheme = metadata_["scheme"].toString();
     QString command = metadata_["command"].toString();
@@ -54,7 +54,7 @@ bool XdgUrlHandler::isValid()
     QString type = metadata_["type"].toString();
     QString filename = metadata_["filename"].toString();
 
-    if ((scheme == "xdg" || scheme == "xdgs")
+    if ((scheme == "ocs" || scheme == "ocss")
             && (command == "download" || command == "install")
             && QUrl(url).isValid()
             && destinations_.contains(type)
@@ -64,13 +64,13 @@ bool XdgUrlHandler::isValid()
     return false;
 }
 
-void XdgUrlHandler::openDestination()
+void OcsUrlHandler::openDestination()
 {
     QString type = metadata_["type"].toString();
     QDesktopServices::openUrl(QUrl("file://" + destinations_[type].toString()));
 }
 
-void XdgUrlHandler::networkResourceFinished(qtlib::NetworkResource *resource)
+void OcsUrlHandler::networkResourceFinished(qtlib::NetworkResource *resource)
 {
     if (!resource->isFinishedWithNoError()) {
         QJsonObject result;
@@ -89,12 +89,12 @@ void XdgUrlHandler::networkResourceFinished(qtlib::NetworkResource *resource)
     }
 }
 
-void XdgUrlHandler::parse()
+void OcsUrlHandler::parse()
 {
-    QUrl url(xdgUrl_);
+    QUrl url(ocsUrl_);
     QUrlQuery query(url);
 
-    metadata_["scheme"] = QString("xdg");
+    metadata_["scheme"] = QString("ocs");
     metadata_["command"] = QString("download");
     metadata_["url"] = QString("");
     metadata_["type"] = QString("downloads");
@@ -125,7 +125,7 @@ void XdgUrlHandler::parse()
     }
 }
 
-void XdgUrlHandler::loadDestinations()
+void OcsUrlHandler::loadDestinations()
 {
     QJsonObject configDestinations = config_.get("destinations");
     QJsonObject configDestinationsAlias = config_.get("destinations_alias");
@@ -142,7 +142,7 @@ void XdgUrlHandler::loadDestinations()
     }
 }
 
-QString XdgUrlHandler::convertPathString(const QString &path)
+QString OcsUrlHandler::convertPathString(const QString &path)
 {
     QString newPath = path;
 
@@ -159,7 +159,7 @@ QString XdgUrlHandler::convertPathString(const QString &path)
     return newPath;
 }
 
-void XdgUrlHandler::saveDownloadedFile(qtlib::NetworkResource *resource)
+void OcsUrlHandler::saveDownloadedFile(qtlib::NetworkResource *resource)
 {
     QJsonObject result;
 
@@ -183,7 +183,7 @@ void XdgUrlHandler::saveDownloadedFile(qtlib::NetworkResource *resource)
     resource->deleteLater();
 }
 
-void XdgUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
+void OcsUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
 {
     QJsonObject result;
 

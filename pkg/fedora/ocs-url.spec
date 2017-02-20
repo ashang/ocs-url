@@ -1,12 +1,12 @@
 Summary: An install helper program for desktop stuff
-Name: xdgurl
+Name: ocs-url
 Version: 2.0.3
 Release: 1%{?dist}
 License: GPLv3+
 Group: Applications/Internet
-URL: https://github.com/xdgurl/xdgurl
+URL: https://github.com/ocs-url/ocs-url
 
-#Source0: https://github.com/xdgurl/xdgurl/archive/release-%{version}.tar.gz
+#Source0: https://github.com/ocs-url/ocs-url/archive/release-%{version}.tar.gz
 Source0: %{name}.tar.gz
 
 Requires: qt5-qtbase >= 5.3.0, qt5-qtbase-gui >= 5.3.0, qt5-qtsvg >= 5.3.0, qt5-qtdeclarative >= 5.3.0, qt5-qtquickcontrols >= 5.3.0

@@ -12,7 +12,7 @@
 
 #include "qtlib_config.h"
 
-#include "handlers/xdgurlhandler.h"
+#include "handlers/ocsurlhandler.h"
 
 int main(int argc, char *argv[])
 {
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     clParser.setApplicationDescription(configApplication["description"].toString());
     clParser.addHelpOption();
     clParser.addVersionOption();
-    clParser.addPositionalArgument("xdgurl", "XDG-URL");
+    clParser.addPositionalArgument("ocsurl", "OCS-URL");
     clParser.process(app);
 
     QStringList args = clParser.positionalArguments();
@@ -45,12 +45,12 @@ int main(int argc, char *argv[])
         clParser.showHelp(1);
     }
 
-    QString xdgUrl = args.at(0);
+    QString ocsUrl = args.at(0);
 
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
     QQmlContext *qmlContext = qmlAppEngine.rootContext();
-    qmlContext->setContextProperty("xdgUrlHandler", new XdgUrlHandler(xdgUrl, config, &qmlAppEngine));
+    qmlContext->setContextProperty("ocsUrlHandler", new OcsUrlHandler(ocsUrl, config, &qmlAppEngine));
     qmlAppEngine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();

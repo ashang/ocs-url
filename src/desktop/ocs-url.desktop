@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=ocs-url
+Exec=ocs-url %u
+Icon=ocs-url
+Type=Application
+Terminal=false
+NoDisplay=true
+Categories=Network;Utility;
+MimeType=x-scheme-handler/ocs;x-scheme-handler/ocss;

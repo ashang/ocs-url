@@ -6,11 +6,11 @@ QT += \
     svg
 
 HEADERS += \
-    $${PWD}/handlers/xdgurlhandler.h
+    $${PWD}/handlers/ocsurlhandler.h
 
 SOURCES += \
     $${PWD}/main.cpp \
-    $${PWD}/handlers/xdgurlhandler.cpp
+    $${PWD}/handlers/ocsurlhandler.cpp
 
 RESOURCES += \
     $${PWD}/configs/configs.qrc \

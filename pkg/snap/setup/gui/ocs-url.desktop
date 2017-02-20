@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=ocs-url
+Exec=ocs-url.ocs-url %u
+Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/ocs-url.svg
+Type=Application
+Terminal=false
+NoDisplay=true
+Categories=Network;Utility;
+MimeType=x-scheme-handler/ocs;x-scheme-handler/ocss;

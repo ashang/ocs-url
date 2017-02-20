@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/desktop">
-        <file>xdgurl.svg</file>
+        <file>ocs-url.svg</file>
     </qresource>
 </RCC>

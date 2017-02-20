@@ -25,7 +25,7 @@ VENDORPREFIX=appimagekit
 
 APPDIR="$(dirname "$(readlink -f "${THIS}")")"
 
-BIN="${APPDIR}/xdgurl"
+BIN="${APPDIR}/ocs-url"
 export PATH="${APPDIR}/usr/bin:$PATH"
 
 trap atexit EXIT

@@ -9,12 +9,12 @@ namespace qtlib {
 class NetworkResource;
 }
 
-class XdgUrlHandler : public QObject
+class OcsUrlHandler : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit XdgUrlHandler(const QString &xdgUrl, const qtlib::Config &config, QObject *parent = 0);
+    explicit OcsUrlHandler(const QString &ocsUrl, const qtlib::Config &config, QObject *parent = 0);
 
 signals:
     void started();
@@ -23,7 +23,7 @@ signals:
     void downloadProgress(QString id, qint64 bytesReceived, qint64 bytesTotal);
 
 public slots:
-    QString xdgUrl() const;
+    QString ocsUrl() const;
     QJsonObject metadata() const;
 
     void process();
@@ -40,7 +40,7 @@ private:
     void saveDownloadedFile(qtlib::NetworkResource *resource);
     void installDownloadedFile(qtlib::NetworkResource *resource);
 
-    QString xdgUrl_;
+    QString ocsUrl_;
     qtlib::Config config_;
     QJsonObject metadata_;
     QJsonObject destinations_;
