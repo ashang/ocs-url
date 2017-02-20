@@ -1,4 +1,4 @@
-name: xdgurl
+name: ocs-url
 version: '2.0.3'
 summary: An install helper program for desktop stuff
 description: |
@@ -7,10 +7,10 @@ description: |
 grade: devel
 confinement: strict
 
-#icon: ../../src/desktop/xdgurl.svg
+#icon: ../../src/desktop/ocs-url.svg
 
 parts:
-  xdgurl:
+  ocs-url:
     plugin: qmake
     source: ../../
     qt-version: qt5
@@ -30,8 +30,8 @@ parts:
       - desktop-qt5
 
 apps:
-  xdgurl:
-    command: usr/bin/xdgurl
+  ocs-url:
+    command: usr/bin/ocs-url
     plugs:
       - home
       - network

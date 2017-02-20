@@ -23,7 +23,7 @@ Window {
         informativeText: ""
         detailedText: ""
         standardButtons: StandardButton.Ok | StandardButton.Cancel
-        onAccepted: xdgUrlHandler.process()
+        onAccepted: ocsUrlHandler.process()
         onRejected: Qt.quit()
     }
 
@@ -36,7 +36,7 @@ Window {
         detailedText: ""
         standardButtons: StandardButton.Open | StandardButton.Close
         onAccepted: {
-            xdgUrlHandler.openDestination();
+            ocsUrlHandler.openDestination();
             Qt.quit();
         }
         onRejected: Qt.quit()
@@ -100,7 +100,7 @@ Window {
     }
 
     Component.onCompleted: {
-        var metadata = xdgUrlHandler.metadata();
+        var metadata = ocsUrlHandler.metadata();
         var primaryMessages = {
             "success_download": qsTr("Download successfull"),
             "success_install": qsTr("Installation successfull"),
@@ -110,11 +110,11 @@ Window {
             "error_install": qsTr("Installation failed")
         };
 
-        xdgUrlHandler.started.connect(function() {
+        ocsUrlHandler.started.connect(function() {
             progressDialog.open();
         });
 
-        xdgUrlHandler.finishedWithSuccess.connect(function(result) {
+        ocsUrlHandler.finishedWithSuccess.connect(function(result) {
             progressDialog.close();
             infoDialog.text = primaryMessages[result.status];
             infoDialog.informativeText = metadata.filename;
@@ -122,7 +122,7 @@ Window {
             infoDialog.open();
         });
 
-        xdgUrlHandler.finishedWithError.connect(function(result) {
+        ocsUrlHandler.finishedWithError.connect(function(result) {
             progressDialog.close();
             errorDialog.text = primaryMessages[result.status];
             errorDialog.informativeText = metadata.filename;
@@ -130,7 +130,7 @@ Window {
             errorDialog.open();
         });
 
-        xdgUrlHandler.downloadProgress.connect(function(id, bytesReceived, bytesTotal) {
+        ocsUrlHandler.downloadProgress.connect(function(id, bytesReceived, bytesTotal) {
             progressDialog.primaryLabel.text = qsTr("Downloading");
             progressDialog.informativeLabel.text = metadata.filename;
             progressDialog.progressBar.value = bytesReceived / bytesTotal;
@@ -138,7 +138,7 @@ Window {
                     + " / " + Utility.convertByteToHumanReadable(bytesTotal)
         });
 
-        if (xdgUrlHandler.isValid()) {
+        if (ocsUrlHandler.isValid()) {
             if (metadata.command === "download") {
                 confirmDialog.text = qsTr("Do you want to download?");
             }
@@ -153,7 +153,7 @@ Window {
         }
         else {
             errorDialog.text = qsTr("Validation error");
-            errorDialog.detailedText = qsTr("Invalid XDG-URL") + " " + xdgUrlHandler.xdgUrl();
+            errorDialog.detailedText = qsTr("Invalid OCS-URL") + " " + ocsUrlHandler.ocsUrl();
             errorDialog.open();
         }
     }
