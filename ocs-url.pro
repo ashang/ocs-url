@@ -24,8 +24,8 @@ DISTFILES += \
     pkg/snap/setup/gui/ocs-url.desktop \
     pkg/appimage/appimage-desktopintegration
 
-include(deployment.pri)
-
 include(src/lib/qtlib/qtlib.pri)
 
 include(src/app/app.pri)
+
+include(deployment.pri)

@@ -15,7 +15,7 @@ md5sums=() #autofill using updpkgsums
 build() {
     #cd "${pkgname}-release-${pkgver}"
     cd "${pkgname}"
-    qmake PREFIX='/usr'
+    qmake PREFIX="/usr"
     make
 }
 

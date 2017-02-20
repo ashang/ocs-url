@@ -15,7 +15,7 @@ parts:
     source: ../../
     qt-version: qt5
     options:
-      - PREFIX='/usr'
+      - PREFIX="/usr"
     build-packages:
       - build-essential
       - qt5-default

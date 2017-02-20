@@ -1,10 +1,8 @@
-//#include <QtGlobal>
 #include <QString>
 #include <QStringList>
 #include <QUrl>
 #include <QJsonObject>
 #include <QCommandLineParser>
-//#include <QCoreApplication>
 #include <QGuiApplication>
 #include <QIcon>
 #include <QQmlApplicationEngine>
@@ -17,9 +15,6 @@
 int main(int argc, char *argv[])
 {
     // Init
-//#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
-//    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-//#endif
     QGuiApplication app(argc, argv);
 
     qtlib::Config config(":/configs");
