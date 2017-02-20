@@ -8,6 +8,9 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include <QTranslator>
+#include <QLocale>
+
 #include "handlers/confighandler.h"
 #include "handlers/ocsurlhandler.h"
 
@@ -40,6 +43,12 @@ int main(int argc, char *argv[])
     }
 
     QString ocsUrl = args.at(0);
+
+    // Setup translator
+    QTranslator translator;
+    if (translator.load(QLocale(), appConfigApplication["id"].toString(), ".", ":/qm")) {
+        app.installTranslator(&translator);
+    }
 
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
