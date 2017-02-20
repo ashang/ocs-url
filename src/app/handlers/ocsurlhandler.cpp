@@ -34,7 +34,7 @@ void OcsUrlHandler::process()
     if (!isValid()) {
         QJsonObject result;
         result["status"] = QString("error_validation");
-        result["message"] = QString("Invalid OCS-URL " + ocsUrl_);
+        result["message"] = QString("Invalid OCS-URL");
         emit finishedWithError(result);
         return;
     }
@@ -138,14 +138,14 @@ void OcsUrlHandler::saveDownloadedFile(qtlib::NetworkResource *resource)
 
     if (!resource->saveData(destFile.path())) {
         result["status"] = QString("error_save");
-        result["message"] = QString("Failed to save data as " + destFile.path());
+        result["message"] = QString("Failed to save data");
         emit finishedWithError(result);
         resource->deleteLater();
         return;
     }
 
     result["status"] = QString("success_download");
-    result["message"] = QString("The file has been stored into " + destDir.path());
+    result["message"] = QString("The file has been downloaded");
     emit finishedWithSuccess(result);
 
     resource->deleteLater();
@@ -159,7 +159,7 @@ void OcsUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
 
     if (!resource->saveData(tempFile.path())) {
         result["status"] = QString("error_save");
-        result["message"] = QString("Failed to save data as " + tempFile.path());
+        result["message"] = QString("Failed to save data");
         emit finishedWithError(result);
         resource->deleteLater();
         return;
@@ -173,7 +173,7 @@ void OcsUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
 
     if (type == "bin"
             && package.installAsProgram(destFile.path())) {
-        result["message"] = QString("The file has been installed into " + destDir.path());
+        result["message"] = QString("The file has been installed as program");
     }
     else if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
              && package.installAsPlasmapkg("plasmoid")) {
@@ -200,10 +200,10 @@ void OcsUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
         result["message"] = QString("The KWin window switcher has been installed");
     }
     else if (package.installAsArchive(destDir.path())) {
-        result["message"] = QString("The archive file has been extracted into " + destDir.path());
+        result["message"] = QString("The archive file has been extracted");
     }
     else if (package.installAsFile(destFile.path())) {
-        result["message"] = QString("The file has been installed into " + destDir.path());
+        result["message"] = QString("The file has been installed");
     }
     else {
         result["status"] = QString("error_install");
