@@ -8,11 +8,12 @@
 #include "qtlib_networkresource.h"
 #include "qtlib_package.h"
 
-OcsUrlHandler::OcsUrlHandler(const QString &ocsUrl, const qtlib::Config &config, QObject *parent)
-    : QObject(parent), ocsUrl_(ocsUrl), config_(config)
+#include "handlers/confighandler.h"
+
+OcsUrlHandler::OcsUrlHandler(const QString &ocsUrl, ConfigHandler *configHandler, QObject *parent)
+    : QObject(parent), ocsUrl_(ocsUrl), configHandler_(configHandler)
 {
     parse();
-    loadDestinations();
 }
 
 QString OcsUrlHandler::ocsUrl() const
@@ -58,7 +59,7 @@ bool OcsUrlHandler::isValid()
     if ((scheme == "ocs" || scheme == "ocss" || scheme == "xdg" || scheme == "xdgs")
             && (command == "download" || command == "install")
             && QUrl(url).isValid()
-            && destinations_.contains(type)
+            && configHandler_->getAppConfigInstallTypes().contains(type)
             && !filename.isEmpty()) {
         return true;
     }
@@ -68,7 +69,7 @@ bool OcsUrlHandler::isValid()
 void OcsUrlHandler::openDestination()
 {
     QString type = metadata_["type"].toString();
-    QDesktopServices::openUrl(QUrl("file://" + destinations_[type].toString()));
+    QDesktopServices::openUrl(QUrl("file://" + configHandler_->getAppConfigInstallTypes()[type].toObject()["destination"].toString()));
 }
 
 void OcsUrlHandler::networkResourceFinished(qtlib::NetworkResource *resource)
@@ -126,46 +127,12 @@ void OcsUrlHandler::parse()
     }
 }
 
-void OcsUrlHandler::loadDestinations()
-{
-    QJsonObject configDestinations = config_.get("destinations");
-    QJsonObject configDestinationsAlias = config_.get("destinations_alias");
-
-    foreach (const QString &key, configDestinations.keys()) {
-        destinations_[key] = convertPathString(configDestinations[key].toString());
-    }
-
-    foreach (const QString &key, configDestinationsAlias.keys()) {
-        QString value = configDestinationsAlias[key].toString();
-        if (destinations_.contains(value)) {
-            destinations_[key] = destinations_.value(value);
-        }
-    }
-}
-
-QString OcsUrlHandler::convertPathString(const QString &path)
-{
-    QString newPath = path;
-
-    if (newPath.contains("$HOME")) {
-        newPath.replace("$HOME", qtlib::Dir::homePath());
-    }
-    else if (newPath.contains("$XDG_DATA_HOME")) {
-        newPath.replace("$XDG_DATA_HOME", qtlib::Dir::genericDataPath());
-    }
-    else if (newPath.contains("$KDEHOME")) {
-        newPath.replace("$KDEHOME", qtlib::Dir::kdehomePath());
-    }
-
-    return newPath;
-}
-
 void OcsUrlHandler::saveDownloadedFile(qtlib::NetworkResource *resource)
 {
     QJsonObject result;
 
     QString type = metadata_["type"].toString();
-    qtlib::Dir destDir(destinations_[type].toString());
+    qtlib::Dir destDir(configHandler_->getAppConfigInstallTypes()[type].toObject()["destination"].toString());
     destDir.make();
     qtlib::File destFile(destDir.path() + "/" + metadata_["filename"].toString());
 
@@ -200,7 +167,7 @@ void OcsUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
 
     qtlib::Package package(tempFile.path());
     QString type = metadata_["type"].toString();
-    qtlib::Dir destDir(destinations_[type].toString());
+    qtlib::Dir destDir(configHandler_->getAppConfigInstallTypes()[type].toObject()["destination"].toString());
     destDir.make();
     qtlib::File destFile(destDir.path() + "/" + metadata_["filename"].toString());
 

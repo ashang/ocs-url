@@ -3,18 +3,18 @@
 #include <QObject>
 #include <QJsonObject>
 
-#include "qtlib_config.h"
-
 namespace qtlib {
 class NetworkResource;
 }
+
+class ConfigHandler;
 
 class OcsUrlHandler : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit OcsUrlHandler(const QString &ocsUrl, const qtlib::Config &config, QObject *parent = 0);
+    explicit OcsUrlHandler(const QString &ocsUrl, ConfigHandler *configHandler, QObject *parent = 0);
 
 signals:
     void started();
@@ -35,13 +35,10 @@ private slots:
 
 private:
     void parse();
-    void loadDestinations();
-    QString convertPathString(const QString &path);
     void saveDownloadedFile(qtlib::NetworkResource *resource);
     void installDownloadedFile(qtlib::NetworkResource *resource);
 
     QString ocsUrl_;
-    qtlib::Config config_;
+    ConfigHandler *configHandler_;
     QJsonObject metadata_;
-    QJsonObject destinations_;
 };

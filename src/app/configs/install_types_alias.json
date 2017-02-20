@@ -1,0 +1,62 @@
+{
+    "gnome_shell_themes": {
+        "base": "themes",
+        "name": "Gnome Shell Themes"
+    },
+    "cinnamon_themes": {
+        "base": "themes",
+        "name": "Cinnamon Themes"
+    },
+    "gtk2_themes": {
+        "base": "themes",
+        "name": "GTK2 Themes"
+    },
+    "gtk3_themes": {
+        "base": "themes",
+        "name": "GTK3 Themes"
+    },
+    "metacity_themes": {
+        "base": "themes",
+        "name": "Metacity Themes"
+    },
+    "xfwm4_themes": {
+        "base": "themes",
+        "name": "XFWM4 Themes"
+    },
+    "openbox_themes": {
+        "base": "themes",
+        "name": "Openbox Themes"
+    },
+    "kvantum_themes": {
+        "base": "themes",
+        "name": "Kvantum Themes"
+    },
+    "compiz_themes": {
+        "base": "emerald_themes",
+        "name": "Compiz Themes"
+    },
+    "beryl_themes": {
+        "base": "emerald_themes",
+        "name": "Beryl Themes"
+    },
+    "plasma4_plasmoids": {
+        "base": "plasma_plasmoids",
+        "name": "Plasma4 Plasmoids"
+    },
+    "plasma5_plasmoids": {
+        "base": "plasma_plasmoids",
+        "name": "Plasma5 Plasmoids"
+    },
+    "plasma5_look_and_feel": {
+        "base": "plasma_look_and_feel",
+        "name": "Plasma5 Look and Feel"
+    },
+    "plasma5_desktopthemes": {
+        "base": "plasma_desktopthemes",
+        "name": "Plasma5 Desktop Themes"
+    },
+    "plasma_color_schemes": {
+        "base": "color_schemes",
+        "name": "Plasma Color Schemes"
+    }
+}
