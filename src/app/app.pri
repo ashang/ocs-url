@@ -15,3 +15,5 @@ SOURCES += \
 RESOURCES += \
     $${PWD}/configs/configs.qrc \
     $${PWD}/qml/qml.qrc
+
+INCLUDEPATH += $${PWD}
