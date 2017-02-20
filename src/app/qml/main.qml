@@ -118,7 +118,7 @@ Window {
             progressDialog.close();
             infoDialog.text = primaryMessages[result.status];
             infoDialog.informativeText = metadata.filename;
-            infoDialog.detailedText = result.message;
+            infoDialog.detailedText = qsTr(result.message);
             infoDialog.open();
         });
 
@@ -126,7 +126,7 @@ Window {
             progressDialog.close();
             errorDialog.text = primaryMessages[result.status];
             errorDialog.informativeText = metadata.filename;
-            errorDialog.detailedText = result.message;
+            errorDialog.detailedText = qsTr(result.message);
             errorDialog.open();
         });
 
@@ -153,7 +153,7 @@ Window {
         }
         else {
             errorDialog.text = qsTr("Validation error");
-            errorDialog.detailedText = qsTr("Invalid OCS-URL") + " " + ocsUrlHandler.ocsUrl();
+            errorDialog.detailedText = qsTr("Invalid OCS-URL");
             errorDialog.open();
         }
     }
