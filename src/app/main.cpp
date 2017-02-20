@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     clParser.setApplicationDescription(appConfigApplication["description"].toString());
     clParser.addHelpOption();
     clParser.addVersionOption();
-    clParser.addPositionalArgument("ocsurl", "OCS-URL");
+    clParser.addPositionalArgument("OCS-URL", "OCS-URL that starts with ocs://");
     clParser.process(app);
 
     QStringList args = clParser.positionalArguments();
