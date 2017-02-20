@@ -1,8 +1,8 @@
 name: ocs-url
 version: '2.0.3'
-summary: An install helper program for desktop stuff
+summary: OCS-URL
 description: |
-  An install helper program for desktop stuff.
+  An install helper program for items served on OpenCollaborationServices (OCS).
 
 grade: devel
 confinement: strict

@@ -1,4 +1,4 @@
-Summary: An install helper program for desktop stuff
+Summary: OCS-URL
 Name: ocs-url
 Version: 2.0.3
 Release: 1%{?dist}
@@ -13,7 +13,7 @@ Requires: qt5-qtbase >= 5.3.0, qt5-qtbase-gui >= 5.3.0, qt5-qtsvg >= 5.3.0, qt5-
 BuildRequires: make, automake, gcc, gcc-c++, libtool, qt5-qtbase-devel, qt5-qtsvg-devel, qt5-qtdeclarative-devel, rpm-build
 
 %description
-An install helper program for desktop stuff.
+An install helper program for items served on OpenCollaborationServices (OCS).
 
 %prep
 #%%autosetup -n %{name}-release-%{version}

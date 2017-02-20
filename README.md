@@ -1,6 +1,6 @@
 # ocs-url
 
-An install helper program for desktop stuff.
+An install helper program for items served on OpenCollaborationServices (OCS).
 
 Copyright: 2016-2017, Akira Ohgaki
 
