@@ -8,8 +8,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "qtlib_config.h"
-
+#include "handlers/confighandler.h"
 #include "handlers/ocsurlhandler.h"
 
 int main(int argc, char *argv[])
@@ -17,18 +16,18 @@ int main(int argc, char *argv[])
     // Init
     QGuiApplication app(argc, argv);
 
-    qtlib::Config config(":/configs");
-    QJsonObject configApplication = config.get("application");
+    ConfigHandler *configHandler = new ConfigHandler();
+    QJsonObject appConfigApplication = configHandler->getAppConfigApplication();
 
-    app.setApplicationName(configApplication["name"].toString());
-    app.setApplicationVersion(configApplication["version"].toString());
-    app.setOrganizationName(configApplication["organization"].toString());
-    app.setOrganizationDomain(configApplication["domain"].toString());
-    app.setWindowIcon(QIcon::fromTheme(configApplication["id"].toString(), QIcon(configApplication["icon"].toString())));
+    app.setApplicationName(appConfigApplication["name"].toString());
+    app.setApplicationVersion(appConfigApplication["version"].toString());
+    app.setOrganizationName(appConfigApplication["organization"].toString());
+    app.setOrganizationDomain(appConfigApplication["domain"].toString());
+    app.setWindowIcon(QIcon::fromTheme(appConfigApplication["id"].toString(), QIcon(appConfigApplication["icon"].toString())));
 
     // Setup CLI
     QCommandLineParser clParser;
-    clParser.setApplicationDescription(configApplication["description"].toString());
+    clParser.setApplicationDescription(appConfigApplication["description"].toString());
     clParser.addHelpOption();
     clParser.addVersionOption();
     clParser.addPositionalArgument("ocsurl", "OCS-URL");
@@ -45,7 +44,9 @@ int main(int argc, char *argv[])
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
     QQmlContext *qmlContext = qmlAppEngine.rootContext();
-    qmlContext->setContextProperty("ocsUrlHandler", new OcsUrlHandler(ocsUrl, config, &qmlAppEngine));
+    configHandler->setParent(&qmlAppEngine);
+    qmlContext->setContextProperty("configHandler", configHandler);
+    qmlContext->setContextProperty("ocsUrlHandler", new OcsUrlHandler(ocsUrl, configHandler, &qmlAppEngine));
     qmlAppEngine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();
