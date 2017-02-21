@@ -2,14 +2,13 @@
 #include <QStringList>
 #include <QUrl>
 #include <QJsonObject>
+#include <QTranslator>
+#include <QLocale>
 #include <QCommandLineParser>
 #include <QGuiApplication>
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-
-#include <QTranslator>
-#include <QLocale>
 
 #include "handlers/confighandler.h"
 #include "handlers/ocsurlhandler.h"
@@ -28,6 +27,12 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain(appConfigApplication["domain"].toString());
     app.setWindowIcon(QIcon::fromTheme(appConfigApplication["id"].toString(), QIcon(appConfigApplication["icon"].toString())));
 
+    // Setup translator
+    QTranslator translator;
+    if (translator.load(QLocale(), "messages", ".", ":/i18n")) {
+        app.installTranslator(&translator);
+    }
+
     // Setup CLI
     QCommandLineParser clParser;
     clParser.setApplicationDescription(appConfigApplication["description"].toString());
@@ -43,12 +48,6 @@ int main(int argc, char *argv[])
     }
 
     QString ocsUrl = args.at(0);
-
-    // Setup translator
-    QTranslator translator;
-    if (translator.load(QLocale(), appConfigApplication["id"].toString(), ".", ":/qm")) {
-        app.installTranslator(&translator);
-    }
 
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
