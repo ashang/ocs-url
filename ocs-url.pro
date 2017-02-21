@@ -6,7 +6,9 @@ CONFIG += c++11
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-RESOURCES += src/desktop/desktop.qrc
+RESOURCES += \
+    src/desktop/desktop.qrc \
+    src/i18n/i18n.qrc
 
 DISTFILES += \
     README.md \

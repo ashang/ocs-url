@@ -153,7 +153,7 @@ Window {
         }
         else {
             errorDialog.text = qsTr("Validation error");
-            errorDialog.detailedText = qsTr("Invalid OCS-URL") + " " + ocsUrlHandler.ocsUrl();
+            errorDialog.detailedText = qsTr("Invalid OCS-URL");
             errorDialog.open();
         }
     }

@@ -2,6 +2,8 @@
 #include <QStringList>
 #include <QUrl>
 #include <QJsonObject>
+#include <QTranslator>
+#include <QLocale>
 #include <QCommandLineParser>
 #include <QGuiApplication>
 #include <QIcon>
@@ -25,12 +27,18 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain(appConfigApplication["domain"].toString());
     app.setWindowIcon(QIcon::fromTheme(appConfigApplication["id"].toString(), QIcon(appConfigApplication["icon"].toString())));
 
+    // Setup translator
+    QTranslator translator;
+    if (translator.load(QLocale(), "messages", ".", ":/i18n")) {
+        app.installTranslator(&translator);
+    }
+
     // Setup CLI
     QCommandLineParser clParser;
     clParser.setApplicationDescription(appConfigApplication["description"].toString());
     clParser.addHelpOption();
     clParser.addVersionOption();
-    clParser.addPositionalArgument("ocsurl", "OCS-URL");
+    clParser.addPositionalArgument("OCS-URL", "OCS-URL that starts with ocs://");
     clParser.process(app);
 
     QStringList args = clParser.positionalArguments();
