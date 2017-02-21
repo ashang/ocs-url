@@ -34,7 +34,7 @@ void OcsUrlHandler::process()
     if (!isValid()) {
         QJsonObject result;
         result["status"] = QString("error_validation");
-        result["message"] = QString("Invalid OCS-URL");
+        result["message"] = tr("Invalid OCS-URL");
         emit finishedWithError(result);
         return;
     }
@@ -138,14 +138,14 @@ void OcsUrlHandler::saveDownloadedFile(qtlib::NetworkResource *resource)
 
     if (!resource->saveData(destFile.path())) {
         result["status"] = QString("error_save");
-        result["message"] = QString("Failed to save data");
+        result["message"] = tr("Failed to save data");
         emit finishedWithError(result);
         resource->deleteLater();
         return;
     }
 
     result["status"] = QString("success_download");
-    result["message"] = QString("The file has been downloaded");
+    result["message"] = tr("The file has been downloaded");
     emit finishedWithSuccess(result);
 
     resource->deleteLater();
@@ -159,7 +159,7 @@ void OcsUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
 
     if (!resource->saveData(tempFile.path())) {
         result["status"] = QString("error_save");
-        result["message"] = QString("Failed to save data");
+        result["message"] = tr("Failed to save data");
         emit finishedWithError(result);
         resource->deleteLater();
         return;
@@ -173,41 +173,41 @@ void OcsUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
 
     if (type == "bin"
             && package.installAsProgram(destFile.path())) {
-        result["message"] = QString("The file has been installed as program");
+        result["message"] = tr("The file has been installed as program");
     }
     else if ((type == "plasma_plasmoids" || type == "plasma4_plasmoids" || type == "plasma5_plasmoids")
              && package.installAsPlasmapkg("plasmoid")) {
-        result["message"] = QString("The plasmoid has been installed");
+        result["message"] = tr("The plasmoid has been installed");
     }
     else if ((type == "plasma_look_and_feel" || type == "plasma5_look_and_feel")
              && package.installAsPlasmapkg("lookandfeel")) {
-        result["message"] = QString("The plasma look and feel has been installed");
+        result["message"] = tr("The plasma look and feel has been installed");
     }
     else if ((type == "plasma_desktopthemes" || type == "plasma5_desktopthemes")
              && package.installAsPlasmapkg("theme")) {
-        result["message"] = QString("The plasma desktop theme has been installed");
+        result["message"] = tr("The plasma desktop theme has been installed");
     }
     else if (type == "kwin_effects"
              && package.installAsPlasmapkg("kwineffect")) {
-        result["message"] = QString("The KWin effect has been installed");
+        result["message"] = tr("The KWin effect has been installed");
     }
     else if (type == "kwin_scripts"
              && package.installAsPlasmapkg("kwinscript")) {
-        result["message"] = QString("The KWin script has been installed");
+        result["message"] = tr("The KWin script has been installed");
     }
     else if (type == "kwin_tabbox"
              && package.installAsPlasmapkg("windowswitcher")) {
-        result["message"] = QString("The KWin window switcher has been installed");
+        result["message"] = tr("The KWin window switcher has been installed");
     }
     else if (package.installAsArchive(destDir.path())) {
-        result["message"] = QString("The archive file has been extracted");
+        result["message"] = tr("The archive file has been extracted");
     }
     else if (package.installAsFile(destFile.path())) {
-        result["message"] = QString("The file has been installed");
+        result["message"] = tr("The file has been installed");
     }
     else {
         result["status"] = QString("error_install");
-        result["message"] = QString("Failed to installation");
+        result["message"] = tr("Failed to installation");
         emit finishedWithError(result);
         tempFile.remove();
         return;

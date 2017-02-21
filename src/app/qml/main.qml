@@ -118,7 +118,7 @@ Window {
             progressDialog.close();
             infoDialog.text = primaryMessages[result.status];
             infoDialog.informativeText = metadata.filename;
-            infoDialog.detailedText = qsTr(result.message);
+            infoDialog.detailedText = result.message;
             infoDialog.open();
         });
 
@@ -126,7 +126,7 @@ Window {
             progressDialog.close();
             errorDialog.text = primaryMessages[result.status];
             errorDialog.informativeText = metadata.filename;
-            errorDialog.detailedText = qsTr(result.message);
+            errorDialog.detailedText = result.message;
             errorDialog.open();
         });
 
