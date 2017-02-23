@@ -1,4 +1,4 @@
-xdgurl (2.0.3-0ubuntu1) xenial; urgency=low
+ocs-url (2.0.3-0ubuntu1) trusty; urgency=low
 
   * Change installation destination of type bin
   * Update qtlib
@@ -6,14 +6,14 @@ xdgurl (2.0.3-0ubuntu1) xenial; urgency=low
 
  -- Akira Ohgaki <akiraohgaki@gmail.com>  Wed, 25 Jan 2017 19:58:44 +0000
 
-xdgurl (2.0.2-0ubuntu1) xenial; urgency=low
+ocs-url (2.0.2-0ubuntu1) trusty; urgency=low
 
   * Update qtlibs
   * Small fix
 
  -- Akira Ohgaki <akiraohgaki@gmail.com>  Thu, 17 Nov 2016 17:30:24 +0000
 
-xdgurl (2.0.1-0ubuntu1) xenial; urgency=low
+ocs-url (2.0.1-0ubuntu1) trusty; urgency=low
 
   * Update library
   * Fix download/installation process
@@ -21,7 +21,7 @@ xdgurl (2.0.1-0ubuntu1) xenial; urgency=low
 
  -- Akira Ohgaki <akiraohgaki@gmail.com>  Mon, 14 Nov 2016 01:40:41 +0000
 
-xdgurl (2.0.0-0ubuntu1) xenial; urgency=low
+ocs-url (2.0.0-0ubuntu1) trusty; urgency=low
 
   * Re-implemented xdgurl as Qt program
   * Download progress bar
@@ -29,14 +29,14 @@ xdgurl (2.0.0-0ubuntu1) xenial; urgency=low
 
  -- Akira Ohgaki <akiraohgaki@gmail.com>  Fri, 28 Oct 2016 08:53:57 +0000
 
-xdgurl (1.0.1-0ubuntu1) xenial; urgency=low
+ocs-url (1.0.1-0ubuntu1) trusty; urgency=low
 
   * Clean successfull message
   * Return exit code
 
  -- Akira Ohgaki <akiraohgaki@gmail.com>  Fri, 15 Jul 2016 18:55:06 +0000
 
-xdgurl (1.0.0-0ubuntu1) xenial; urgency=low
+ocs-url (1.0.0-0ubuntu1) trusty; urgency=low
 
   * Initial release
 
