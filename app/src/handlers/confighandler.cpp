@@ -1,5 +1,7 @@
 #include "confighandler.h"
 
+#include <QStringList>
+
 #include "qtlib_dir.h"
 
 ConfigHandler::ConfigHandler(QObject *parent)
