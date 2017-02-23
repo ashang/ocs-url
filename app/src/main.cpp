@@ -5,7 +5,7 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QCommandLineParser>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -16,7 +16,7 @@
 int main(int argc, char *argv[])
 {
     // Init
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     ConfigHandler *configHandler = new ConfigHandler();
     QJsonObject appConfigApplication = configHandler->getAppConfigApplication();
