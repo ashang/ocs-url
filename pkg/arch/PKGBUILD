@@ -7,7 +7,7 @@ pkgdesc='An install helper program for items served on OpenCollaborationServices
 arch=('i686' 'x86_64')
 url='https://github.com/ocs-url/ocs-url'
 license=('GPL3')
-depends=('qt5-base>=5.3.0' 'qt5-svg>=5.3.0' 'qt5-declarative>=5.3.0' 'qt5-quickcontrols>=5.3.0')
+depends=('qt5-base>=5.2.0' 'qt5-svg>=5.2.0' 'qt5-declarative>=5.2.0' 'qt5-quickcontrols>=5.2.0')
 #source=("https://github.com/ocs-url/ocs-url/archive/release-${pkgver}.tar.gz")
 source=("${pkgname}.tar.gz")
 md5sums=() #autofill using updpkgsums

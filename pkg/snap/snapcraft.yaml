@@ -25,7 +25,6 @@ parts:
     stage-packages:
       - libqt5svg5
       - qml-module-qtquick-controls
-      - qml-module-qtquick-dialogs
     after:
       - desktop-qt5
 
