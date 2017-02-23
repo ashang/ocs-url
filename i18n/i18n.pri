@@ -1,1 +1,1 @@
-RESOURCES += $${PWD}/i18n.qrc
+#RESOURCES += $${PWD}/i18n.qrc
