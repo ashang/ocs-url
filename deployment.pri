@@ -3,7 +3,7 @@ unix:!ios:!android {
         PREFIX = /usr/local
     }
 
-    SRCDIR = $${PWD}/src
+    SRCDIR = $${PWD}
     BINDIR = $${PREFIX}/bin
     DATADIR = $${PREFIX}/share
 

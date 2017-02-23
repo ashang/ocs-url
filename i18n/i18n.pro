@@ -4,4 +4,4 @@ TRANSLATIONS += \
     messages.ts \
     messages.en_US.ts
 
-RESOURCES += i18n.qrc
+include(i18n.pri)

@@ -108,13 +108,13 @@ build_appimage() {
     cd "${BUILDDIR}"
     mkdir -p "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin"
     install -m 755 -p "${BUILDDIR}/${PKGNAME}/ocs-url" "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url"
-    install -m 644 -p "${BUILDDIR}/${PKGNAME}/src/desktop/ocs-url.desktop" "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url.desktop"
-    install -m 644 -p "${BUILDDIR}/${PKGNAME}/src/desktop/ocs-url.svg" "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url.svg"
+    install -m 644 -p "${BUILDDIR}/${PKGNAME}/desktop/ocs-url.desktop" "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url.desktop"
+    install -m 644 -p "${BUILDDIR}/${PKGNAME}/desktop/ocs-url.svg" "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url.svg"
     install -m 755 -p /usr/bin/update-desktop-database "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin/update-desktop-database"
     install -m 755 -p /usr/bin/desktop-file-validate "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin/desktop-file-validate"
     install -m 755 -p /usr/bin/desktop-file-install "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin/desktop-file-install"
-    linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url" -qmldir="${BUILDDIR}/${PKGNAME}/src/app/qml" -verbose=2 -bundle-non-qt-libs # https://github.com/probonopd/linuxdeployqt/issues/25
-    linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url" -qmldir="${BUILDDIR}/${PKGNAME}/src/app/qml" -verbose=2 -bundle-non-qt-libs # twice because of #25
+    linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # https://github.com/probonopd/linuxdeployqt/issues/25
+    linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # twice because of #25
     rm "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
     install -m 755 -p "${BUILDDIR}/${PKGNAME}/pkg/appimage/appimage-desktopintegration" "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
     linuxdeployqt --appimage-extract

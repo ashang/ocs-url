@@ -6,28 +6,12 @@ CONFIG += c++11
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-RESOURCES += \
-    src/desktop/desktop.qrc \
-    src/i18n/i18n.qrc
+DISTFILES += README.md
 
-DISTFILES += \
-    README.md \
-    src/desktop/ocs-url.desktop \
-    pkg/build.sh \
-    pkg/ubuntu/debian/changelog \
-    pkg/ubuntu/debian/compat \
-    pkg/ubuntu/debian/control \
-    pkg/ubuntu/debian/copyright \
-    pkg/ubuntu/debian/rules \
-    pkg/ubuntu/debian/ocs-url.install \
-    pkg/fedora/ocs-url.spec \
-    pkg/arch/PKGBUILD \
-    pkg/snap/snapcraft.yaml \
-    pkg/snap/setup/gui/ocs-url.desktop \
-    pkg/appimage/appimage-desktopintegration
-
-include(src/lib/qtlib/qtlib.pri)
-
-include(src/app/app.pri)
+include(lib/lib.pri)
+include(app/app.pri)
+include(desktop/desktop.pri)
+include(i18n/i18n.pri)
+include(pkg/pkg.pri)
 
 include(deployment.pri)

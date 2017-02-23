@@ -1,0 +1,13 @@
+DISTFILES += \
+    $${PWD}/build.sh \
+    $${PWD}/ubuntu/debian/changelog \
+    $${PWD}/ubuntu/debian/compat \
+    $${PWD}/ubuntu/debian/control \
+    $${PWD}/ubuntu/debian/copyright \
+    $${PWD}/ubuntu/debian/rules \
+    $${PWD}/ubuntu/debian/ocs-url.install \
+    $${PWD}/fedora/ocs-url.spec \
+    $${PWD}/arch/PKGBUILD \
+    $${PWD}/snap/snapcraft.yaml \
+    $${PWD}/snap/setup/gui/ocs-url.desktop \
+    $${PWD}/appimage/appimage-desktopintegration
