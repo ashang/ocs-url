@@ -52,12 +52,12 @@ transfer_file() {
 # sudo -u pkgbuilder sh PROJDIR/pkg/build.sh ubuntu
 ################################################################################
 pre_ubuntu() {
+    cd "${PROJDIR}"
+    mkdir -p "${BUILDDIR}"
+    export_srcarchive "${SRCARCHIVE}"
 }
 
 build_ubuntu() {
-    mkdir -p "${BUILDDIR}"
-    export_srcarchive "${SRCARCHIVE}"
-
     tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
     cp -r "${PROJDIR}/pkg/ubuntu/debian" "${BUILDDIR}/${PKGNAME}"
     cd "${BUILDDIR}/${PKGNAME}"
@@ -80,12 +80,12 @@ post_ubuntu() {
 # sudo -u pkgbuilder sh PROJDIR/pkg/build.sh fedora
 ################################################################################
 pre_fedora() {
+    cd "${PROJDIR}"
+    mkdir -p "${BUILDDIR}"
+    export_srcarchive "${SRCARCHIVE}"
 }
 
 build_fedora() {
-    mkdir -p "${BUILDDIR}"
-    export_srcarchive "${SRCARCHIVE}"
-
     mkdir "${BUILDDIR}/SOURCES"
     mkdir "${BUILDDIR}/SPECS"
     mv "${SRCARCHIVE}" "${BUILDDIR}/SOURCES"
@@ -110,12 +110,12 @@ post_fedora() {
 # sudo -u pkgbuilder sh PROJDIR/pkg/build.sh archlinux
 ################################################################################
 pre_archlinux() {
+    cd "${PROJDIR}"
+    mkdir -p "${BUILDDIR}"
+    export_srcarchive "${SRCARCHIVE}"
 }
 
 build_archlinux() {
-    mkdir -p "${BUILDDIR}"
-    export_srcarchive "${SRCARCHIVE}"
-
     cp "${PROJDIR}/pkg/archlinux/PKGBUILD" "${BUILDDIR}"
     cd "${BUILDDIR}"
     updpkgsums
@@ -139,12 +139,12 @@ post_archlinux() {
 # sudo -u pkgbuilder sh PROJDIR/pkg/build.sh snap
 ################################################################################
 pre_snap() {
+    cd "${PROJDIR}"
+    mkdir -p "${BUILDDIR}"
+    export_srcarchive "${SRCARCHIVE}"
 }
 
 build_snap() {
-    mkdir -p "${BUILDDIR}"
-    export_srcarchive "${SRCARCHIVE}"
-
     tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
     cp "${PROJDIR}/pkg/snap/snapcraft.yaml" "${BUILDDIR}/${PKGNAME}"
     cp -r "${PROJDIR}/pkg/snap/setup" "${BUILDDIR}/${PKGNAME}"
@@ -171,13 +171,12 @@ post_snap() {
 ################################################################################
 pre_appimage() {
     cd "${PROJDIR}"
+    mkdir -p "${BUILDDIR}"
+    export_srcarchive "${SRCARCHIVE}"
     export VERSION="$(git describe --always)"
 }
 
 build_appimage() {
-    mkdir -p "${BUILDDIR}"
-    export_srcarchive "${SRCARCHIVE}"
-
     tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
     cd "${BUILDDIR}/${PKGNAME}"
     qmake
