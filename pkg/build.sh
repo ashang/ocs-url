@@ -46,14 +46,12 @@ transfer_file() {
 #
 # pre-step:
 # apt update -qq
-# apt -y install sudo
-# useradd -m -g wheel pkgbuilder && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers
+# apt -y install sudo build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev devscripts debhelper fakeroot git curl
+# useradd pkgbuilder
 # chown -R pkgbuilder:pkgbuilder PROJDIR
-# su pkgbuilder -c sh PROJDIR/pkg/build.sh ubuntu
+# sudo -u pkgbuilder sh PROJDIR/pkg/build.sh ubuntu
 ################################################################################
 pre_ubuntu() {
-    sudo apt update -qq
-    sudo apt -y install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev devscripts debhelper fakeroot git curl
 }
 
 build_ubuntu() {
@@ -76,13 +74,12 @@ post_ubuntu() {
 # docker-image: fedora:20
 #
 # pre-step:
-# dnf -y install sudo
-# useradd -m -g wheel pkgbuilder && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers
+# dnf -y install sudo make automake gcc gcc-c++ libtool qt5-qtbase-devel qt5-qtsvg-devel qt5-qtdeclarative-devel rpm-build git curl
+# useradd pkgbuilder
 # chown -R pkgbuilder:pkgbuilder PROJDIR
-# su pkgbuilder -c sh PROJDIR/pkg/build.sh fedora
+# sudo -u pkgbuilder sh PROJDIR/pkg/build.sh fedora
 ################################################################################
 pre_fedora() {
-    sudo dnf -y install make automake gcc gcc-c++ libtool qt5-qtbase-devel qt5-qtsvg-devel qt5-qtdeclarative-devel rpm-build git curl
 }
 
 build_fedora() {
@@ -107,14 +104,12 @@ post_fedora() {
 #
 # pre-step:
 # pacman -Syu --noconfirm
-# pacman -S --noconfirm sudo
-# useradd -m -g wheel pkgbuilder && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers
+# pacman -S --noconfirm sudo base-devel qt5-base qt5-svg qt5-declarative qt5-quickcontrols git curl
+# useradd pkgbuilder
 # chown -R pkgbuilder:pkgbuilder PROJDIR
-# su pkgbuilder -c sh PROJDIR/pkg/build.sh archlinux
+# sudo -u pkgbuilder sh PROJDIR/pkg/build.sh archlinux
 ################################################################################
 pre_archlinux() {
-    sudo pacman -Syu --noconfirm
-    sudo pacman -S --noconfirm base-devel qt5-base qt5-svg qt5-declarative qt5-quickcontrols git curl
 }
 
 build_archlinux() {
@@ -138,14 +133,12 @@ post_archlinux() {
 #
 # pre-step:
 # apt update -qq
-# apt -y install sudo
-# useradd -m -g wheel pkgbuilder && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers
+# apt -y install sudo build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev snapcraft git curl
+# useradd pkgbuilder
 # chown -R pkgbuilder:pkgbuilder PROJDIR
-# su pkgbuilder -c sh PROJDIR/pkg/build.sh snap
+# sudo -u pkgbuilder sh PROJDIR/pkg/build.sh snap
 ################################################################################
 pre_snap() {
-    sudo apt update -qq
-    sudo apt -y install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev snapcraft git curl
 }
 
 build_snap() {
@@ -170,18 +163,13 @@ post_snap() {
 #
 # pre-step:
 # apt update -qq
-# apt -y install sudo
-# useradd -m -g wheel pkgbuilder && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers
+# apt -y install sudo build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev fuse zsync desktop-file-utils git curl
+# modprobe fuse
+# useradd pkgbuilder
 # chown -R pkgbuilder:pkgbuilder PROJDIR
-# su pkgbuilder -c sh PROJDIR/pkg/build.sh appimage
+# sudo -u pkgbuilder sh PROJDIR/pkg/build.sh appimage
 ################################################################################
 pre_appimage() {
-    sudo apt update -qq
-    sudo apt -y install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev fuse zsync desktop-file-utils git curl
-    # Replace linuxdeployqt download URL to official download URL when the stable version released
-    curl -L -o linuxdeployqt https://dl.dropboxusercontent.com/u/150776/temp/linuxdeployqt-799f704-x86-64.appimage
-    sudo install -m 755 -p linuxdeployqt /usr/local/bin/linuxdeployqt
-    sudo modprobe fuse
     cd "${PROJDIR}"
     export VERSION="$(git describe --always)"
 }
@@ -197,6 +185,11 @@ build_appimage() {
     strip "${PKGNAME}"
 
     cd "${BUILDDIR}"
+
+    # Replace linuxdeployqt download URL to official download URL when the stable version released
+    curl -L -o linuxdeployqt https://dl.dropboxusercontent.com/u/150776/temp/linuxdeployqt-799f704-x86-64.appimage
+    chmod 755 linuxdeployqt
+
     mkdir -p "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin"
     install -m 755 -p "${BUILDDIR}/${PKGNAME}/${PKGNAME}" "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}"
     install -m 644 -p "${BUILDDIR}/${PKGNAME}/desktop/${PKGNAME}.desktop" "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}.desktop"
@@ -204,11 +197,11 @@ build_appimage() {
     install -m 755 -p /usr/bin/update-desktop-database "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin/update-desktop-database"
     install -m 755 -p /usr/bin/desktop-file-validate "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin/desktop-file-validate"
     install -m 755 -p /usr/bin/desktop-file-install "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin/desktop-file-install"
-    linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # https://github.com/probonopd/linuxdeployqt/issues/25
-    linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # twice because of #25
+    ./linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # https://github.com/probonopd/linuxdeployqt/issues/25
+    ./linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # twice because of #25
     rm "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
     install -m 755 -p "${BUILDDIR}/${PKGNAME}/pkg/appimage/appimage-desktopintegration_${PKGNAME}" "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
-    linuxdeployqt --appimage-extract
+    ./linuxdeployqt --appimage-extract
     ./squashfs-root/usr/bin/appimagetool "${BUILDDIR}/${PKGNAME}.AppDir"
 }
 
