@@ -192,7 +192,7 @@ build_appimage() {
 
     tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
     cd "${BUILDDIR}/${PKGNAME}"
-    qmake TARGET="${PKGNAME}"
+    qmake
     make
     strip "${PKGNAME}"
 
