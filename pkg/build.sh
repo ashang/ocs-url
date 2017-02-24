@@ -74,7 +74,7 @@ post_ubuntu() {
 # docker-image: fedora:20
 #
 # pre-step:
-# dnf -y install sudo make automake gcc gcc-c++ libtool qt5-qtbase-devel qt5-qtsvg-devel qt5-qtdeclarative-devel rpm-build git curl
+# yum -y install sudo make automake gcc gcc-c++ libtool qt5-qtbase-devel qt5-qtsvg-devel qt5-qtdeclarative-devel rpm-build git curl
 # useradd pkgbuilder
 # chown -R pkgbuilder:pkgbuilder PROJDIR
 # sudo -u pkgbuilder sh PROJDIR/pkg/build.sh fedora
