@@ -1,10 +1,13 @@
 #!/bin/bash
 
+################################################################################
+# This is a utility script to make distribution package with CI/CD pipelines.
+# DO NOT RUN THIS SCRIPT DIRECTLY on your local machine.
+################################################################################
+
 PKGNAME='ocs-url'
 
 PROJDIR="$(cd "$(dirname "${0}")/../" && pwd)"
-
-BUILDDIR="${PROJDIR}/pkg/build"
 
 BUILDTYPE=''
 if [ "${1}" ]; then
@@ -16,121 +19,191 @@ if [ "${2}" ]; then
     TREEISH="${2}"
 fi
 
-export_source() {
-    destdir="${BUILDDIR}"
-    if [ "${1}" ]; then
-        destdir="${1}"
+BUILDDIR="${PROJDIR}/pkg/build_${TREEISH}"
+
+SRCARCHIVE="${BUILDDIR}/${PKGNAME}.tar.gz"
+
+################################################################################
+# Utility functions
+################################################################################
+export_srcarchive() {
+    filepath="${1}"
+    $(cd "${PROJDIR}" && git archive --prefix="${PKGNAME}/" --output="${filepath}" "${TREEISH}")
+}
+
+transfer_file() {
+    filepath="${1}"
+    if [ -f "${filepath}" ]; then
+        filename="$(basename "${filepath}")"
+        curl -T "${filepath}" "https://transfer.sh/${filename}"
     fi
-    $(cd "${PROJDIR}" && git archive --prefix="${PKGNAME}/" --output="${destdir}/${PKGNAME}.tar.gz" "${TREEISH}")
+}
+
+################################################################################
+# ubuntu
+# docker-image: ubuntu:14.04
+################################################################################
+pre_ubuntu() {
+    sudo apt update -qq
+    sudo apt -y install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev devscripts debhelper fakeroot git curl
 }
 
 build_ubuntu() {
-    #sudo apt install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev devscripts debhelper fakeroot
-
-    cd "${PROJDIR}"
-
     mkdir -p "${BUILDDIR}"
-    export_source "${BUILDDIR}"
-    tar -xzvf "${BUILDDIR}/${PKGNAME}.tar.gz" -C "${BUILDDIR}"
-    cp -r "${PROJDIR}/pkg/ubuntu/debian" "${BUILDDIR}/${PKGNAME}"
+    export_srcarchive "${SRCARCHIVE}"
 
+    tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
+    cp -r "${PROJDIR}/pkg/ubuntu/debian" "${BUILDDIR}/${PKGNAME}"
     cd "${BUILDDIR}/${PKGNAME}"
     debuild -uc -us -b
 }
 
-build_fedora() {
-    #sudo dnf install make automake gcc gcc-c++ libtool qt5-qtbase-devel qt5-qtsvg-devel qt5-qtdeclarative-devel rpm-build
-
-    cd "${PROJDIR}"
-
-    mkdir -p "${BUILDDIR}"
-    mkdir "${BUILDDIR}/SOURCES"
-    mkdir "${BUILDDIR}/SPECS"
-    export_source "${BUILDDIR}/SOURCES"
-    cp "${PROJDIR}/pkg/fedora/ocs-url.spec" "${BUILDDIR}/SPECS"
-
-    rpmbuild --define "_topdir ${BUILDDIR}" -bb "${BUILDDIR}/SPECS/ocs-url.spec"
+post_ubuntu() {
+    transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.deb")"
 }
 
-build_arch() {
-    #sudo pacman -S base-devel qt5-base qt5-svg qt5-declarative qt5-quickcontrols
+################################################################################
+# fedora
+# docker-image: fedora:20
+#
+# pre-step:
+# dnf -y install sudo
+# useradd -m -g wheel pkgbuilder && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers
+# chown -R pkgbuilder:pkgbuilder PROJDIR
+# su pkgbuilder -c sh PROJDIR/pkg/build.sh fedora
+################################################################################
+pre_fedora() {
+    sudo dnf -y install make automake gcc gcc-c++ libtool qt5-qtbase-devel qt5-qtsvg-devel qt5-qtdeclarative-devel rpm-build git curl
+}
 
-    cd "${PROJDIR}"
-
+build_fedora() {
     mkdir -p "${BUILDDIR}"
-    export_source "${BUILDDIR}"
-    cp "${PROJDIR}/pkg/arch/PKGBUILD" "${BUILDDIR}"
+    export_srcarchive "${SRCARCHIVE}"
 
+    mkdir "${BUILDDIR}/SOURCES"
+    mkdir "${BUILDDIR}/SPECS"
+    mv "${SRCARCHIVE}" "${BUILDDIR}/SOURCES"
+    cp "${PROJDIR}/pkg/fedora/${PKGNAME}.spec" "${BUILDDIR}/SPECS"
+    rpmbuild --define "_topdir ${BUILDDIR}" -bb "${BUILDDIR}/SPECS/${PKGNAME}.spec"
+}
+
+post_fedora() {
+    transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.rpm")"
+}
+
+################################################################################
+# archlinux
+# docker-image: finalduty/archlinux:latest
+#
+# pre-step:
+# pacman -Syu --noconfirm
+# pacman -S --noconfirm sudo
+# useradd -m -g wheel pkgbuilder && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers
+# chown -R pkgbuilder:pkgbuilder PROJDIR
+# su pkgbuilder -c sh PROJDIR/pkg/build.sh archlinux
+################################################################################
+pre_archlinux() {
+    sudo pacman -Syu --noconfirm
+    sudo pacman -S --noconfirm base-devel qt5-base qt5-svg qt5-declarative qt5-quickcontrols git curl
+}
+
+build_archlinux() {
+    mkdir -p "${BUILDDIR}"
+    export_srcarchive "${SRCARCHIVE}"
+
+    cp "${PROJDIR}/pkg/archlinux/PKGBUILD" "${BUILDDIR}"
     cd "${BUILDDIR}"
     updpkgsums
     makepkg -s
 }
 
+post_archlinux() {
+    transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.pkg.tar.xz")"
+}
+
+################################################################################
+# snap
+# docker-image: ubuntu:16.04
+################################################################################
+pre_snap() {
+    sudo apt update -qq
+    sudo apt -y install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev snapcraft git curl
+}
+
 build_snap() {
-    #sudo apt install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev snapcraft
-
-    cd "${PROJDIR}"
-
     mkdir -p "${BUILDDIR}"
-    export_source "${BUILDDIR}"
-    tar -xzvf "${BUILDDIR}/${PKGNAME}.tar.gz" -C "${BUILDDIR}"
+    export_srcarchive "${SRCARCHIVE}"
 
-    cd "${BUILDDIR}/${PKGNAME}/pkg/snap"
+    tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
+    cp "${PROJDIR}/pkg/snap/snapcraft.yaml" "${BUILDDIR}/${PKGNAME}"
+    cp -r "${PROJDIR}/pkg/snap/setup" "${BUILDDIR}/${PKGNAME}"
+    cd "${BUILDDIR}/${PKGNAME}"
     snapcraft
 }
 
-build_appimage() {
-    #sudo add-apt-repository ppa:beineri/opt-qt57-xenial
-    #sudo apt update
+post_snap() {
+    transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.snap")"
+}
 
-    #sudo apt install build-essential fuse zsync desktop-file-utils
-    #sudo apt install qt57base qt57svg qt57declarative qt57quickcontrols
+################################################################################
+# appimage
+# docker-image: ubuntu:14.04
+################################################################################
+pre_appimage() {
+    sudo apt update -qq
+    sudo apt -y install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev fuse zsync desktop-file-utils git curl
     # Replace linuxdeployqt download URL to official download URL when the stable version released
-    #curl -L -o linuxdeployqt https://dl.dropboxusercontent.com/u/150776/temp/linuxdeployqt-799f704-x86-64.appimage
-    #sudo install -m 755 -p linuxdeployqt /usr/local/bin/linuxdeployqt
-
-    #sudo modprobe fuse
-    #source /opt/qt57/bin/qt57-env.sh
-
+    curl -L -o linuxdeployqt https://dl.dropboxusercontent.com/u/150776/temp/linuxdeployqt-799f704-x86-64.appimage
+    sudo install -m 755 -p linuxdeployqt /usr/local/bin/linuxdeployqt
+    sudo modprobe fuse
     cd "${PROJDIR}"
-
     export VERSION="$(git describe --always)"
-    mkdir -p "${BUILDDIR}"
-    export_source "${BUILDDIR}"
-    tar -xzvf "${BUILDDIR}/${PKGNAME}.tar.gz" -C "${BUILDDIR}"
+}
 
+build_appimage() {
+    mkdir -p "${BUILDDIR}"
+    export_srcarchive "${SRCARCHIVE}"
+
+    tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
     cd "${BUILDDIR}/${PKGNAME}"
-    #qmake
-    /opt/qt57/bin/qmake
+    qmake TARGET="${PKGNAME}"
     make
-    strip ./ocs-url
+    strip "${PKGNAME}"
 
     cd "${BUILDDIR}"
     mkdir -p "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin"
-    install -m 755 -p "${BUILDDIR}/${PKGNAME}/ocs-url" "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url"
-    install -m 644 -p "${BUILDDIR}/${PKGNAME}/desktop/ocs-url.desktop" "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url.desktop"
-    install -m 644 -p "${BUILDDIR}/${PKGNAME}/desktop/ocs-url.svg" "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url.svg"
+    install -m 755 -p "${BUILDDIR}/${PKGNAME}/${PKGNAME}" "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}"
+    install -m 644 -p "${BUILDDIR}/${PKGNAME}/desktop/${PKGNAME}.desktop" "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}.desktop"
+    install -m 644 -p "${BUILDDIR}/${PKGNAME}/desktop/${PKGNAME}.svg" "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}.svg"
     install -m 755 -p /usr/bin/update-desktop-database "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin/update-desktop-database"
     install -m 755 -p /usr/bin/desktop-file-validate "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin/desktop-file-validate"
     install -m 755 -p /usr/bin/desktop-file-install "${BUILDDIR}/${PKGNAME}.AppDir/usr/bin/desktop-file-install"
-    linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # https://github.com/probonopd/linuxdeployqt/issues/25
-    linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/ocs-url" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # twice because of #25
+    linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # https://github.com/probonopd/linuxdeployqt/issues/25
+    linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # twice because of #25
     rm "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
-    install -m 755 -p "${BUILDDIR}/${PKGNAME}/pkg/appimage/appimage-desktopintegration" "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
+    install -m 755 -p "${BUILDDIR}/${PKGNAME}/pkg/appimage/appimage-desktopintegration_${PKGNAME}" "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
     linuxdeployqt --appimage-extract
     ./squashfs-root/usr/bin/appimagetool "${BUILDDIR}/${PKGNAME}.AppDir"
 }
 
+post_appimage() {
+    transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.AppImage")"
+}
+
+################################################################################
+# Make package
+################################################################################
 if [ "${BUILDTYPE}" = 'ubuntu' ]; then
-    build_ubuntu
+    pre_ubuntu && build_ubuntu && post_ubuntu
 elif [ "${BUILDTYPE}" = 'fedora' ]; then
-    build_fedora
-elif [ "${BUILDTYPE}" = 'arch' ]; then
-    build_arch
+    pre_fedora && build_fedora && post_fedora
+elif [ "${BUILDTYPE}" = 'archlinux' ]; then
+    pre_archlinux && build_archlinux && post_archlinux
 elif [ "${BUILDTYPE}" = 'snap' ]; then
-    build_snap
+    pre_snap && build_snap && post_snap
 elif [ "${BUILDTYPE}" = 'appimage' ]; then
-    build_appimage
+    pre_appimage && build_appimage && post_appimage
 else
-    echo "sh $(basename "${0}") [ubuntu|fedora|arch|snap|appimage] [tree_ish]"
+    echo "sh $(basename "${0}") [ubuntu|fedora|archlinux|snap|appimage] [tree_ish]"
+    exit 1
 fi

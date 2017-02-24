@@ -1,5 +1,5 @@
 name: ocs-url
-version: '2.0.3'
+version: '0.0.0'
 summary: OCS-URL
 description: |
   An install helper program for items served on OpenCollaborationServices (OCS).
@@ -7,12 +7,12 @@ description: |
 grade: devel
 confinement: strict
 
-#icon: ../../src/desktop/ocs-url.svg
+#icon: desktop/ocs-url.svg
 
 parts:
   ocs-url:
     plugin: qmake
-    source: ../../
+    source: .
     qt-version: qt5
     options:
       - PREFIX="/usr"

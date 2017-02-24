@@ -1,2 +1,2 @@
 *.pro.user
-pkg/build/
+pkg/build_*/
