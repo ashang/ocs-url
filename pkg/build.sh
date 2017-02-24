@@ -41,7 +41,15 @@ transfer_file() {
 
 ################################################################################
 # ubuntu
+#
 # docker-image: ubuntu:14.04
+#
+# pre-step:
+# apt update -qq
+# apt -y install sudo
+# useradd -m -g wheel pkgbuilder && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers
+# chown -R pkgbuilder:pkgbuilder PROJDIR
+# su pkgbuilder -c sh PROJDIR/pkg/build.sh ubuntu
 ################################################################################
 pre_ubuntu() {
     sudo apt update -qq
@@ -64,6 +72,7 @@ post_ubuntu() {
 
 ################################################################################
 # fedora
+#
 # docker-image: fedora:20
 #
 # pre-step:
@@ -93,6 +102,7 @@ post_fedora() {
 
 ################################################################################
 # archlinux
+#
 # docker-image: finalduty/archlinux:latest
 #
 # pre-step:
@@ -123,7 +133,15 @@ post_archlinux() {
 
 ################################################################################
 # snap
+#
 # docker-image: ubuntu:16.04
+#
+# pre-step:
+# apt update -qq
+# apt -y install sudo
+# useradd -m -g wheel pkgbuilder && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers
+# chown -R pkgbuilder:pkgbuilder PROJDIR
+# su pkgbuilder -c sh PROJDIR/pkg/build.sh snap
 ################################################################################
 pre_snap() {
     sudo apt update -qq
@@ -147,7 +165,15 @@ post_snap() {
 
 ################################################################################
 # appimage
+#
 # docker-image: ubuntu:14.04
+#
+# pre-step:
+# apt update -qq
+# apt -y install sudo
+# useradd -m -g wheel pkgbuilder && sed -i -e 's/# %wheel/%wheel/g' /etc/sudoers
+# chown -R pkgbuilder:pkgbuilder PROJDIR
+# su pkgbuilder -c sh PROJDIR/pkg/build.sh appimage
 ################################################################################
 pre_appimage() {
     sudo apt update -qq
