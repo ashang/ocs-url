@@ -1,8 +1,7 @@
 #!/bin/bash
 
 ################################################################################
-# This is utility script to make distribution packages with CI/CD pipelines.
-# DO NOT RUN THIS SCRIPT DIRECTLY on your local machine.
+# This is utility script to make distribution packages with CI/CD pipelines
 ################################################################################
 
 PKGNAME='ocs-url'
