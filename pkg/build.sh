@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ################################################################################
-# This is a utility script to make distribution package with CI/CD pipelines.
+# This is utility script to make distribution packages with CI/CD pipelines.
 # DO NOT RUN THIS SCRIPT DIRECTLY on your local machine.
 ################################################################################
 
@@ -41,15 +41,6 @@ transfer_file() {
 
 ################################################################################
 # ubuntu
-#
-# docker-image: ubuntu:14.04
-#
-# pre-step:
-# apt update -qq
-# apt -y install sudo build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev devscripts debhelper fakeroot git curl
-# useradd pkgbuilder
-# chown -R pkgbuilder:pkgbuilder PROJDIR
-# sudo -u pkgbuilder sh PROJDIR/pkg/build.sh ubuntu
 ################################################################################
 pre_ubuntu() {
     cd "${PROJDIR}"
@@ -70,14 +61,6 @@ post_ubuntu() {
 
 ################################################################################
 # fedora
-#
-# docker-image: fedora:20
-#
-# pre-step:
-# yum -y install sudo make automake gcc gcc-c++ libtool qt5-qtbase-devel qt5-qtsvg-devel qt5-qtdeclarative-devel rpm-build git curl
-# useradd pkgbuilder
-# chown -R pkgbuilder:pkgbuilder PROJDIR
-# sudo -u pkgbuilder sh PROJDIR/pkg/build.sh fedora
 ################################################################################
 pre_fedora() {
     cd "${PROJDIR}"
@@ -99,15 +82,6 @@ post_fedora() {
 
 ################################################################################
 # archlinux
-#
-# docker-image: finalduty/archlinux:latest
-#
-# pre-step:
-# pacman -Syu --noconfirm
-# pacman -S --noconfirm sudo base-devel qt5-base qt5-svg qt5-declarative qt5-quickcontrols git curl
-# useradd pkgbuilder
-# chown -R pkgbuilder:pkgbuilder PROJDIR
-# sudo -u pkgbuilder sh PROJDIR/pkg/build.sh archlinux
 ################################################################################
 pre_archlinux() {
     cd "${PROJDIR}"
@@ -128,15 +102,6 @@ post_archlinux() {
 
 ################################################################################
 # snap
-#
-# docker-image: ubuntu:16.04
-#
-# pre-step:
-# apt update -qq
-# apt -y install sudo build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev snapcraft git curl
-# useradd pkgbuilder
-# chown -R pkgbuilder:pkgbuilder PROJDIR
-# sudo -u pkgbuilder sh PROJDIR/pkg/build.sh snap
 ################################################################################
 pre_snap() {
     cd "${PROJDIR}"
@@ -158,16 +123,6 @@ post_snap() {
 
 ################################################################################
 # appimage
-#
-# docker-image: ubuntu:14.04
-#
-# pre-step:
-# apt update -qq
-# apt -y install sudo build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev fuse zsync desktop-file-utils git curl
-# modprobe fuse
-# useradd pkgbuilder
-# chown -R pkgbuilder:pkgbuilder PROJDIR
-# sudo -u pkgbuilder sh PROJDIR/pkg/build.sh appimage
 ################################################################################
 pre_appimage() {
     cd "${PROJDIR}"
@@ -199,7 +154,7 @@ build_appimage() {
     ./linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # https://github.com/probonopd/linuxdeployqt/issues/25
     ./linuxdeployqt "${BUILDDIR}/${PKGNAME}.AppDir/${PKGNAME}" -qmldir="${BUILDDIR}/${PKGNAME}/app/qml" -verbose=2 -bundle-non-qt-libs # twice because of #25
     rm "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
-    install -m 755 -p "${BUILDDIR}/${PKGNAME}/pkg/appimage/appimage-desktopintegration" "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
+    install -m 755 -p "${BUILDDIR}/${PKGNAME}/pkg/appimage/appimage-desktopintegration_${PKGNAME}" "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
     ./linuxdeployqt --appimage-extract
     ./squashfs-root/usr/bin/appimagetool "${BUILDDIR}/${PKGNAME}.AppDir"
 }
