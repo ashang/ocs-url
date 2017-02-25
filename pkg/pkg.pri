@@ -9,5 +9,5 @@ DISTFILES += \
     $${PWD}/fedora/ocs-url.spec \
     $${PWD}/arch/PKGBUILD \
     $${PWD}/snap/snapcraft.yaml \
-    $${PWD}/snap/setup/gui/ocs-url.desktop \
-    $${PWD}/appimage/appimage-desktopintegration
+    $${PWD}/snap/snap/gui/ocs-url.desktop \
+    $${PWD}/appimage/appimage-desktopintegration_ocs-url
