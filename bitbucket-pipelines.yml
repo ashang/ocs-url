@@ -1,6 +1,6 @@
 pipelines:
   custom:
-    pkg-build-ubuntu:
+    build-ubuntu:
       - step:
           image: ubuntu:14.04
           script:
@@ -12,7 +12,7 @@ pipelines:
             - export HOME=/home/pkgbuilder
             - chown -R pkgbuilder:pkgbuilder $(pwd)
             - sudo -u pkgbuilder sh scripts/build.sh ubuntu
-    pkg-build-fedora:
+    build-fedora:
       - step:
           image: fedora:20
           script:
@@ -24,7 +24,7 @@ pipelines:
             - export HOME=/home/pkgbuilder
             - chown -R pkgbuilder:pkgbuilder $(pwd)
             - sudo -u pkgbuilder sh scripts/build.sh fedora
-    pkg-build-archlinux:
+    build-archlinux:
       - step:
           image: finalduty/archlinux:latest
           script:
@@ -35,7 +35,7 @@ pipelines:
             - export HOME=/home/pkgbuilder
             - chown -R pkgbuilder:pkgbuilder $(pwd)
             - sudo -u pkgbuilder sh scripts/build.sh archlinux
-    pkg-build-snap:
+    build-snap:
       - step:
           image: ubuntu:16.04
           script:
@@ -47,7 +47,7 @@ pipelines:
             - export HOME=/home/pkgbuilder
             - chown -R pkgbuilder:pkgbuilder $(pwd)
             - sudo -u pkgbuilder sh scripts/build.sh snap
-    pkg-build-appimage:
+    build-appimage:
       - step:
           image: ubuntu:14.04
           script:
