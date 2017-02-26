@@ -1,6 +1,4 @@
 DISTFILES += \
-    $${PWD}/build.sh \
-    $${PWD}/import.sh \
     $${PWD}/ubuntu/debian/changelog \
     $${PWD}/ubuntu/debian/compat \
     $${PWD}/ubuntu/debian/control \

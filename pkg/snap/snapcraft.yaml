@@ -12,7 +12,7 @@ confinement: strict
 parts:
   ocs-url:
     prepare: |
-      sh pkg/import.sh
+      sh scripts/import.sh
     plugin: qmake
     source: ./
     qt-version: qt5

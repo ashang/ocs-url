@@ -13,5 +13,6 @@ include(app/app.pri)
 include(desktop/desktop.pri)
 include(i18n/i18n.pri)
 include(pkg/pkg.pri)
+include(scripts/scripts.pri)
 
 include(deployment.pri)
