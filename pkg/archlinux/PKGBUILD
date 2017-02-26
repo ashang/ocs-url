@@ -12,6 +12,12 @@ depends=('qt5-base>=5.2.0' 'qt5-svg>=5.2.0' 'qt5-declarative>=5.2.0' 'qt5-quickc
 source=("${pkgname}.tar.gz")
 md5sums=() #autofill using updpkgsums
 
+prepare() {
+    #cd "${pkgname}-release-${pkgver}"
+    cd "${pkgname}"
+    sh pkg/import.sh
+}
+
 build() {
     #cd "${pkgname}-release-${pkgver}"
     cd "${pkgname}"

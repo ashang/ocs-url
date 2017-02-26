@@ -11,8 +11,10 @@ confinement: strict
 
 parts:
   ocs-url:
+    prepare: |
+      sh pkg/import.sh
     plugin: qmake
-    source: .
+    source: ./
     qt-version: qt5
     options:
       - PREFIX="/usr"
