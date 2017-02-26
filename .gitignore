@@ -1,3 +1,3 @@
 *.pro.user
+build_*/
 lib/qtlib/
-pkg/build_*/
