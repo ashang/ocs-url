@@ -6,8 +6,6 @@
 
 PKGNAME='ocs-url'
 
-PROJDIR="$(cd "$(dirname "${0}")/../" && pwd)"
-
 BUILDTYPE=''
 if [ "${1}" ]; then
     BUILDTYPE="${1}"
@@ -18,7 +16,11 @@ if [ "${2}" ]; then
     TREEISH="${2}"
 fi
 
-BUILDDIR="${PROJDIR}/pkg/build_${TREEISH}"
+PROJDIR="$(cd "$(dirname "${0}")/../" && pwd)"
+
+BUILDVER="$(cd "${PROJDIR}" && git describe --always)"
+
+BUILDDIR="${PROJDIR}/build_${PKGNAME}_${BUILDVER}_${BUILDTYPE}"
 
 SRCARCHIVE="${BUILDDIR}/${PKGNAME}.tar.gz"
 
@@ -127,7 +129,6 @@ pre_appimage() {
     cd "${PROJDIR}"
     mkdir -p "${BUILDDIR}"
     export_srcarchive "${SRCARCHIVE}"
-    export VERSION="$(git describe --always)"
 }
 
 build_appimage() {
