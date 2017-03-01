@@ -35,6 +35,8 @@ ColumnLayout {
             visible: source.toString() ? true : false
             Layout.preferredWidth: 48
             Layout.preferredHeight: 48
+            sourceSize.width: 128
+            sourceSize.height: 128
         }
         ColumnLayout {
             Layout.fillWidth: true
