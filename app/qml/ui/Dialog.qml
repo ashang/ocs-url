@@ -5,10 +5,10 @@ import QtQuick.Controls 1.0
 ColumnLayout {
     id: dialog
 
+    visible: false
     anchors.fill: parent
     anchors.margins: 12
     spacing: 8
-    visible: false
 
     property alias icon: icon.source
     property alias primaryText: primaryText.text
@@ -33,9 +33,9 @@ ColumnLayout {
         Image {
             id: icon
             source: ""
+            visible: source.toString() ? true : false
             Layout.preferredWidth: 32
             Layout.preferredHeight: 32
-            visible: source.toString() ? true : false
         }
         ColumnLayout {
             Layout.fillWidth: true
