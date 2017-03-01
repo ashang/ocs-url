@@ -1,6 +1,5 @@
-// Still support Qt 5.2, so doesn't use QtQuick.Dialogs 1.2
+// Still support Qt 5.2
 import QtQuick 2.0
-import QtQuick.Window 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 1.0
 
@@ -8,7 +7,7 @@ import "ui" as Ui
 
 import "scripts/Utility.js" as Utility
 
-Window {
+ApplicationWindow {
     id: app
 
     title: configHandler.getAppConfigApplication().name
