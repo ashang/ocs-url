@@ -13,6 +13,7 @@ ColumnLayout {
     property alias icon: icon.source
     property alias primaryText: primaryText.text
     property alias informativeText: informativeText.text
+    property alias detailedText: detailedText.text
     property alias content: content.children
     property alias acceptButton: acceptButton
     property alias rejectButton: rejectButton
@@ -47,6 +48,11 @@ ColumnLayout {
             }
             Label {
                 id: informativeText
+                text: ""
+                visible: text ? true : false
+            }
+            Label {
+                id: detailedText
                 text: ""
                 visible: text ? true : false
             }
