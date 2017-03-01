@@ -1,106 +1,28 @@
-import QtQuick 2.3
-import QtQuick.Window 2.0
-import QtQuick.Controls 1.2
-import QtQuick.Dialogs 1.2
+// Still support Qt 5.2
+import QtQuick 2.0
+import QtQuick.Layouts 1.0
+import QtQuick.Controls 1.0
+
+import "ui" as Ui
 
 import "scripts/Utility.js" as Utility
 
-Window {
+ApplicationWindow {
     id: app
-    title: Qt.application.name
+
+    title: configHandler.getAppConfigApplication().name
+
+    visible: true
     width: 400
-    height: 200
     minimumWidth: 400
+    maximumWidth: 400
+    height: 200
     minimumHeight: 200
-    maximumWidth: 800
     maximumHeight: 400
 
-    MessageDialog {
-        id: confirmDialog
-        title: app.title
-        icon: StandardIcon.Question
-        text: ""
-        informativeText: ""
-        detailedText: ""
-        standardButtons: StandardButton.Ok | StandardButton.Cancel
-        onAccepted: ocsUrlHandler.process()
-        onRejected: Qt.quit()
-    }
-
-    MessageDialog {
-        id: infoDialog
-        title: app.title
-        icon: StandardIcon.Information
-        text: ""
-        informativeText: ""
-        detailedText: ""
-        standardButtons: StandardButton.Open | StandardButton.Close
-        onAccepted: {
-            ocsUrlHandler.openDestination();
-            Qt.quit();
-        }
-        onRejected: Qt.quit()
-    }
-
-    MessageDialog {
-        id: errorDialog
-        title: app.title
-        icon: StandardIcon.Warning
-        text: ""
-        informativeText: ""
-        detailedText: ""
-        standardButtons: StandardButton.Close
-        onRejected: Qt.quit()
-    }
-
-    Dialog {
-        id: progressDialog
-        title: app.title
-        property alias primaryLabel: primaryLabel
-        property alias informativeLabel: informativeLabel
-        property alias progressBar: progressBar
-        property alias progressLabel: progressLabel
-        contentItem: Item {
-            implicitWidth: 400
-            implicitHeight: 150
-            Column {
-                anchors.fill: parent
-                anchors.margins: 12
-                spacing: 8
-                Label {
-                    id: primaryLabel
-                    text: " "
-                    font.bold: true
-                }
-                Label {
-                    id: informativeLabel
-                    text: " "
-                }
-                ProgressBar {
-                    id: progressBar
-                    maximumValue: 1
-                    minimumValue: 0
-                    value: 0
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                }
-                Label {
-                    id: progressLabel
-                    text: " "
-                    anchors.right: parent.right
-                }
-                Button {
-                    id: cancelButton
-                    text: qsTr("Cancel")
-                    anchors.right: parent.right
-                    onClicked: Qt.quit()
-                }
-            }
-        }
-    }
-
-    Component.onCompleted: {
+    function init() {
         var metadata = ocsUrlHandler.metadata();
+
         var primaryMessages = {
             "success_download": qsTr("Download successfull"),
             "success_install": qsTr("Installation successfull"),
@@ -116,7 +38,7 @@ Window {
 
         ocsUrlHandler.finishedWithSuccess.connect(function(result) {
             progressDialog.close();
-            infoDialog.text = primaryMessages[result.status];
+            infoDialog.primaryText = primaryMessages[result.status];
             infoDialog.informativeText = metadata.filename;
             infoDialog.detailedText = result.message;
             infoDialog.open();
@@ -124,37 +46,112 @@ Window {
 
         ocsUrlHandler.finishedWithError.connect(function(result) {
             progressDialog.close();
-            errorDialog.text = primaryMessages[result.status];
+            errorDialog.primaryText = primaryMessages[result.status];
             errorDialog.informativeText = metadata.filename;
             errorDialog.detailedText = result.message;
             errorDialog.open();
         });
 
         ocsUrlHandler.downloadProgress.connect(function(id, bytesReceived, bytesTotal) {
-            progressDialog.primaryLabel.text = qsTr("Downloading");
-            progressDialog.informativeLabel.text = metadata.filename;
-            progressDialog.progressBar.value = bytesReceived / bytesTotal;
-            progressDialog.progressLabel.text = Utility.convertByteToHumanReadable(bytesReceived)
-                    + " / " + Utility.convertByteToHumanReadable(bytesTotal)
+            progressDialog.primaryText = qsTr("Downloading");
+            progressDialog.informativeText = metadata.filename;
+            progressDialog.progress = bytesReceived / bytesTotal;
+            progressDialog.progressText
+                    = Utility.convertByteToHumanReadable(bytesReceived)
+                    + " / " + Utility.convertByteToHumanReadable(bytesTotal);
         });
 
         if (ocsUrlHandler.isValid()) {
             if (metadata.command === "download") {
-                confirmDialog.text = qsTr("Do you want to download?");
+                confirmDialog.primaryText = qsTr("Do you want to download?");
             }
             else if (metadata.command === "install") {
-                confirmDialog.text = qsTr("Do you want to install?");
+                confirmDialog.primaryText = qsTr("Do you want to install?");
             }
             confirmDialog.informativeText = metadata.filename;
-            confirmDialog.detailedText = qsTr("URL") + ": " + metadata.url + "\n\n"
-                    + qsTr("File") + ": " + metadata.filename + "\n\n"
-                    + qsTr("Type") + ": " + metadata.type;
+            confirmDialog.detailedText
+                    = qsTr("URL") + ": " + metadata.url + "\n"
+                    + qsTr("File") + ": " + metadata.filename + "\n"
+                    + qsTr("Type") + ": " + configHandler.getAppConfigInstallTypes()[metadata.type].name;
             confirmDialog.open();
         }
         else {
-            errorDialog.text = qsTr("Validation error");
+            errorDialog.primaryText = primaryMessages["error_validation"];
             errorDialog.detailedText = qsTr("Invalid OCS-URL");
             errorDialog.open();
         }
+    }
+
+    Ui.Dialog {
+        id: confirmDialog
+        icon: "qrc:/images/icons/dialog-information.svg"
+        acceptButton.text: qsTr("OK")
+        acceptButton.onClicked: {
+            close();
+            ocsUrlHandler.process();
+        }
+        rejectButton.text: qsTr("Cancel")
+        rejectButton.onClicked: {
+            close();
+            Qt.quit();
+        }
+    }
+
+    Ui.Dialog {
+        id: infoDialog
+        icon: "qrc:/images/icons/emblem-default.svg"
+        acceptButton.text: qsTr("Open")
+        acceptButton.onClicked: {
+            close();
+            ocsUrlHandler.openDestination();
+            Qt.quit();
+        }
+        rejectButton.text: qsTr("Close")
+        rejectButton.onClicked: {
+            close();
+            Qt.quit();
+        }
+    }
+
+    Ui.Dialog {
+        id: errorDialog
+        icon: "qrc:/images/icons/dialog-warning.svg"
+        rejectButton.text: qsTr("Close")
+        rejectButton.onClicked: {
+            close();
+            Qt.quit();
+        }
+    }
+
+    Ui.Dialog {
+        id: progressDialog
+        icon: "qrc:/images/icons/emblem-downloads.svg"
+        property alias progress: progressBar.value
+        property alias progressText: progressText.text
+        content: ColumnLayout {
+            anchors.fill: parent
+            spacing: 4
+            ProgressBar {
+                id: progressBar
+                minimumValue: 0
+                maximumValue: 1
+                value: 0
+                Layout.fillWidth: true
+            }
+            Label {
+                id: progressText
+                text: ""
+                Layout.alignment: Qt.AlignRight
+            }
+        }
+        rejectButton.text: qsTr("Cancel")
+        rejectButton.onClicked: {
+            close();
+            Qt.quit();
+        }
+    }
+
+    Component.onCompleted: {
+        app.init();
     }
 }
