@@ -1,4 +1,17 @@
 pipelines:
+  branches:
+    master:
+      - step:
+          image: ubuntu:14.04
+          script:
+            - apt update -qq
+            - apt -y install sudo git curl
+            - apt -y install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev
+            - apt -y install devscripts debhelper fakeroot
+            - useradd -m pkgbuilder
+            - export HOME=/home/pkgbuilder
+            - chown -R pkgbuilder:pkgbuilder $(pwd)
+            - sudo -u pkgbuilder sh scripts/build.sh ubuntu
   custom:
     build-ubuntu:
       - step:
