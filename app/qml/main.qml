@@ -130,7 +130,7 @@ ApplicationWindow {
         property alias progressText: progressText.text
         content: ColumnLayout {
             anchors.fill: parent
-            spacing: 8
+            spacing: 4
             ProgressBar {
                 id: progressBar
                 minimumValue: 0
