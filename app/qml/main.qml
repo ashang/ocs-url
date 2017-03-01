@@ -85,7 +85,7 @@ Window {
 
     Ui.Dialog {
         id: confirmDialog
-        //icon: StandardIcon.Question
+        icon: "qrc:/images/icons/dialog-information.svg"
         acceptButton.text: qsTr("OK")
         acceptButton.onClicked: {
             close();
@@ -100,7 +100,7 @@ Window {
 
     Ui.Dialog {
         id: infoDialog
-        //icon: StandardIcon.Information
+        icon: "qrc:/images/icons/emblem-default.svg"
         acceptButton.text: qsTr("Open")
         acceptButton.onClicked: {
             close();
@@ -116,7 +116,7 @@ Window {
 
     Ui.Dialog {
         id: errorDialog
-        //icon: StandardIcon.Warning
+        icon: "qrc:/images/icons/dialog-warning.svg"
         rejectButton.text: qsTr("Close")
         rejectButton.onClicked: {
             close();
@@ -126,7 +126,7 @@ Window {
 
     Ui.Dialog {
         id: progressDialog
-        //icon: StandardIcon.NoIcon
+        icon: "qrc:/images/icons/emblem-downloads.svg"
         property alias progress: progressBar.value
         property alias progressText: progressText.text
         content: ColumnLayout {

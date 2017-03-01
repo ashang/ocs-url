@@ -16,6 +16,7 @@ SOURCES += \
 
 RESOURCES += \
     $${PWD}/configs/configs.qrc \
+    $${PWD}/images/images.qrc \
     $${PWD}/qml/qml.qrc
 
 INCLUDEPATH += $${PWD}/src

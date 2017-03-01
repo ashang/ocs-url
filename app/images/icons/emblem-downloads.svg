@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="128" height="128" viewBox="0, 0, 128, 128">
+  <g id="icon">
+    <path d="M40,8 L40,48 L16,48 L64,96 L112,48 L88,48 L88,8 L40,8 z M8,72 L8,120 L120,120 L120,72 L104,72 L104,104 L24,104 L24,72 L8,72 z" fill="#000000" id="emblem-downloads"/>
+  </g>
+</svg>
