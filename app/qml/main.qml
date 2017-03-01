@@ -22,6 +22,7 @@ Window {
 
     function init() {
         var metadata = ocsUrlHandler.metadata();
+
         var primaryMessages = {
             "success_download": qsTr("Download successfull"),
             "success_install": qsTr("Installation successfull"),
@@ -32,7 +33,6 @@ Window {
         };
 
         ocsUrlHandler.started.connect(function() {
-            confirmDialog.close();
             progressDialog.open();
         });
 
@@ -86,9 +86,15 @@ Window {
         id: confirmDialog
         //icon: StandardIcon.Question
         acceptButton.text: qsTr("OK")
-        acceptButton.onClicked: ocsUrlHandler.process()
+        acceptButton.onClicked: {
+            close();
+            ocsUrlHandler.process();
+        }
         rejectButton.text: qsTr("Cancel")
-        rejectButton.onClicked: Qt.quit()
+        rejectButton.onClicked: {
+            close();
+            Qt.quit();
+        }
     }
 
     Ui.Dialog {
@@ -96,25 +102,30 @@ Window {
         //icon: StandardIcon.Information
         acceptButton.text: qsTr("Open")
         acceptButton.onClicked: {
+            close();
             ocsUrlHandler.openDestination();
             Qt.quit();
         }
         rejectButton.text: qsTr("Close")
-        rejectButton.onClicked: Qt.quit()
+        rejectButton.onClicked: {
+            close();
+            Qt.quit();
+        }
     }
 
     Ui.Dialog {
         id: errorDialog
         //icon: StandardIcon.Warning
         rejectButton.text: qsTr("Close")
-        rejectButton.onClicked: Qt.quit()
+        rejectButton.onClicked: {
+            close();
+            Qt.quit();
+        }
     }
 
     Ui.Dialog {
         id: progressDialog
         //icon: StandardIcon.NoIcon
-        rejectButton.text: qsTr("Cancel")
-        rejectButton.onClicked: Qt.quit()
         property alias progress: progressBar.value
         property alias progressText: progressText.text
         content: ColumnLayout {
@@ -132,6 +143,11 @@ Window {
                 text: ""
                 anchors.right: parent.right
             }
+        }
+        rejectButton.text: qsTr("Cancel")
+        rejectButton.onClicked: {
+            close();
+            Qt.quit();
         }
     }
 
