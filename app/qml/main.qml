@@ -40,7 +40,7 @@ Window {
             progressDialog.close();
             infoDialog.primaryText = primaryMessages[result.status];
             infoDialog.informativeText = metadata.filename;
-            //infoDialog.detailedText = result.message;
+            infoDialog.detailedText = result.message;
             infoDialog.open();
         });
 
@@ -48,7 +48,7 @@ Window {
             progressDialog.close();
             errorDialog.primaryText = primaryMessages[result.status];
             errorDialog.informativeText = metadata.filename;
-            //errorDialog.detailedText = result.message;
+            errorDialog.detailedText = result.message;
             errorDialog.open();
         });
 
@@ -69,17 +69,15 @@ Window {
                 confirmDialog.primaryText = qsTr("Do you want to install?");
             }
             confirmDialog.informativeText = metadata.filename;
-            /*
             confirmDialog.detailedText
-                    = qsTr("URL") + ": " + metadata.url + "\n\n"
-                    + qsTr("File") + ": " + metadata.filename + "\n\n"
+                    = qsTr("URL") + ": " + metadata.url + "\n"
+                    + qsTr("File") + ": " + metadata.filename + "\n"
                     + qsTr("Type") + ": " + configHandler.getAppConfigInstallTypes()[metadata.type].name;
-            */
             confirmDialog.open();
         }
         else {
             errorDialog.primaryText = primaryMessages["error_validation"];
-            errorDialog.informativeText = qsTr("Invalid OCS-URL");
+            errorDialog.detailedText = qsTr("Invalid OCS-URL");
             errorDialog.open();
         }
     }
