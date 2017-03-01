@@ -34,7 +34,7 @@ ColumnLayout {
             source: ""
             width: 32
             height: width
-            visible: source ? true : false
+            visible: source.toString() ? true : false
         }
         ColumnLayout {
             Layout.fillWidth: true

@@ -114,12 +114,13 @@ Window {
 
     Ui.Dialog {
         id: progressDialog
-        //icon: StandardIcon.Warning
+        //icon: StandardIcon.NoIcon
         rejectButton.text: qsTr("Cancel")
         rejectButton.onClicked: Qt.quit()
         property alias progress: progressBar.value
         property alias progressText: progressText.text
         content: ColumnLayout {
+            anchors.fill: parent
             spacing: 8
             ProgressBar {
                 id: progressBar
