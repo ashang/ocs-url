@@ -14,12 +14,12 @@ Window {
     title: configHandler.getAppConfigApplication().name
 
     visible: true
-    width: 400
-    minimumWidth: 400
-    maximumWidth: 800
+    width: 450
+    minimumWidth: 450
+    maximumWidth: 450
     height: 200
     minimumHeight: 200
-    maximumHeight: 400
+    maximumHeight: 200
 
     function init() {
         var metadata = ocsUrlHandler.metadata();
