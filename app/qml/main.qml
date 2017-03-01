@@ -13,12 +13,12 @@ ApplicationWindow {
     title: configHandler.getAppConfigApplication().name
 
     visible: true
-    width: 450
-    minimumWidth: 450
-    maximumWidth: 450
+    width: 400
+    minimumWidth: 400
+    maximumWidth: 400
     height: 200
     minimumHeight: 200
-    maximumHeight: 200
+    maximumHeight: 400
 
     function init() {
         var metadata = ocsUrlHandler.metadata();
