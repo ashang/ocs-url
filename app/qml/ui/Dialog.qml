@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 1.0
 
-ColumnLayout {
+RowLayout {
     id: dialog
 
     visible: false
@@ -26,66 +26,66 @@ ColumnLayout {
         dialog.visible = false;
     }
 
-    RowLayout {
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        spacing: parent.spacing
-        Image {
-            id: icon
-            source: ""
-            visible: source.toString() ? true : false
-            Layout.preferredWidth: 32
-            Layout.preferredHeight: 32
-        }
-        ColumnLayout {
-            Layout.fillWidth: true
-            spacing: parent.spacing
-            Label {
-                id: primaryText
-                text: ""
-                visible: text ? true : false
-                Layout.fillWidth: true
-                wrapMode: Text.WrapAnywhere
-                font.bold: true
-            }
-            Label {
-                id: informativeText
-                text: ""
-                visible: text ? true : false
-                Layout.fillWidth: true
-                wrapMode: Text.WrapAnywhere
-            }
-            Label {
-                id: detailedText
-                text: ""
-                visible: text ? true : false
-                Layout.fillWidth: true
-                wrapMode: Text.WrapAnywhere
-                font.pixelSize: 11
-            }
-            Item {
-                id: content
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
-        }
+    Image {
+        id: icon
+        source: ""
+        visible: source.toString() ? true : false
+        Layout.preferredWidth: 32
+        Layout.preferredHeight: 32
     }
 
-    RowLayout {
+    ColumnLayout {
         Layout.fillWidth: true
         spacing: parent.spacing
+        Label {
+            id: primaryText
+            text: ""
+            visible: text ? true : false
+            Layout.fillWidth: true
+            wrapMode: Text.WrapAnywhere
+            font.bold: true
+        }
+        Label {
+            id: informativeText
+            text: ""
+            visible: text ? true : false
+            Layout.fillWidth: true
+            wrapMode: Text.WrapAnywhere
+        }
         Item {
+            Layout.fillHeight: true
+        }
+        Label {
+            id: detailedText
+            text: ""
+            visible: text ? true : false
+            Layout.fillWidth: true
+            wrapMode: Text.WrapAnywhere
+            color: "#444444"
+        }
+        Item {
+            id: content
             Layout.fillWidth: true
         }
-        Button {
-            id: acceptButton
-            text: ""
-            visible: text ? true : false
+        Item {
+            Layout.fillHeight: true
         }
-        Button {
-            id: rejectButton
-            text: ""
-            visible: text ? true : false
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: parent.spacing
+            Item {
+                Layout.fillWidth: true
+            }
+            Button {
+                id: acceptButton
+                text: ""
+                visible: text ? true : false
+            }
+            Button {
+                id: rejectButton
+                text: ""
+                visible: text ? true : false
+            }
         }
     }
 }

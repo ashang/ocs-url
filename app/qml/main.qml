@@ -142,7 +142,7 @@ Window {
             Label {
                 id: progressText
                 text: ""
-                anchors.right: parent.right
+                Layout.alignment: Qt.AlignRight
             }
         }
         rejectButton.text: qsTr("Cancel")
