@@ -33,8 +33,8 @@ ColumnLayout {
             id: icon
             source: ""
             visible: source.toString() ? true : false
-            Layout.preferredWidth: 32
-            Layout.preferredHeight: 32
+            Layout.preferredWidth: 48
+            Layout.preferredHeight: 48
         }
         ColumnLayout {
             Layout.fillWidth: true
