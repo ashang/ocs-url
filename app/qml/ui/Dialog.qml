@@ -43,18 +43,25 @@ ColumnLayout {
             Label {
                 id: primaryText
                 text: ""
-                font.bold: true
                 visible: text ? true : false
+                Layout.fillWidth: true
+                wrapMode: Text.WrapAnywhere
+                font.bold: true
             }
             Label {
                 id: informativeText
                 text: ""
                 visible: text ? true : false
+                Layout.fillWidth: true
+                wrapMode: Text.WrapAnywhere
             }
             Label {
                 id: detailedText
                 text: ""
                 visible: text ? true : false
+                Layout.fillWidth: true
+                wrapMode: Text.WrapAnywhere
+                font.pixelSize: 11
             }
             Item {
                 id: content
