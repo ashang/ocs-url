@@ -32,8 +32,8 @@ ColumnLayout {
         Image {
             id: icon
             source: ""
-            width: 32
-            height: width
+            Layout.implicitWidth: 32
+            Layout.implicitHeight: 32
             visible: source.toString() ? true : false
         }
         ColumnLayout {
