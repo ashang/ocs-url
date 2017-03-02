@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/configs">
-        <file>application.json</file>
-        <file>destinations.json</file>
-        <file>destinations_alias.json</file>
-    </qresource>
-</RCC>

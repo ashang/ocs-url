@@ -1,0 +1,192 @@
+{
+    "bin": {
+        "name": "Softwares",
+        "destination": "$HOME/.local/bin",
+        "generic_destination": "$APP_DATA/bin"
+    },
+    "downloads": {
+        "name": "Downloads",
+        "destination": "$HOME/Downloads",
+        "generic_destination": "$APP_DATA/downloads"
+    },
+    "documents": {
+        "name": "Documents",
+        "destination": "$HOME/Documents",
+        "generic_destination": "$APP_DATA/documents"
+    },
+    "pictures": {
+        "name": "Pictures",
+        "destination": "$HOME/Pictures",
+        "generic_destination": "$APP_DATA/pictures"
+    },
+    "music": {
+        "name": "Music",
+        "destination": "$HOME/Music",
+        "generic_destination": "$APP_DATA/music"
+    },
+    "videos": {
+        "name": "Videos",
+        "destination": "$HOME/Videos",
+        "generic_destination": "$APP_DATA/videos"
+    },
+    "wallpapers": {
+        "name": "Wallpapers",
+        "destination": "$XDG_DATA_HOME/wallpapers",
+        "generic_destination": "$APP_DATA/wallpapers"
+    },
+    "fonts": {
+        "name": "Fonts",
+        "destination": "$HOME/.fonts",
+        "generic_destination": "$APP_DATA/fonts"
+    },
+    "cursors": {
+        "name": "Cursors",
+        "destination": "$HOME/.icons",
+        "generic_destination": "$APP_DATA/cursors"
+    },
+    "icons": {
+        "name": "Icons",
+        "destination": "$XDG_DATA_HOME/icons",
+        "generic_destination": "$APP_DATA/icons"
+    },
+    "emoticons": {
+        "name": "Emoticons",
+        "destination": "$XDG_DATA_HOME/emoticons",
+        "generic_destination": "$APP_DATA/emoticons"
+    },
+    "themes": {
+        "name": "Desktop Themes",
+        "destination": "$HOME/.themes",
+        "generic_destination": "$APP_DATA/themes"
+    },
+    "emerald_themes": {
+        "name": "Emerald Themes",
+        "destination": "$HOME/.emerald/themes",
+        "generic_destination": "$APP_DATA/emerald_themes"
+    },
+    "enlightenment_themes": {
+        "name": "Enlightenment Themes",
+        "destination": "$HOME/.e/e/themes",
+        "generic_destination": "$APP_DATA/enlightenment_themes"
+    },
+    "enlightenment_backgrounds": {
+        "name": "Enlightenment Backgrounds",
+        "destination": "$HOME/.e/e/backgrounds",
+        "generic_destination": "$APP_DATA/enlightenment_backgrounds"
+    },
+    "fluxbox_styles": {
+        "name": "Fluxbox Styles",
+        "destination": "$HOME/.fluxbox/styles",
+        "generic_destination": "$APP_DATA/fluxbox_styles"
+    },
+    "pekwm_themes": {
+        "name": "PekWM Themes",
+        "destination": "$HOME/.pekwm/themes",
+        "generic_destination": "$APP_DATA/pekwm_themes"
+    },
+    "icewm_themes": {
+        "name": "IceWM Themes",
+        "destination": "$HOME/.icewm/themes",
+        "generic_destination": "$APP_DATA/icewm_themes"
+    },
+    "plasma_plasmoids": {
+        "name": "Plasma Plasmoids",
+        "destination": "$XDG_DATA_HOME/plasma/plasmoids",
+        "generic_destination": "$APP_DATA/plasma_plasmoids"
+    },
+    "plasma_look_and_feel": {
+        "name": "Plasma Look and Feel",
+        "destination": "$XDG_DATA_HOME/plasma/look-and-feel",
+        "generic_destination": "$APP_DATA/plasma_look_and_feel"
+    },
+    "plasma_desktopthemes": {
+        "name": "Plasma Desktop Themes",
+        "destination": "$XDG_DATA_HOME/plasma/desktoptheme",
+        "generic_destination": "$APP_DATA/plasma_desktopthemes"
+    },
+    "kwin_effects": {
+        "name": "KWin Effects",
+        "destination": "$XDG_DATA_HOME/kwin/effects",
+        "generic_destination": "$APP_DATA/kwin_effects"
+    },
+    "kwin_scripts": {
+        "name": "KWin Scripts",
+        "destination": "$XDG_DATA_HOME/kwin/scripts",
+        "generic_destination": "$APP_DATA/kwin_scripts"
+    },
+    "kwin_tabbox": {
+        "name": "KWin Window Switcher",
+        "destination": "$XDG_DATA_HOME/kwin/tabbox",
+        "generic_destination": "$APP_DATA/kwin_tabbox"
+    },
+    "aurorae_themes": {
+        "name": "Aurorae Themes",
+        "destination": "$XDG_DATA_HOME/aurorae/themes",
+        "generic_destination": "$APP_DATA/aurorae_themes"
+    },
+    "dekorator_themes": {
+        "name": "deKorator Themes",
+        "destination": "$XDG_DATA_HOME/deKorator/themes",
+        "generic_destination": "$APP_DATA/dekorator_themes"
+    },
+    "qtcurve": {
+        "name": "QtCurve Themes",
+        "destination": "$XDG_DATA_HOME/QtCurve",
+        "generic_destination": "$APP_DATA/qtcurve"
+    },
+    "color_schemes": {
+        "name": "KDE Color Schemes",
+        "destination": "$XDG_DATA_HOME/color-schemes",
+        "generic_destination": "$APP_DATA/color_schemes"
+    },
+    "gnome_shell_extensions": {
+        "name": "Gnome Shell Extensions",
+        "destination": "$XDG_DATA_HOME/gnome-shell/extensions",
+        "generic_destination": "$APP_DATA/gnome_shell_extensions"
+    },
+    "cinnamon_applets": {
+        "name": "Cinnamon Applets",
+        "destination": "$XDG_DATA_HOME/cinnamon/applets",
+        "generic_destination": "$APP_DATA/cinnamon_applets"
+    },
+    "cinnamon_desklets": {
+        "name": "Cinnamon Desklets",
+        "destination": "$XDG_DATA_HOME/cinnamon/desklets",
+        "generic_destination": "$APP_DATA/cinnamon_desklets"
+    },
+    "cinnamon_extensions": {
+        "name": "Cinnamon Extensions",
+        "destination": "$XDG_DATA_HOME/cinnamon/extensions",
+        "generic_destination": "$APP_DATA/cinnamon_extensions"
+    },
+    "nautilus_scripts": {
+        "name": "Nautilus Scripts",
+        "destination": "$XDG_DATA_HOME/nautilus/scripts",
+        "generic_destination": "$APP_DATA/nautilus_scripts"
+    },
+    "amarok_scripts": {
+        "name": "Amarok Scripts",
+        "destination": "$KDEHOME/share/apps/amarok/scripts",
+        "generic_destination": "$APP_DATA/amarok_scripts"
+    },
+    "yakuake_skins": {
+        "name": "Yakuake Skins",
+        "destination": "$KDEHOME/share/apps/yakuake/skins",
+        "generic_destination": "$APP_DATA/yakuake_skins"
+    },
+    "cairo_clock_themes": {
+        "name": "Cairo-Clock Themes",
+        "destination": "$HOME/.cairo-clock/themes",
+        "generic_destination": "$APP_DATA/cairo_clock_themes"
+    },
+    "books": {
+        "name": "Books",
+        "destination": "$APP_DATA/books",
+        "generic_destination": "$APP_DATA/books"
+    },
+    "comics": {
+        "name": "Comics",
+        "destination": "$APP_DATA/comics",
+        "generic_destination": "$APP_DATA/comics"
+    }
+}

@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: xdgurl
+Upstream-Name: ocs-url
 Upstream-Contact: Akira Ohgaki <akiraohgaki@gmail.com>
-Source: https://github.com/xdgurl/xdgurl
+Source: https://github.com/ocs-url/ocs-url
 
 Files: *
 Copyright: 2016-2017, Akira Ohgaki

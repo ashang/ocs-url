@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/desktop">
+        <file>ocs-url.svg</file>
+    </qresource>
+</RCC>

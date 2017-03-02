@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/qml">
-        <file>main.qml</file>
-        <file>scripts/Utility.js</file>
-    </qresource>
-</RCC>

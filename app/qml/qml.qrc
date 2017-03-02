@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>main.qml</file>
+        <file>ui/Dialog.qml</file>
+        <file>scripts/Utility.js</file>
+    </qresource>
+</RCC>

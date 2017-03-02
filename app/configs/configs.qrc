@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/configs">
+        <file>application.json</file>
+        <file>install_types.json</file>
+        <file>install_types_alias.json</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,42 @@
+name: ocs-url
+version: '0.0.0'
+summary: OCS-URL
+description: |
+  An install helper program for items served on OpenCollaborationServices (OCS).
+
+grade: devel
+confinement: strict
+
+icon: desktop/ocs-url.svg
+
+parts:
+  ocs-url:
+    prepare: |
+      sh scripts/import.sh
+    plugin: qmake
+    source: ./
+    qt-version: qt5
+    options:
+      - PREFIX="/usr"
+    build-packages:
+      - git
+      - build-essential
+      - qt5-default
+      - libqt5svg5-dev
+      - qtdeclarative5-dev
+      - snapcraft
+    stage-packages:
+      - libqt5svg5
+      - qml-module-qtquick-controls
+    after:
+      - desktop-qt5
+
+apps:
+  ocs-url:
+    command: usr/bin/ocs-url
+    plugs:
+      - home
+      - network
+      - opengl
+      - x11
+      - unity7

@@ -1,0 +1,33 @@
+# Maintainer: Akira Ohgaki <akiraohgaki@gmail.com>
+
+pkgname='ocs-url'
+pkgver='3.0.0'
+pkgrel='1'
+pkgdesc='An install helper program for items served on OpenCollaborationServices (OCS).'
+arch=('i686' 'x86_64')
+url='https://github.com/ocs-url/ocs-url'
+license=('GPL3')
+depends=('qt5-base>=5.2.0' 'qt5-svg>=5.2.0' 'qt5-declarative>=5.2.0' 'qt5-quickcontrols>=5.2.0')
+makedepends=('git')
+#source=("https://github.com/ocs-url/ocs-url/archive/release-${pkgver}.tar.gz")
+source=("${pkgname}.tar.gz")
+md5sums=() #autofill using updpkgsums
+
+prepare() {
+    #cd "${pkgname}-release-${pkgver}"
+    cd "${pkgname}"
+    sh scripts/import.sh
+}
+
+build() {
+    #cd "${pkgname}-release-${pkgver}"
+    cd "${pkgname}"
+    qmake PREFIX="/usr"
+    make
+}
+
+package() {
+    #cd "${pkgname}-release-${pkgver}"
+    cd "${pkgname}"
+    make INSTALL_ROOT="${pkgdir}" install
+}

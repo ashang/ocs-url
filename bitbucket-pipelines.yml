@@ -1,0 +1,78 @@
+pipelines:
+  branches:
+    master:
+      - step:
+          image: ubuntu:14.04
+          script:
+            - apt update -qq
+            - apt -y install sudo git curl
+            - apt -y install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev
+            - apt -y install devscripts debhelper fakeroot
+            - useradd -m pkgbuilder
+            - export HOME=/home/pkgbuilder
+            - chown -R pkgbuilder:pkgbuilder $(pwd)
+            - sudo -u pkgbuilder sh scripts/build.sh ubuntu
+  custom:
+    build-ubuntu:
+      - step:
+          image: ubuntu:14.04
+          script:
+            - apt update -qq
+            - apt -y install sudo git curl
+            - apt -y install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev
+            - apt -y install devscripts debhelper fakeroot
+            - useradd -m pkgbuilder
+            - export HOME=/home/pkgbuilder
+            - chown -R pkgbuilder:pkgbuilder $(pwd)
+            - sudo -u pkgbuilder sh scripts/build.sh ubuntu
+    build-fedora:
+      - step:
+          image: fedora:20
+          script:
+            # dnf >= fedora:22
+            - yum -y install sudo git curl
+            - yum -y install make automake gcc gcc-c++ libtool qt5-qtbase-devel qt5-qtsvg-devel qt5-qtdeclarative-devel
+            - yum -y install rpm-build
+            - useradd -m pkgbuilder
+            - export HOME=/home/pkgbuilder
+            - chown -R pkgbuilder:pkgbuilder $(pwd)
+            - sudo -u pkgbuilder sh scripts/build.sh fedora
+    build-archlinux:
+      - step:
+          image: finalduty/archlinux:latest
+          script:
+            - pacman -Syu --noconfirm
+            - pacman -S --noconfirm sudo git curl
+            - pacman -S --noconfirm base-devel qt5-base qt5-svg qt5-declarative qt5-quickcontrols
+            - useradd -m pkgbuilder
+            - export HOME=/home/pkgbuilder
+            - chown -R pkgbuilder:pkgbuilder $(pwd)
+            - sudo -u pkgbuilder sh scripts/build.sh archlinux
+    build-snap:
+      - step:
+          image: ubuntu:16.04
+          script:
+            - apt update -qq
+            - apt -y install sudo git curl
+            - apt -y install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev
+            - apt -y install snapcraft
+            - useradd -m pkgbuilder
+            - export HOME=/home/pkgbuilder
+            - chown -R pkgbuilder:pkgbuilder $(pwd)
+            - sudo -u pkgbuilder sh scripts/build.sh snap
+    build-appimage:
+      - step:
+          image: ubuntu:14.04
+          script:
+            # Require docker run with --cap-add SYS_ADMIN --device /dev/fuse
+            - echo 'appimage build is disabled currently'
+            - exit 1
+            - apt update -qq
+            - apt -y install sudo git curl
+            - apt -y install build-essential qt5-default libqt5svg5-dev qtdeclarative5-dev
+            - apt -y install fuse zsync desktop-file-utils
+            #- modprobe fuse
+            - useradd -m pkgbuilder
+            - export HOME=/home/pkgbuilder
+            - chown -R pkgbuilder:pkgbuilder $(pwd)
+            - sudo -u pkgbuilder sh scripts/build.sh appimage

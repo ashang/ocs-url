@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>icons/dialog-information.svg</file>
+        <file>icons/dialog-warning.svg</file>
+        <file>icons/emblem-default.svg</file>
+        <file>icons/emblem-downloads.svg</file>
+    </qresource>
+</RCC>
