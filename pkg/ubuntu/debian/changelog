@@ -1,3 +1,16 @@
+ocs-url (3.0.0-0ubuntu1) trusty; urgency=low
+
+  * Rename xdgurl to ocs-url
+  * Add ocs:// and ocss:// schemes
+  * xdg:// and xdgs:// schemes still available for backward compatibile
+  * New app icon
+  * New dialog window
+  * Labels and messages are translatable
+  * Qt 5.2 support
+  * Use the same configs of install-types with ocsstore
+
+ -- Akira Ohgaki <akiraohgaki@gmail.com>  Thu, 02 Mar 2017 18:39:39 +0000
+
 ocs-url (2.0.3-0ubuntu1) trusty; urgency=low
 
   * Change installation destination of type bin

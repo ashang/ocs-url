@@ -7,7 +7,7 @@ description: |
 grade: devel
 confinement: strict
 
-#icon: desktop/ocs-url.svg
+icon: desktop/ocs-url.svg
 
 parts:
   ocs-url:
@@ -19,6 +19,7 @@ parts:
     options:
       - PREFIX="/usr"
     build-packages:
+      - git
       - build-essential
       - qt5-default
       - libqt5svg5-dev

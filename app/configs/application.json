@@ -1,7 +1,7 @@
 {
     "id": "ocs-url",
     "name": "ocs-url",
-    "version": "2.0.3",
+    "version": "3.0.0",
     "organization": "ocs-url",
     "domain": "com.ocs-url.ocs-url",
     "icon": ":/desktop/ocs-url.svg",
