@@ -85,6 +85,8 @@ ApplicationWindow {
     function fixWindowSize(dialog) {
         if (dialog.visible) {
             app.height = dialog.implicitHeight + (dialog.anchors.margins * 2);
+            app.minimumHeight = app.height;
+            app.maximumHeight = app.height;
         }
     }
 
