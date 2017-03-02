@@ -16,7 +16,7 @@ ColumnLayout {
 
     property alias detailsVisible: details.visible
     property alias detailedText: detailedText.text
-    property alias detailedContent: detailedContent.children
+    property alias detailedContentLoader: detailedContentLoader
 
     property alias actionButton: actionButton
     property alias acceptButton: acceptButton
@@ -81,9 +81,9 @@ ColumnLayout {
             Layout.fillWidth: true
             wrapMode: Text.WrapAnywhere
         }
-        Item {
-            id: detailedContent
-            visible: children ? true : false
+        Loader {
+            id: detailedContentLoader
+            visible: (source || sourceComponent) ? true : false
             Layout.fillWidth: true
         }
     }
