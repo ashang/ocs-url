@@ -73,74 +73,90 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../app/qml/main.qml" line="94"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../app/qml/main.qml" line="105"/>
+        <location filename="../app/qml/main.qml" line="27"/>
         <source>Download successfull</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="106"/>
+        <location filename="../app/qml/main.qml" line="28"/>
         <source>Installation successfull</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="107"/>
-        <location filename="../app/qml/main.qml" line="155"/>
+        <location filename="../app/qml/main.qml" line="29"/>
         <source>Validation error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="108"/>
+        <location filename="../app/qml/main.qml" line="30"/>
         <source>Network error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="109"/>
+        <location filename="../app/qml/main.qml" line="31"/>
         <source>Saving file failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="110"/>
+        <location filename="../app/qml/main.qml" line="32"/>
         <source>Installation failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="134"/>
+        <location filename="../app/qml/main.qml" line="56"/>
         <source>Downloading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="143"/>
+        <location filename="../app/qml/main.qml" line="66"/>
         <source>Do you want to download?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="146"/>
+        <location filename="../app/qml/main.qml" line="69"/>
         <source>Do you want to install?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="149"/>
+        <location filename="../app/qml/main.qml" line="73"/>
         <source>URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="150"/>
+        <location filename="../app/qml/main.qml" line="74"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="151"/>
+        <location filename="../app/qml/main.qml" line="75"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="156"/>
+        <location filename="../app/qml/main.qml" line="80"/>
         <source>Invalid OCS-URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app/qml/main.qml" line="88"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app/qml/main.qml" line="93"/>
+        <location filename="../app/qml/main.qml" line="147"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app/qml/main.qml" line="103"/>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../app/qml/main.qml" line="109"/>
+        <location filename="../app/qml/main.qml" line="119"/>
+        <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
