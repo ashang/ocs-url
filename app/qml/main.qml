@@ -1,4 +1,3 @@
-// Still support Qt 5.2
 import QtQuick 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 1.0
@@ -14,11 +13,11 @@ ApplicationWindow {
 
     visible: true
     width: 400
-    minimumWidth: 400
-    maximumWidth: 400
+    minimumWidth: width
+    maximumWidth: width
     height: 200
-    minimumHeight: 200
-    maximumHeight: 400
+    minimumHeight: height
+    maximumHeight: height
 
     function init() {
         var metadata = ocsUrlHandler.metadata();
@@ -33,6 +32,7 @@ ApplicationWindow {
         };
 
         ocsUrlHandler.started.connect(function() {
+            confirmDialog.close();
             progressDialog.open();
         });
 
@@ -55,8 +55,8 @@ ApplicationWindow {
         ocsUrlHandler.downloadProgress.connect(function(id, bytesReceived, bytesTotal) {
             progressDialog.primaryText = qsTr("Downloading");
             progressDialog.informativeText = metadata.filename;
-            progressDialog.progress = bytesReceived / bytesTotal;
-            progressDialog.progressText
+            progressDialog.detailedContentLoader.item.progressBar = bytesReceived / bytesTotal;
+            progressDialog.detailedContentLoader.item.progressText
                     = Utility.convertByteToHumanReadable(bytesReceived)
                     + " / " + Utility.convertByteToHumanReadable(bytesTotal);
         });
@@ -82,53 +82,57 @@ ApplicationWindow {
         }
     }
 
+    function fixWindowSize(dialog) {
+        if (dialog.visible) {
+            app.height = dialog.implicitHeight + (dialog.anchors.margins * 2);
+        }
+    }
+
     Ui.Dialog {
         id: confirmDialog
         icon: "qrc:/images/icons/dialog-information.svg"
+        actionButton.text: qsTr("Details")
+        actionButton.onClicked: toggleDetails()
         acceptButton.text: qsTr("OK")
-        acceptButton.onClicked: {
-            close();
-            ocsUrlHandler.process();
-        }
+        acceptButton.onClicked: ocsUrlHandler.process()
         rejectButton.text: qsTr("Cancel")
-        rejectButton.onClicked: {
-            close();
-            Qt.quit();
-        }
+        rejectButton.onClicked: Qt.quit()
+        onVisibleChanged: app.fixWindowSize(confirmDialog)
+        onImplicitHeightChanged: app.fixWindowSize(confirmDialog)
     }
 
     Ui.Dialog {
         id: infoDialog
         icon: "qrc:/images/icons/emblem-default.svg"
+        actionButton.text: qsTr("Details")
+        actionButton.onClicked: toggleDetails()
         acceptButton.text: qsTr("Open")
         acceptButton.onClicked: {
-            close();
             ocsUrlHandler.openDestination();
             Qt.quit();
         }
         rejectButton.text: qsTr("Close")
-        rejectButton.onClicked: {
-            close();
-            Qt.quit();
-        }
+        rejectButton.onClicked: Qt.quit()
+        onVisibleChanged: app.fixWindowSize(infoDialog)
+        onImplicitHeightChanged: app.fixWindowSize(infoDialog)
     }
 
     Ui.Dialog {
         id: errorDialog
         icon: "qrc:/images/icons/dialog-warning.svg"
+        actionButton.text: qsTr("Details")
+        actionButton.onClicked: toggleDetails()
         rejectButton.text: qsTr("Close")
-        rejectButton.onClicked: {
-            close();
-            Qt.quit();
-        }
+        rejectButton.onClicked: Qt.quit()
+        onVisibleChanged: app.fixWindowSize(errorDialog)
+        onImplicitHeightChanged: app.fixWindowSize(errorDialog)
     }
 
-    Ui.Dialog {
-        id: progressDialog
-        icon: "qrc:/images/icons/emblem-downloads.svg"
-        property alias progress: progressBar.value
-        property alias progressText: progressText.text
-        content: ColumnLayout {
+    Component {
+        id: progressComponent
+        ColumnLayout {
+            property alias progressBar: progressBar.value
+            property alias progressText: progressText.text
             anchors.fill: parent
             spacing: 4
             ProgressBar {
@@ -144,11 +148,17 @@ ApplicationWindow {
                 Layout.alignment: Qt.AlignRight
             }
         }
+    }
+
+    Ui.Dialog {
+        id: progressDialog
+        icon: "qrc:/images/icons/emblem-downloads.svg"
+        detailsVisible: true
+        detailedContentLoader.sourceComponent: progressComponent
         rejectButton.text: qsTr("Cancel")
-        rejectButton.onClicked: {
-            close();
-            Qt.quit();
-        }
+        rejectButton.onClicked: Qt.quit()
+        onVisibleChanged: app.fixWindowSize(progressDialog)
+        onImplicitHeightChanged: app.fixWindowSize(progressDialog)
     }
 
     Component.onCompleted: {
