@@ -83,7 +83,7 @@ ColumnLayout {
         }
         Loader {
             id: detailedContentLoader
-            visible: (source || sourceComponent) ? true : false
+            visible: (source.toString() || sourceComponent) ? true : false
             Layout.fillWidth: true
         }
     }
