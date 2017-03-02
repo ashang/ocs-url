@@ -13,8 +13,12 @@ ColumnLayout {
     property alias icon: icon.source
     property alias primaryText: primaryText.text
     property alias informativeText: informativeText.text
+
+    property alias detailsVisible: details.visible
     property alias detailedText: detailedText.text
-    property alias content: content.children
+    property alias detailedContent: detailedContent.children
+
+    property alias actionButton: actionButton
     property alias acceptButton: acceptButton
     property alias rejectButton: rejectButton
 
@@ -24,6 +28,10 @@ ColumnLayout {
 
     function close() {
         dialog.visible = false;
+    }
+
+    function toggleDetails() {
+        details.visible = details.visible ? false : true;
     }
 
     RowLayout {
@@ -48,6 +56,7 @@ ColumnLayout {
                 Layout.fillWidth: true
                 wrapMode: Text.WrapAnywhere
                 font.bold: true
+                font.pixelSize: 14
             }
             Label {
                 id: informativeText
@@ -59,27 +68,34 @@ ColumnLayout {
         }
     }
 
-    Label {
-        id: detailedText
-        text: ""
-        visible: text ? true : false
+    ColumnLayout {
+        id: details
+        visible: false
         Layout.fillWidth: true
-        wrapMode: Text.WrapAnywhere
-        color: "#444444"
-    }
-
-    Item {
-        id: content
-        Layout.fillWidth: true
-    }
-
-    Item {
         Layout.fillHeight: true
+        spacing: 12
+        Label {
+            id: detailedText
+            text: ""
+            visible: text ? true : false
+            Layout.fillWidth: true
+            wrapMode: Text.WrapAnywhere
+        }
+        Item {
+            id: detailedContent
+            visible: children ? true : false
+            Layout.fillWidth: true
+        }
     }
 
     RowLayout {
         Layout.fillWidth: true
         spacing: 4
+        Button {
+            id: actionButton
+            text: ""
+            visible: text ? true : false
+        }
         Item {
             Layout.fillWidth: true
         }
