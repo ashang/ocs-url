@@ -138,31 +138,31 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="94"/>
-        <location filename="../app/qml/main.qml" line="107"/>
-        <location filename="../app/qml/main.qml" line="123"/>
+        <location filename="../app/qml/main.qml" line="96"/>
+        <location filename="../app/qml/main.qml" line="109"/>
+        <location filename="../app/qml/main.qml" line="125"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="96"/>
+        <location filename="../app/qml/main.qml" line="98"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="98"/>
-        <location filename="../app/qml/main.qml" line="158"/>
+        <location filename="../app/qml/main.qml" line="100"/>
+        <location filename="../app/qml/main.qml" line="160"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="109"/>
+        <location filename="../app/qml/main.qml" line="111"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../app/qml/main.qml" line="114"/>
-        <location filename="../app/qml/main.qml" line="125"/>
+        <location filename="../app/qml/main.qml" line="116"/>
+        <location filename="../app/qml/main.qml" line="127"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
