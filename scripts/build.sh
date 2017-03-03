@@ -36,6 +36,7 @@ transfer_file() {
     filepath="${1}"
     if [ -f "${filepath}" ]; then
         filename="$(basename "${filepath}")"
+        echo "Uploading ${filename}"
         curl -T "${filepath}" "https://transfer.sh/${filename}"
     fi
 }
