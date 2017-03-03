@@ -47,6 +47,9 @@ rm -rf %{buildroot}
 - Labels and messages are translatable
 - Qt 5.2 support
 - Use the same configs of install-types with ocsstore
+- Add en_US translation
+- Add ja_JP translation
+- Add tr_TR translation (by tarakbumba)
 
 * Wed Jan 25 2017 Akira Ohgaki <akiraohgaki@gmail.com> - 2.0.3-1
 - Change installation destination of type bin
