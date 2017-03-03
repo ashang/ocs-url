@@ -2,5 +2,6 @@
     <qresource prefix="/i18n">
         <file>messages.qm</file>
         <file>messages.en_US.qm</file>
+        <file>messages.tr_TR.qm</file>
     </qresource>
 </RCC>
