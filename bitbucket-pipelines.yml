@@ -39,7 +39,7 @@ pipelines:
             - sudo -u pkgbuilder sh scripts/build.sh fedora
     build-archlinux:
       - step:
-          image: finalduty/archlinux:latest
+          image: base/archlinux:latest
           script:
             - pacman -Syu --noconfirm
             - pacman -S --noconfirm sudo git curl

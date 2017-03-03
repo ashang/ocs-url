@@ -3,6 +3,7 @@ SOURCES += $$system(find ../app -type f -name "*.cpp" -or -name "*.qml" -or -nam
 TRANSLATIONS += \
     messages.ts \
     messages.en_US.ts \
+    messages.ja_JP.ts \
     messages.tr_TR.ts
 
 include(i18n.pri)

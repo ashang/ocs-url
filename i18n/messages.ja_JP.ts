@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.1" language="ja_JP">
 <context>
     <name>OcsUrlHandler</name>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="37"/>
         <source>Invalid OCS-URL</source>
-        <translation>Invalid OCS-URL</translation>
+        <translation>無効なOCS-URL</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="141"/>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="162"/>
         <source>Failed to save data</source>
-        <translation>Failed to save data</translation>
+        <translation>ファイルの保存に失敗</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="148"/>
         <source>The file has been downloaded</source>
-        <translation>The file has been downloaded</translation>
+        <translation>ファイルがダウンロードされました</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="176"/>
         <source>The file has been installed as program</source>
-        <translation>The file has been installed as program</translation>
+        <translation>ファイルがプログラムとしてインストールされました</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="180"/>
         <source>The plasmoid has been installed</source>
-        <translation>The plasmoid has been installed</translation>
+        <translation>plasmoidがインストールされました</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="184"/>
         <source>The plasma look and feel has been installed</source>
-        <translation>The plasma look and feel has been installed</translation>
+        <translation>plasma look and feelがインストールされました</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="188"/>
         <source>The plasma desktop theme has been installed</source>
-        <translation>The plasma desktop theme has been installed</translation>
+        <translation>plasma desktop themeがインストールされました</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="192"/>
         <source>The KWin effect has been installed</source>
-        <translation>The KWin effect has been installed</translation>
+        <translation>KWin effectがインストールされました</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="196"/>
         <source>The KWin script has been installed</source>
-        <translation>The KWin script has been installed</translation>
+        <translation>KWin scriptがインストールされました</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="200"/>
         <source>The KWin window switcher has been installed</source>
-        <translation>The KWin window switcher has been installed</translation>
+        <translation>KWin window switcherがインストールされました</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="203"/>
         <source>The archive file has been extracted</source>
-        <translation>The archive file has been extracted</translation>
+        <translation>圧縮ファイルが展開されました</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="206"/>
         <source>The file has been installed</source>
-        <translation>The file has been installed</translation>
+        <translation>ファイルがインストールされました</translation>
     </message>
     <message>
         <location filename="../app/src/handlers/ocsurlhandler.cpp" line="210"/>
         <source>Failed to installation</source>
-        <translation>Failed to installation</translation>
+        <translation>インストールに失敗</translation>
     </message>
 </context>
 <context>
@@ -75,47 +75,47 @@
     <message>
         <location filename="../app/qml/main.qml" line="26"/>
         <source>Download successfull</source>
-        <translation>Download successfull</translation>
+        <translation>ダウンロード成功</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="27"/>
         <source>Installation successfull</source>
-        <translation>Installation successfull</translation>
+        <translation>インストール成功</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="28"/>
         <source>Validation error</source>
-        <translation>Validation error</translation>
+        <translation>検証エラー</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="29"/>
         <source>Network error</source>
-        <translation>Network error</translation>
+        <translation>通信エラー</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="30"/>
         <source>Saving file failed</source>
-        <translation>Saving file failed</translation>
+        <translation>ファイル保存失敗</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="31"/>
         <source>Installation failed</source>
-        <translation>Installation failed</translation>
+        <translation>インストール失敗</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="56"/>
         <source>Downloading</source>
-        <translation>Downloading</translation>
+        <translation>ダウンロード中</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="66"/>
         <source>Do you want to download?</source>
-        <translation>Do you want to download?</translation>
+        <translation>ダウンロードしますか?</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="69"/>
         <source>Do you want to install?</source>
-        <translation>Do you want to install?</translation>
+        <translation>インストールしますか?</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="73"/>
@@ -125,24 +125,24 @@
     <message>
         <location filename="../app/qml/main.qml" line="74"/>
         <source>File</source>
-        <translation>File</translation>
+        <translation>ファイル</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="75"/>
         <source>Type</source>
-        <translation>Type</translation>
+        <translation>タイプ</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="80"/>
         <source>Invalid OCS-URL</source>
-        <translation>Invalid OCS-URL</translation>
+        <translation>無効なOCS-URL</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="96"/>
         <location filename="../app/qml/main.qml" line="109"/>
         <location filename="../app/qml/main.qml" line="125"/>
         <source>Details</source>
-        <translation>Details</translation>
+        <translation>詳細</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="98"/>
@@ -153,18 +153,18 @@
         <location filename="../app/qml/main.qml" line="100"/>
         <location filename="../app/qml/main.qml" line="160"/>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation>キャンセル</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="111"/>
         <source>Open</source>
-        <translation>Open</translation>
+        <translation>開く</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="116"/>
         <location filename="../app/qml/main.qml" line="127"/>
         <source>Close</source>
-        <translation>Close</translation>
+        <translation>閉じる</translation>
     </message>
 </context>
 </TS>
