@@ -8,6 +8,9 @@ ocs-url (3.0.0-0ubuntu1) trusty; urgency=low
   * Labels and messages are translatable
   * Qt 5.2 support
   * Use the same configs of install-types with ocsstore
+  * Add en_US translation
+  * Add ja_JP translation
+  * Add tr_TR translation (by tarakbumba)
 
  -- Akira Ohgaki <akiraohgaki@gmail.com>  Thu, 02 Mar 2017 18:39:39 +0000
 
