@@ -11,11 +11,6 @@ if [ "${1}" ]; then
     BUILDTYPE="${1}"
 fi
 
-TREEISH='HEAD'
-if [ "${2}" ]; then
-    TREEISH="${2}"
-fi
-
 PROJDIR="$(cd "$(dirname "${0}")/../" && pwd)"
 
 BUILDVER="$(cd "${PROJDIR}" && git describe --always)"
@@ -29,7 +24,7 @@ SRCARCHIVE="${BUILDDIR}/${PKGNAME}.tar.gz"
 ################################################################################
 export_srcarchive() {
     filepath="${1}"
-    $(cd "${PROJDIR}" && git archive --prefix="${PKGNAME}/" --output="${filepath}" "${TREEISH}")
+    $(cd "${PROJDIR}" && git archive --prefix="${PKGNAME}/" --output="${filepath}" HEAD)
 }
 
 transfer_file() {
@@ -178,6 +173,6 @@ elif [ "${BUILDTYPE}" = 'snap' ]; then
 elif [ "${BUILDTYPE}" = 'appimage' ]; then
     pre_appimage && build_appimage && post_appimage
 else
-    echo "sh $(basename "${0}") [ubuntu|fedora|archlinux|snap|appimage] [tree_ish]"
+    echo "sh $(basename "${0}") [ubuntu|fedora|archlinux|snap|appimage]"
     exit 1
 fi
