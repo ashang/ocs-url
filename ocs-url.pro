@@ -6,13 +6,12 @@ CONFIG += c++11
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-DISTFILES += README.md
+DISTFILES += $${PWD}/README.md
 
-include(lib/lib.pri)
-include(app/app.pri)
-include(desktop/desktop.pri)
-include(i18n/i18n.pri)
-include(pkg/pkg.pri)
-include(scripts/scripts.pri)
-
-include(deployment.pri)
+include($${PWD}/lib/lib.pri)
+include($${PWD}/app/app.pri)
+include($${PWD}/desktop/desktop.pri)
+include($${PWD}/i18n/i18n.pri)
+include($${PWD}/pkg/pkg.pri)
+include($${PWD}/scripts/scripts.pri)
+include($${PWD}/deployment.pri)

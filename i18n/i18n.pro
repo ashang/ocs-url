@@ -1,9 +1,9 @@
-SOURCES += $$system(find ../app -type f -name "*.cpp" -or -name "*.qml" -or -name "*.js")
+SOURCES += $$system(find $${PWD}/../app -type f -name "*.cpp" -or -name "*.qml" -or -name "*.js")
 
 TRANSLATIONS += \
-    messages.ts \
-    messages.en_US.ts \
-    messages.ja_JP.ts \
-    messages.tr_TR.ts
+    $${PWD}/messages.ts \
+    $${PWD}/messages.en_US.ts \
+    $${PWD}/messages.ja_JP.ts \
+    $${PWD}/messages.tr_TR.ts
 
-include(i18n.pri)
+include($${PWD}/i18n.pri)
