@@ -12,7 +12,7 @@ ocs-url (3.0.0-0ubuntu1) trusty; urgency=low
   * Add ja_JP translation
   * Add tr_TR translation (by tarakbumba)
 
- -- Akira Ohgaki <akiraohgaki@gmail.com>  Thu, 02 Mar 2017 18:39:39 +0000
+ -- Akira Ohgaki <akiraohgaki@gmail.com>  Sun, 05 Mar 2017 16:53:43 +0000
 
 ocs-url (2.0.3-0ubuntu1) trusty; urgency=low
 

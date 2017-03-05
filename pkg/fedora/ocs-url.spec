@@ -38,7 +38,7 @@ make INSTALL_ROOT="%{buildroot}" install
 rm -rf %{buildroot}
 
 %changelog
-* Thu Mar 02 2017 Akira Ohgaki <akiraohgaki@gmail.com> - 3.0.0-1
+* Sun Mar 05 2017 Akira Ohgaki <akiraohgaki@gmail.com> - 3.0.0-1
 - Rename xdgurl to ocs-url
 - Add ocs:// and ocss:// schemes
 - xdg:// and xdgs:// schemes still available for backward compatibile
