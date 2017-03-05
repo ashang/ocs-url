@@ -10,7 +10,7 @@ URL: https://github.com/ocs-url/ocs-url
 Source0: %{name}.tar.gz
 
 Requires: qt5-qtbase >= 5.2.0, qt5-qtbase-gui >= 5.2.0, qt5-qtsvg >= 5.2.0, qt5-qtdeclarative >= 5.2.0, qt5-qtquickcontrols >= 5.2.0
-BuildRequires: git make, automake, gcc, gcc-c++, libtool, qt5-qtbase-devel >= 5.2.0, qt5-qtsvg-devel >= 5.2.0, qt5-qtdeclarative-devel >= 5.2.0, rpm-build
+BuildRequires: git, make, automake, gcc, gcc-c++, libtool, qt5-qtbase-devel >= 5.2.0, qt5-qtsvg-devel >= 5.2.0, qt5-qtdeclarative-devel >= 5.2.0, rpm-build
 
 %description
 An install helper program for items served on OpenCollaborationServices (OCS).
@@ -38,7 +38,7 @@ make INSTALL_ROOT="%{buildroot}" install
 rm -rf %{buildroot}
 
 %changelog
-* Thu Mar 02 2017 Akira Ohgaki <akiraohgaki@gmail.com> - 3.0.0-1
+* Sun Mar 05 2017 Akira Ohgaki <akiraohgaki@gmail.com> - 3.0.0-1
 - Rename xdgurl to ocs-url
 - Add ocs:// and ocss:// schemes
 - xdg:// and xdgs:// schemes still available for backward compatibile

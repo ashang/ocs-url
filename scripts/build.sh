@@ -11,11 +11,6 @@ if [ "${1}" ]; then
     BUILDTYPE="${1}"
 fi
 
-TREEISH='HEAD'
-if [ "${2}" ]; then
-    TREEISH="${2}"
-fi
-
 PROJDIR="$(cd "$(dirname "${0}")/../" && pwd)"
 
 BUILDVER="$(cd "${PROJDIR}" && git describe --always)"
@@ -29,13 +24,14 @@ SRCARCHIVE="${BUILDDIR}/${PKGNAME}.tar.gz"
 ################################################################################
 export_srcarchive() {
     filepath="${1}"
-    $(cd "${PROJDIR}" && git archive --prefix="${PKGNAME}/" --output="${filepath}" "${TREEISH}")
+    $(cd "${PROJDIR}" && git archive --prefix="${PKGNAME}/" --output="${filepath}" HEAD)
 }
 
 transfer_file() {
     filepath="${1}"
     if [ -f "${filepath}" ]; then
         filename="$(basename "${filepath}")"
+        echo "Uploading ${filename}"
         curl -T "${filepath}" "https://transfer.sh/${filename}"
     fi
 }
@@ -134,6 +130,7 @@ pre_appimage() {
 build_appimage() {
     tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
     cd "${BUILDDIR}/${PKGNAME}"
+    sh scripts/import.sh
     qmake
     make
     strip "${PKGNAME}"
@@ -177,6 +174,6 @@ elif [ "${BUILDTYPE}" = 'snap' ]; then
 elif [ "${BUILDTYPE}" = 'appimage' ]; then
     pre_appimage && build_appimage && post_appimage
 else
-    echo "sh $(basename "${0}") [ubuntu|fedora|archlinux|snap|appimage] [tree_ish]"
+    echo "sh $(basename "${0}") [ubuntu|fedora|archlinux|snap|appimage]"
     exit 1
 fi
