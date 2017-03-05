@@ -130,6 +130,7 @@ pre_appimage() {
 build_appimage() {
     tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
     cd "${BUILDDIR}/${PKGNAME}"
+    sh scripts/import.sh
     qmake
     make
     strip "${PKGNAME}"
