@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ################################################################################
-# This is utility script to make distribution packages
+# This is utility script to build distribution packages
 ################################################################################
 
 PKGNAME='ocs-url'
@@ -19,9 +19,6 @@ BUILDDIR="${PROJDIR}/build_${PKGNAME}_${BUILDVER}_${BUILDTYPE}"
 
 SRCARCHIVE="${BUILDDIR}/${PKGNAME}.tar.gz"
 
-################################################################################
-# Utility functions
-################################################################################
 export_srcarchive() {
     filepath="${1}"
     $(cd "${PROJDIR}" && git archive --prefix="${PKGNAME}/" --output="${filepath}" HEAD)
@@ -36,98 +33,65 @@ transfer_file() {
     fi
 }
 
-################################################################################
-# ubuntu
-################################################################################
-pre_ubuntu() {
+build_ubuntu() {
     cd "${PROJDIR}"
     mkdir -p "${BUILDDIR}"
     export_srcarchive "${SRCARCHIVE}"
-}
 
-build_ubuntu() {
     tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
     cp -r "${PROJDIR}/pkg/ubuntu/debian" "${BUILDDIR}/${PKGNAME}"
     cd "${BUILDDIR}/${PKGNAME}"
     debuild -uc -us -b
-}
 
-post_ubuntu() {
     transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.deb")"
 }
 
-################################################################################
-# fedora
-################################################################################
-pre_fedora() {
+build_fedora() {
     cd "${PROJDIR}"
     mkdir -p "${BUILDDIR}"
     export_srcarchive "${SRCARCHIVE}"
-}
 
-build_fedora() {
     mkdir "${BUILDDIR}/SOURCES"
     mkdir "${BUILDDIR}/SPECS"
     mv "${SRCARCHIVE}" "${BUILDDIR}/SOURCES"
     cp "${PROJDIR}/pkg/fedora/${PKGNAME}.spec" "${BUILDDIR}/SPECS"
     rpmbuild --define "_topdir ${BUILDDIR}" -bb "${BUILDDIR}/SPECS/${PKGNAME}.spec"
-}
 
-post_fedora() {
     transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.rpm")"
 }
 
-################################################################################
-# archlinux
-################################################################################
-pre_archlinux() {
+build_archlinux() {
     cd "${PROJDIR}"
     mkdir -p "${BUILDDIR}"
     export_srcarchive "${SRCARCHIVE}"
-}
 
-build_archlinux() {
     cp "${PROJDIR}/pkg/archlinux/PKGBUILD" "${BUILDDIR}"
     cd "${BUILDDIR}"
     updpkgsums
     makepkg -s
-}
 
-post_archlinux() {
     transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.pkg.tar.xz")"
 }
 
-################################################################################
-# snap
-################################################################################
-pre_snap() {
+build_snap() {
     cd "${PROJDIR}"
     mkdir -p "${BUILDDIR}"
     export_srcarchive "${SRCARCHIVE}"
-}
 
-build_snap() {
     tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
     cp "${PROJDIR}/pkg/snap/snapcraft.yaml" "${BUILDDIR}/${PKGNAME}"
     cp -r "${PROJDIR}/pkg/snap/setup" "${BUILDDIR}/${PKGNAME}"
     cd "${BUILDDIR}/${PKGNAME}"
     snapcraft
-}
 
-post_snap() {
     transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.snap")"
 }
 
-################################################################################
-# appimage
-################################################################################
-pre_appimage() {
+build_appimage() {
     cd "${PROJDIR}"
     mkdir -p "${BUILDDIR}"
     export_srcarchive "${SRCARCHIVE}"
-}
 
-build_appimage() {
     tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
     cd "${BUILDDIR}/${PKGNAME}"
     sh scripts/import.sh
@@ -154,25 +118,20 @@ build_appimage() {
     install -m 755 -p "${BUILDDIR}/${PKGNAME}/pkg/appimage/appimage-desktopintegration_${PKGNAME}" "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
     ./linuxdeployqt --appimage-extract
     ./squashfs-root/usr/bin/appimagetool "${BUILDDIR}/${PKGNAME}.AppDir"
-}
 
-post_appimage() {
     transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.AppImage")"
 }
 
-################################################################################
-# Make package
-################################################################################
 if [ "${BUILDTYPE}" = 'ubuntu' ]; then
-    pre_ubuntu && build_ubuntu && post_ubuntu
+    build_ubuntu
 elif [ "${BUILDTYPE}" = 'fedora' ]; then
-    pre_fedora && build_fedora && post_fedora
+    build_fedora
 elif [ "${BUILDTYPE}" = 'archlinux' ]; then
-    pre_archlinux && build_archlinux && post_archlinux
+    build_archlinux
 elif [ "${BUILDTYPE}" = 'snap' ]; then
-    pre_snap && build_snap && post_snap
+    build_snap
 elif [ "${BUILDTYPE}" = 'appimage' ]; then
-    pre_appimage && build_appimage && post_appimage
+    build_appimage
 else
     echo "sh $(basename "${0}") [ubuntu|fedora|archlinux|snap|appimage]"
     exit 1
