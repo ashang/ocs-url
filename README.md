@@ -1,4 +1,4 @@
-# ocs-url
+# ocs-url [![Build Status](https://travis-ci.org/ocs-url/ocs-url.svg?branch=master)](https://travis-ci.org/ocs-url/ocs-url)
 
 An install helper program for items served on OpenCollaborationServices (OCS).
 
