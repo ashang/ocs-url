@@ -24,15 +24,6 @@ export_srcarchive() {
     $(cd "${PROJDIR}" && git archive --prefix="${PKGNAME}/" --output="${filepath}" HEAD)
 }
 
-transfer_file() {
-    filepath="${1}"
-    if [ -f "${filepath}" ]; then
-        filename="$(basename "${filepath}")"
-        echo "Uploading ${filename}"
-        curl -T "${filepath}" "https://transfer.sh/${filename}"
-    fi
-}
-
 build_ubuntu() {
     cd "${PROJDIR}"
     mkdir -p "${BUILDDIR}"
@@ -42,8 +33,6 @@ build_ubuntu() {
     cp -r "${PROJDIR}/pkg/ubuntu/debian" "${BUILDDIR}/${PKGNAME}"
     cd "${BUILDDIR}/${PKGNAME}"
     debuild -uc -us -b
-
-    transfer_file "$(find "${BUILDDIR}" -type f -name "${PKGNAME}*.deb")"
 }
 
 build_fedora() {
@@ -56,8 +45,6 @@ build_fedora() {
     mv "${SRCARCHIVE}" "${BUILDDIR}/SOURCES"
     cp "${PROJDIR}/pkg/fedora/${PKGNAME}.spec" "${BUILDDIR}/SPECS"
     rpmbuild --define "_topdir ${BUILDDIR}" -bb "${BUILDDIR}/SPECS/${PKGNAME}.spec"
-
-    transfer_file "$(find "${BUILDDIR}" -type f -name "${PKGNAME}*.rpm")"
 }
 
 build_archlinux() {
@@ -69,8 +56,6 @@ build_archlinux() {
     cd "${BUILDDIR}"
     updpkgsums
     makepkg -s
-
-    transfer_file "$(find "${BUILDDIR}" -type f -name "${PKGNAME}*.pkg.tar.xz")"
 }
 
 build_snap() {
@@ -83,8 +68,6 @@ build_snap() {
     cp -r "${PROJDIR}/pkg/snap/setup" "${BUILDDIR}/${PKGNAME}"
     cd "${BUILDDIR}/${PKGNAME}"
     snapcraft
-
-    transfer_file "$(find "${BUILDDIR}" -type f -name "${PKGNAME}*.snap")"
 }
 
 build_appimage() {
@@ -118,8 +101,6 @@ build_appimage() {
     install -m 755 -p "${BUILDDIR}/${PKGNAME}/pkg/appimage/appimage-desktopintegration_${PKGNAME}" "${BUILDDIR}/${PKGNAME}.AppDir/AppRun"
     ./linuxdeployqt --appimage-extract
     ./squashfs-root/usr/bin/appimagetool "${BUILDDIR}/${PKGNAME}.AppDir"
-
-    transfer_file "$(find "${BUILDDIR}" -type f -name "${PKGNAME}*.AppImage")"
 }
 
 if [ "${BUILDTYPE}" = 'ubuntu' ]; then
