@@ -1,4 +1,7 @@
-# ocs-url [![Build Status](https://travis-ci.org/ocs-url/ocs-url.svg?branch=master)](https://travis-ci.org/ocs-url/ocs-url)
+# ocs-url
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Build Status](https://travis-ci.org/ocs-url/ocs-url.svg?branch=master)](https://travis-ci.org/ocs-url/ocs-url)
 
 An install helper program for items served on OpenCollaborationServices (OCS).
 
