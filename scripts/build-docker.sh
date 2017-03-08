@@ -4,6 +4,8 @@
 # This is wrapper script for build.sh use from inside docker container
 ################################################################################
 
+PKGNAME='ocs-url'
+
 PKGUSER='pkgbuilder'
 
 BUILDTYPE=''
@@ -14,6 +16,15 @@ fi
 PROJDIR="$(cd "$(dirname "${0}")/../" && pwd)"
 
 BUILDSCRIPT="${PROJDIR}/scripts/build.sh"
+
+transfer_file() {
+    filepath="${1}"
+    if [ -f "${filepath}" ]; then
+        filename="$(basename "${filepath}")"
+        echo "Uploading ${filename}"
+        curl -T "${filepath}" "https://transfer.sh/${filename}"
+    fi
+}
 
 build_ubuntu() {
     # docker-image: ubuntu:14.04
@@ -27,6 +38,8 @@ build_ubuntu() {
     chown -R ${PKGUSER}:${PKGUSER} "${PROJDIR}"
 
     su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
+
+    transfer_file "$(find "${PROJDIR}/build_*" -type f -name "${PKGNAME}*.deb")"
 }
 
 build_fedora() {
@@ -44,6 +57,8 @@ build_fedora() {
     chown -R ${PKGUSER}:${PKGUSER} "${PROJDIR}"
 
     su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
+
+    transfer_file "$(find "${PROJDIR}/build_*" -type f -name "${PKGNAME}*.rpm")"
 }
 
 build_archlinux() {
@@ -58,6 +73,8 @@ build_archlinux() {
     chown -R ${PKGUSER}:${PKGUSER} "${PROJDIR}"
 
     su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
+
+    transfer_file "$(find "${PROJDIR}/build_*" -type f -name "${PKGNAME}*.pkg.tar.xz")"
 }
 
 build_snap() {
@@ -72,6 +89,8 @@ build_snap() {
     chown -R ${PKGUSER}:${PKGUSER} "${PROJDIR}"
 
     su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
+
+    transfer_file "$(find "${PROJDIR}/build_*" -type f -name "${PKGNAME}*.snap")"
 }
 
 build_appimage() {
@@ -88,6 +107,8 @@ build_appimage() {
     chown -R ${PKGUSER}:${PKGUSER} "${PROJDIR}"
 
     su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
+
+    transfer_file "$(find "${PROJDIR}/build_*" -type f -name "${PKGNAME}*.AppImage")"
 }
 
 if [ "${BUILDTYPE}" = 'ubuntu' ]; then
