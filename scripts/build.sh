@@ -43,7 +43,7 @@ build_ubuntu() {
     cd "${BUILDDIR}/${PKGNAME}"
     debuild -uc -us -b
 
-    transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.deb")"
+    transfer_file "$(find "${BUILDDIR}" -type f -name "${PKGNAME}*.deb")"
 }
 
 build_fedora() {
@@ -57,7 +57,7 @@ build_fedora() {
     cp "${PROJDIR}/pkg/fedora/${PKGNAME}.spec" "${BUILDDIR}/SPECS"
     rpmbuild --define "_topdir ${BUILDDIR}" -bb "${BUILDDIR}/SPECS/${PKGNAME}.spec"
 
-    transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.rpm")"
+    transfer_file "$(find "${BUILDDIR}" -type f -name "${PKGNAME}*.rpm")"
 }
 
 build_archlinux() {
@@ -70,7 +70,7 @@ build_archlinux() {
     updpkgsums
     makepkg -s
 
-    transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.pkg.tar.xz")"
+    transfer_file "$(find "${BUILDDIR}" -type f -name "${PKGNAME}*.pkg.tar.xz")"
 }
 
 build_snap() {
@@ -84,7 +84,7 @@ build_snap() {
     cd "${BUILDDIR}/${PKGNAME}"
     snapcraft
 
-    transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.snap")"
+    transfer_file "$(find "${BUILDDIR}" -type f -name "${PKGNAME}*.snap")"
 }
 
 build_appimage() {
@@ -119,7 +119,7 @@ build_appimage() {
     ./linuxdeployqt --appimage-extract
     ./squashfs-root/usr/bin/appimagetool "${BUILDDIR}/${PKGNAME}.AppDir"
 
-    transfer_file "$(find ${BUILDDIR} -type f -name "${PKGNAME}*.AppImage")"
+    transfer_file "$(find "${BUILDDIR}" -type f -name "${PKGNAME}*.AppImage")"
 }
 
 if [ "${BUILDTYPE}" = 'ubuntu' ]; then

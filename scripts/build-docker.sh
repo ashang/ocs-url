@@ -26,7 +26,7 @@ build_ubuntu() {
     export HOME="/home/${PKGUSER}"
     chown -R ${PKGUSER}:${PKGUSER} "${PROJDIR}"
 
-    su -c "sh ${BUILDSCRIPT} ${BUILDTYPE}" ${PKGUSER}
+    su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
 }
 
 build_fedora() {
@@ -43,7 +43,7 @@ build_fedora() {
     export HOME="/home/${PKGUSER}"
     chown -R ${PKGUSER}:${PKGUSER} "${PROJDIR}"
 
-    su -c "sh ${BUILDSCRIPT} ${BUILDTYPE}" ${PKGUSER}
+    su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
 }
 
 build_archlinux() {
@@ -56,7 +56,7 @@ build_archlinux() {
     export HOME="/home/${PKGUSER}"
     chown -R ${PKGUSER}:${PKGUSER} "${PROJDIR}"
 
-    su -c "sh ${BUILDSCRIPT} ${BUILDTYPE}" ${PKGUSER}
+    su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
 }
 
 build_snap() {
@@ -70,7 +70,7 @@ build_snap() {
     export HOME="/home/${PKGUSER}"
     chown -R ${PKGUSER}:${PKGUSER} "${PROJDIR}"
 
-    su -c "sh ${BUILDSCRIPT} ${BUILDTYPE}" ${PKGUSER}
+    su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
 }
 
 build_appimage() {
@@ -86,7 +86,7 @@ build_appimage() {
     export HOME="/home/${PKGUSER}"
     chown -R ${PKGUSER}:${PKGUSER} "${PROJDIR}"
 
-    su -c "sh ${BUILDSCRIPT} ${BUILDTYPE}" ${PKGUSER}
+    su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
 }
 
 if [ "${BUILDTYPE}" = 'ubuntu' ]; then
