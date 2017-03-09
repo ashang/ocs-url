@@ -17,12 +17,14 @@ PROJDIR="$(cd "$(dirname "${0}")/../" && pwd)"
 
 BUILDSCRIPT="${PROJDIR}/scripts/build.sh"
 
+TRANSFERLOG="${PROJDIR}/transfer.log"
+
 transfer_file() {
     filepath="${1}"
     if [ -f "${filepath}" ]; then
         filename="$(basename "${filepath}")"
-        echo "Uploading ${filename}"
-        curl -T "${filepath}" "https://transfer.sh/${filename}"
+        echo "Uploading ${filename}" >> "${TRANSFERLOG}"
+        curl -T "${filepath}" "https://transfer.sh/${filename}" >> "${TRANSFERLOG}"
     fi
 }
 

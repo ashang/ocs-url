@@ -5,27 +5,32 @@ pipelines:
           image: ubuntu:14.04
           script:
             - sh scripts/build-docker.sh ubuntu
+            - cat transfer.log
   custom:
     build-ubuntu:
       - step:
           image: ubuntu:14.04
           script:
             - sh scripts/build-docker.sh ubuntu
+            - cat transfer.log
     build-fedora:
       - step:
           image: fedora:20
           script:
             - sh scripts/build-docker.sh fedora
+            - cat transfer.log
     build-archlinux:
       - step:
           image: base/archlinux:latest
           script:
             - sh scripts/build-docker.sh archlinux
+            - cat transfer.log
     build-snap:
       - step:
           image: ubuntu:16.04
           script:
             - sh scripts/build-docker.sh snap
+            - cat transfer.log
     build-appimage:
       - step:
           image: ubuntu:14.04
@@ -34,3 +39,4 @@ pipelines:
             - echo 'appimage build is disabled currently'
             - exit 1
             - sh scripts/build-docker.sh appimage
+            - cat transfer.log
