@@ -47,6 +47,18 @@ build_fedora() {
     rpmbuild --define "_topdir ${BUILDDIR}" -bb "${BUILDDIR}/SPECS/${PKGNAME}.spec"
 }
 
+build_opensuse() {
+    cd "${PROJDIR}"
+    mkdir -p "${BUILDDIR}"
+    export_srcarchive "${SRCARCHIVE}"
+
+    mkdir "${BUILDDIR}/SOURCES"
+    mkdir "${BUILDDIR}/SPECS"
+    mv "${SRCARCHIVE}" "${BUILDDIR}/SOURCES"
+    cp "${PROJDIR}/pkg/opensuse/${PKGNAME}.spec" "${BUILDDIR}/SPECS"
+    rpmbuild --define "_topdir ${BUILDDIR}" -bb "${BUILDDIR}/SPECS/${PKGNAME}.spec"
+}
+
 build_archlinux() {
     cd "${PROJDIR}"
     mkdir -p "${BUILDDIR}"
@@ -107,6 +119,8 @@ if [ "${BUILDTYPE}" = 'ubuntu' ]; then
     build_ubuntu
 elif [ "${BUILDTYPE}" = 'fedora' ]; then
     build_fedora
+elif [ "${BUILDTYPE}" = 'opensuse' ]; then
+    build_opensuse
 elif [ "${BUILDTYPE}" = 'archlinux' ]; then
     build_archlinux
 elif [ "${BUILDTYPE}" = 'snap' ]; then
