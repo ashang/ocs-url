@@ -19,6 +19,12 @@ pipelines:
           script:
             - sh scripts/build-docker.sh fedora
             - cat transfer.log
+    build-opensuse:
+      - step:
+          image: opensuse:42.1
+          script:
+            - sh scripts/build-docker.sh opensuse
+            - cat transfer.log
     build-archlinux:
       - step:
           image: base/archlinux:latest

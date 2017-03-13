@@ -63,6 +63,22 @@ build_fedora() {
     transfer_file "$(find "${PROJDIR}/build_"* -type f -name "${PKGNAME}*.rpm")"
 }
 
+build_opensuse() {
+    # docker-image: opensuse:42.1
+    zypper --non-interactive refresh
+    zypper --non-interactive install make automake gcc gcc-c++ libtool libqt5-qtbase-devel libqt5-qtsvg-devel libqt5-qtdeclarative-devel
+    zypper --non-interactive install git rpm-build
+    zypper --non-interactive install curl
+
+    useradd -m ${PKGUSER}
+    export HOME="/home/${PKGUSER}"
+    chown -R ${PKGUSER}:${PKGUSER} "${PROJDIR}"
+
+    su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
+
+    transfer_file "$(find "${PROJDIR}/build_"* -type f -name "${PKGNAME}*.rpm")"
+}
+
 build_archlinux() {
     # docker-image: base/archlinux:latest
     pacman -Syu --noconfirm
@@ -117,6 +133,8 @@ if [ "${BUILDTYPE}" = 'ubuntu' ]; then
     build_ubuntu
 elif [ "${BUILDTYPE}" = 'fedora' ]; then
     build_fedora
+elif [ "${BUILDTYPE}" = 'opensuse' ]; then
+    build_opensuse
 elif [ "${BUILDTYPE}" = 'archlinux' ]; then
     build_archlinux
 elif [ "${BUILDTYPE}" = 'snap' ]; then
