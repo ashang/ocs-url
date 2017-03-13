@@ -6,6 +6,7 @@ DISTFILES += \
     $${PWD}/ubuntu/debian/rules \
     $${PWD}/ubuntu/debian/ocs-url.install \
     $${PWD}/fedora/ocs-url.spec \
+    $${PWD}/opensuse/ocs-url.spec \
     $${PWD}/archlinux/PKGBUILD \
     $${PWD}/snap/snapcraft.yaml \
     $${PWD}/snap/snap/gui/ocs-url.desktop \
