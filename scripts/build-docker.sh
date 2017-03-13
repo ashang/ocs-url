@@ -41,7 +41,7 @@ build_ubuntu() {
 
     su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
 
-    transfer_file "$(find "${PROJDIR}/build_"* -type f -name "${PKGNAME}*.deb")"
+    transfer_file "$(find "${PROJDIR}/build_"*${BUILDTYPE} -type f -name "${PKGNAME}*.deb")"
 }
 
 build_fedora() {
@@ -60,7 +60,7 @@ build_fedora() {
 
     su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
 
-    transfer_file "$(find "${PROJDIR}/build_"* -type f -name "${PKGNAME}*.rpm")"
+    transfer_file "$(find "${PROJDIR}/build_"*${BUILDTYPE} -type f -name "${PKGNAME}*.rpm")"
 }
 
 build_opensuse() {
@@ -76,7 +76,7 @@ build_opensuse() {
 
     su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
 
-    transfer_file "$(find "${PROJDIR}/build_"* -type f -name "${PKGNAME}*.rpm")"
+    transfer_file "$(find "${PROJDIR}/build_"*${BUILDTYPE} -type f -name "${PKGNAME}*.rpm")"
 }
 
 build_archlinux() {
@@ -92,7 +92,7 @@ build_archlinux() {
 
     su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
 
-    transfer_file "$(find "${PROJDIR}/build_"* -type f -name "${PKGNAME}*.pkg.tar.xz")"
+    transfer_file "$(find "${PROJDIR}/build_"*${BUILDTYPE} -type f -name "${PKGNAME}*.pkg.tar.xz")"
 }
 
 build_snap() {
@@ -108,7 +108,7 @@ build_snap() {
 
     su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
 
-    transfer_file "$(find "${PROJDIR}/build_"* -type f -name "${PKGNAME}*.snap")"
+    transfer_file "$(find "${PROJDIR}/build_"*${BUILDTYPE} -type f -name "${PKGNAME}*.snap")"
 }
 
 build_appimage() {
@@ -126,7 +126,7 @@ build_appimage() {
 
     su -c "sh "${BUILDSCRIPT}" ${BUILDTYPE}" ${PKGUSER}
 
-    transfer_file "$(find "${PROJDIR}/build_"* -type f -name "${PKGNAME}*.AppImage")"
+    transfer_file "$(find "${PROJDIR}/build_"*${BUILDTYPE} -type f -name "${PKGNAME}*.AppImage")"
 }
 
 if [ "${BUILDTYPE}" = 'ubuntu' ]; then
