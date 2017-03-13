@@ -9,7 +9,7 @@ URL: https://github.com/ocs-url/ocs-url
 #Source0: https://github.com/ocs-url/ocs-url/archive/release-%{version}.tar.gz
 Source0: %{name}.tar.gz
 
-Requires: libqt5-qtbase >= 5.2.0, libQt5Gui5 >= 5.2.0, libqt5-qtsvg >= 5.2.0, libqt5-qtdeclarative >= 5.2.0, libqt5-qtquickcontrols >= 5.2.0
+Requires: libQt5Svg5 >= 5.2.0, libqt5-qtquickcontrols >= 5.2.0
 BuildRequires: make, automake, gcc, gcc-c++, libtool, libqt5-qtbase-devel >= 5.2.0, libqt5-qtsvg-devel >= 5.2.0, libqt5-qtdeclarative-devel >= 5.2.0, git, rpm-build
 
 %description
