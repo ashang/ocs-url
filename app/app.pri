@@ -1,6 +1,7 @@
 QT += \
     core \
     gui \
+    widgets \
     qml \
     quick \
     svg
