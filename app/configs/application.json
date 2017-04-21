@@ -2,12 +2,12 @@
     "id": "ocs-url",
     "name": "ocs-url",
     "version": "3.0.0",
-    "organization": "ocs-url",
-    "domain": "com.ocs-url.ocs-url",
+    "organization": "Opendesktop.org",
+    "domain": "org.opendesktop.ocs-url",
     "icon": ":/desktop/ocs-url.svg",
     "description": "An install helper program for items served on OpenCollaborationServices (OCS).",
     "license": "GPL-3+",
-    "author": "Akira Ohgaki",
-    "contact": "akiraohgaki@gmail.com",
+    "author": "Opendesktop.org",
+    "contact": "contact@opendesktop.org",
     "homepage": "https://github.com/opendesktop/ocs-url"
 }

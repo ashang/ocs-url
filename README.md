@@ -5,7 +5,7 @@
 
 An install helper program for items served on OpenCollaborationServices (OCS).
 
-Copyright: 2016-2017, Akira Ohgaki
+Copyright: 2016-2017, Opendesktop.org
 
 License: GPL-3+
 
