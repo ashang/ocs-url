@@ -1,7 +1,7 @@
 # ocs-url
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Build Status](https://travis-ci.org/ocs-url/ocs-url.svg?branch=master)](https://travis-ci.org/ocs-url/ocs-url)
+[![Build Status](https://travis-ci.org/opendesktop/ocs-url.svg?branch=master)](https://travis-ci.org/opendesktop/ocs-url)
 
 An install helper program for items served on OpenCollaborationServices (OCS).
 
@@ -15,4 +15,4 @@ https://www.linux-apps.com/p/1136805/
 
 And please check the ocs-url wiki for more information.
 
-https://github.com/ocs-url/ocs-url/wiki
+https://github.com/opendesktop/ocs-url/wiki
