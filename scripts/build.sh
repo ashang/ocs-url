@@ -77,7 +77,7 @@ build_snap() {
 
     tar -xzvf "${SRCARCHIVE}" -C "${BUILDDIR}"
     cp "${PROJDIR}/pkg/snap/snapcraft.yaml" "${BUILDDIR}/${PKGNAME}"
-    cp -r "${PROJDIR}/pkg/snap/setup" "${BUILDDIR}/${PKGNAME}"
+    cp -r "${PROJDIR}/pkg/snap/snap" "${BUILDDIR}/${PKGNAME}"
     cd "${BUILDDIR}/${PKGNAME}"
     snapcraft
 }
