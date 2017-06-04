@@ -47,7 +47,7 @@ ocs-url (2.0.0-0ubuntu1) trusty; urgency=low
 
 ocs-url (1.0.1-0ubuntu1) trusty; urgency=low
 
-  * Clean successfull message
+  * Clean successful message
   * Return exit code
 
  -- Akira Ohgaki <akiraohgaki@gmail.com>  Fri, 15 Jul 2016 18:55:06 +0000
