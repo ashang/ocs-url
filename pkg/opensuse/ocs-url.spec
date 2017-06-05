@@ -70,7 +70,7 @@ rm -rf %{buildroot}
 - Add install-type "bin"
 
 * Fri Jul 15 2016 Akira Ohgaki <akiraohgaki@gmail.com> - 1.0.1-1
-- Clean successfull message
+- Clean successful message
 - Return exit code
 
 * Wed Jul 06 2016 Akira Ohgaki <akiraohgaki@gmail.com> - 1.0.0-1
