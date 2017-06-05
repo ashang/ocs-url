@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
     // Init
     QApplication app(argc, argv);
 
-    ConfigHandler *configHandler = new ConfigHandler();
-    QJsonObject appConfigApplication = configHandler->getAppConfigApplication();
+    auto *configHandler = new ConfigHandler();
+    auto appConfigApplication = configHandler->getAppConfigApplication();
 
     app.setApplicationName(appConfigApplication["name"].toString());
     app.setApplicationVersion(appConfigApplication["version"].toString());
@@ -41,17 +41,17 @@ int main(int argc, char *argv[])
     clParser.addPositionalArgument("OCS-URL", "OCS-URL that starts with ocs://");
     clParser.process(app);
 
-    QStringList args = clParser.positionalArguments();
+    auto args = clParser.positionalArguments();
 
     if (args.size() != 1) {
         clParser.showHelp(1);
     }
 
-    QString ocsUrl = args.at(0);
+    auto ocsUrl = QString(args.at(0));
 
     // Setup QML
     QQmlApplicationEngine qmlAppEngine;
-    QQmlContext *qmlContext = qmlAppEngine.rootContext();
+    auto *qmlContext = qmlAppEngine.rootContext();
     configHandler->setParent(&qmlAppEngine);
     qmlContext->setContextProperty("configHandler", configHandler);
     qmlContext->setContextProperty("ocsUrlHandler", new OcsUrlHandler(ocsUrl, configHandler, &qmlAppEngine));

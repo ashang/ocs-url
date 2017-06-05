@@ -6,27 +6,27 @@
     },
     "downloads": {
         "name": "Downloads",
-        "destination": "$HOME/Downloads",
+        "destination": "$XDG_DOWNLOAD_DIR",
         "generic_destination": "$APP_DATA/downloads"
     },
     "documents": {
         "name": "Documents",
-        "destination": "$HOME/Documents",
+        "destination": "$XDG_DOCUMENTS_DIR",
         "generic_destination": "$APP_DATA/documents"
     },
     "pictures": {
         "name": "Pictures",
-        "destination": "$HOME/Pictures",
+        "destination": "$XDG_PICTURES_DIR",
         "generic_destination": "$APP_DATA/pictures"
     },
     "music": {
         "name": "Music",
-        "destination": "$HOME/Music",
+        "destination": "$XDG_MUSIC_DIR",
         "generic_destination": "$APP_DATA/music"
     },
     "videos": {
         "name": "Videos",
-        "destination": "$HOME/Videos",
+        "destination": "$XDG_VIDEOS_DIR",
         "generic_destination": "$APP_DATA/videos"
     },
     "wallpapers": {

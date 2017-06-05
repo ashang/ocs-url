@@ -10,14 +10,16 @@ class ConfigHandler : public QObject
     Q_OBJECT
 
 public:
-    explicit ConfigHandler(QObject *parent = 0);
+    explicit ConfigHandler(QObject *parent = nullptr);
 
 public slots:
-    QJsonObject getAppConfigApplication();
-    QJsonObject getAppConfigInstallTypes();
+    QJsonObject getAppConfigApplication() const;
+    QJsonObject getAppConfigInstallTypes() const;
 
 private:
-    QString convertPathString(const QString &path);
+    void importAppConfigApplication();
+    void importAppConfigInstallTypes();
+    QString convertPathString(const QString &path) const;
 
     qtlib::Config appConfig_;
     QJsonObject appConfigApplication_;
