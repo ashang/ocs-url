@@ -14,7 +14,7 @@ class OcsUrlHandler : public QObject
     Q_OBJECT
 
 public:
-    explicit OcsUrlHandler(const QString &ocsUrl, ConfigHandler *configHandler, QObject *parent = 0);
+    explicit OcsUrlHandler(const QString &ocsUrl, ConfigHandler *configHandler, QObject *parent = nullptr);
 
 signals:
     void started();
@@ -27,8 +27,8 @@ public slots:
     QJsonObject metadata() const;
 
     void process();
-    bool isValid();
-    void openDestination();
+    bool isValid() const;
+    void openDestination() const;
 
 private slots:
     void networkResourceFinished(qtlib::NetworkResource *resource);

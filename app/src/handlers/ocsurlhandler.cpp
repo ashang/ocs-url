@@ -39,15 +39,15 @@ void OcsUrlHandler::process()
         return;
     }
 
-    QString url = metadata_["url"].toString();
-    qtlib::NetworkResource *resource = new qtlib::NetworkResource(url, QUrl(url), true, this);
+    auto url = metadata_["url"].toString();
+    auto *resource = new qtlib::NetworkResource(url, QUrl(url), true, this);
     connect(resource, &qtlib::NetworkResource::downloadProgress, this, &OcsUrlHandler::downloadProgress);
     connect(resource, &qtlib::NetworkResource::finished, this, &OcsUrlHandler::networkResourceFinished);
     resource->get();
     emit started();
 }
 
-bool OcsUrlHandler::isValid()
+bool OcsUrlHandler::isValid() const
 {
     QString scheme = metadata_["scheme"].toString();
     QString command = metadata_["command"].toString();
@@ -66,9 +66,9 @@ bool OcsUrlHandler::isValid()
     return false;
 }
 
-void OcsUrlHandler::openDestination()
+void OcsUrlHandler::openDestination() const
 {
-    QString type = metadata_["type"].toString();
+    auto type = metadata_["type"].toString();
     QDesktopServices::openUrl(QUrl("file://" + configHandler_->getAppConfigInstallTypes()[type].toObject()["destination"].toString()));
 }
 
@@ -131,7 +131,7 @@ void OcsUrlHandler::saveDownloadedFile(qtlib::NetworkResource *resource)
 {
     QJsonObject result;
 
-    QString type = metadata_["type"].toString();
+    auto type = metadata_["type"].toString();
     qtlib::Dir destDir(configHandler_->getAppConfigInstallTypes()[type].toObject()["destination"].toString());
     destDir.make();
     qtlib::File destFile(destDir.path() + "/" + metadata_["filename"].toString());
@@ -166,7 +166,7 @@ void OcsUrlHandler::installDownloadedFile(qtlib::NetworkResource *resource)
     }
 
     qtlib::Package package(tempFile.path());
-    QString type = metadata_["type"].toString();
+    auto type = metadata_["type"].toString();
     qtlib::Dir destDir(configHandler_->getAppConfigInstallTypes()[type].toObject()["destination"].toString());
     destDir.make();
     qtlib::File destFile(destDir.path() + "/" + metadata_["filename"].toString());
