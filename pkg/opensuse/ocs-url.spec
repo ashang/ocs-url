@@ -1,6 +1,6 @@
 Summary: OCS-URL
 Name: ocs-url
-Version: 3.0.0
+Version: 3.0.1
 Release: 1%{?dist}
 License: GPLv3+
 Group: Applications/Internet
@@ -38,6 +38,12 @@ make INSTALL_ROOT="%{buildroot}" install
 rm -rf %{buildroot}
 
 %changelog
+* Mon Jun 05 2017 Akira Ohgaki <akiraohgaki@gmail.com> - 3.0.1-1
+- Update qtlib
+- Fix for C++11
+- Fix installation/download destination
+- Fix translation messages (by otsoga)
+
 * Sun Mar 05 2017 Akira Ohgaki <akiraohgaki@gmail.com> - 3.0.0-1
 - Rename xdgurl to ocs-url
 - Add ocs:// and ocss:// schemes

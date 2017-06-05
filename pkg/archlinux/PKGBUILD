@@ -1,7 +1,7 @@
 # Maintainer: Akira Ohgaki <akiraohgaki@gmail.com>
 
 pkgname='ocs-url'
-pkgver='3.0.0'
+pkgver='3.0.1'
 pkgrel='1'
 pkgdesc='An install helper program for items served on OpenCollaborationServices (OCS).'
 arch=('i686' 'x86_64')
