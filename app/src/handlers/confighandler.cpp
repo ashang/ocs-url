@@ -1,6 +1,7 @@
 #include "confighandler.h"
 
 #include <QStringList>
+#include <QStandardPaths>
 
 #include "qtlib_dir.h"
 
@@ -49,6 +50,21 @@ QString ConfigHandler::convertPathString(const QString &path)
     QString newPath = path;
     if (newPath.contains("$HOME")) {
         newPath.replace("$HOME", qtlib::Dir::homePath());
+    }
+    else if (newPath.contains("$XDG_DOCUMENTS_DIR")) {
+        newPath.replace("$XDG_DOCUMENTS_DIR", QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+    }
+    else if (newPath.contains("$XDG_DOWNLOAD_DIR")) {
+        newPath.replace("$XDG_DOWNLOAD_DIR", QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+    }
+    else if (newPath.contains("$XDG_PICTURES_DIR")) {
+        newPath.replace("$XDG_PICTURES_DIR", QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
+    }
+    else if (newPath.contains("$XDG_MUSIC_DIR")) {
+        newPath.replace("$XDG_MUSIC_DIR", QStandardPaths::writableLocation(QStandardPaths::MusicLocation));
+    }
+    else if (newPath.contains("$XDG_VIDEOS_DIR")) {
+        newPath.replace("$XDG_VIDEOS_DIR", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
     }
     else if (newPath.contains("$XDG_DATA_HOME")) {
         newPath.replace("$XDG_DATA_HOME", qtlib::Dir::genericDataPath());
