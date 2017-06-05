@@ -1,3 +1,12 @@
+ocs-url (3.0.1-0ubuntu1) trusty; urgency=low
+
+  * Update qtlib
+  * Fix for C++11
+  * Fix installation/download destination
+  * Fix translation messages (by otsoga)
+
+ -- Akira Ohgaki <akiraohgaki@gmail.com>  Mon, 05 Jun 2017 04:33:07 +0000
+
 ocs-url (3.0.0-0ubuntu1) trusty; urgency=low
 
   * Rename xdgurl to ocs-url
