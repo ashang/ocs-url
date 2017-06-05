@@ -74,12 +74,12 @@
     <name>main</name>
     <message>
         <location filename="../app/qml/main.qml" line="26"/>
-        <source>Download successfull</source>
+        <source>Download successful</source>
         <translation>Başarıyla indirildi</translation>
     </message>
     <message>
         <location filename="../app/qml/main.qml" line="27"/>
-        <source>Installation successfull</source>
+        <source>Installation successful</source>
         <translation>Başarıyla kuruldu</translation>
     </message>
     <message>

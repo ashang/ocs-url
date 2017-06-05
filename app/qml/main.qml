@@ -23,8 +23,8 @@ ApplicationWindow {
         var metadata = ocsUrlHandler.metadata();
 
         var primaryMessages = {
-            "success_download": qsTr("Download successfull"),
-            "success_install": qsTr("Installation successfull"),
+            "success_download": qsTr("Download successful"),
+            "success_install": qsTr("Installation successful"),
             "error_validation": qsTr("Validation error"),
             "error_network": qsTr("Network error"),
             "error_save": qsTr("Saving file failed"),
