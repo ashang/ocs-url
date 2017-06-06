@@ -25,6 +25,7 @@ transfer_file() {
         filename="$(basename "${filepath}")"
         echo "Uploading ${filename}" >> "${TRANSFERLOG}"
         curl -T "${filepath}" "https://transfer.sh/${filename}" >> "${TRANSFERLOG}"
+        echo "" >> "${TRANSFERLOG}"
     fi
 }
 
