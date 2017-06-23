@@ -1,6 +1,6 @@
 Summary: OCS-URL
 Name: ocs-url
-Version: 3.0.1
+Version: 3.0.2
 Release: 1%{?dist}
 License: GPLv3+
 Group: Applications/Internet
@@ -38,6 +38,9 @@ make INSTALL_ROOT="%{buildroot}" install
 rm -rf %{buildroot}
 
 %changelog
+* Fri Jun 23 2017 Akira Ohgaki <akiraohgaki@gmail.com> - 3.0.2-1
+- Add zh_TW translations (by s8321414)
+
 * Mon Jun 05 2017 Akira Ohgaki <akiraohgaki@gmail.com> - 3.0.1-1
 - Update qtlib
 - Fix for C++11
